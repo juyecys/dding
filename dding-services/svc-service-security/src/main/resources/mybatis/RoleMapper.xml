@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8" ?>    
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="cn.com.dingduoduo.dao.role.RoleDAO">
+
+	<insert id="create" parameterType="RoleM">
+		INSERT INTO
+			ding_role (id, name, description, is_active, code, created_by, created_date, updated_date, updated_by)
+	  	VALUES
+	  		(#{id}, #{name}, #{description}, #{isActive}, #{code}, #{createdBy}, #{createdDate}, #{updatedDate}, #{updatedBy})
+	</insert>
+
+	<update id="update" parameterType="RoleM">
+		UPDATE ding_role
+		<set>
+			<if test="name != null">
+				name = #{name},
+			</if>
+			<if test="updatedDate != null">
+				updated_date = #{updatedDate},
+			</if>
+			<if test="updatedBy != null">
+				updated_by =  #{updatedBy},
+			</if>
+			<if test="password != null">
+				password = #{password},
+			</if>
+			<if test="description != null">
+				description = #{description},
+			</if>
+			<if test="isActive != null">
+				is_active = #{isActive},
+			</if>
+			<if test="code != null">
+				code = #{code},
+			</if>
+
+		</set>
+		WHERE id = #{id}
+	</update>
+
+	<update id="deleteById" parameterType="RoleM">
+		DELETE FROM ding_role
+		where id = #{id}
+	</update>
+
+
+	<sql id="sql_where">
+		<where>
+			<if test="id != null">
+				and r.id = #{id}
+			</if>
+		</where>
+	</sql>
+
+	<sql id="from_role">
+		FROM ding_role r
+	</sql>
+
+	<select id="findResourceByRoleName" resultType="RoleM">
+		SELECT
+			r.*
+		<include refid="from_role" />
+		<include refid="sql_where" />
+	</select>
+
+	<select id="findByCondition" resultType="RoleM">
+		SELECT  *
+		<include refid="from_role" />
+		<include refid="sql_where" />
+	</select>
+
+	<select id="findByConditionPage" resultType="RoleM">
+		SELECT  *
+		<include refid="from_role" />
+		<include refid="sql_where" />
+	</select>
+
+
+</mapper>
+

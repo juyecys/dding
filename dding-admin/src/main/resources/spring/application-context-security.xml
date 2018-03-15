@@ -1,0 +1,55 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<b:beans xmlns="http://www.springframework.org/schema/security"
+		 xmlns:b="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+		 xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.2.xsd
+                        http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security-3.2.xsd">
+
+	<http pattern="/ding/mg/public/**" security="none" />
+
+	<http auto-config="true" entry-point-ref="restApiAuthEntryPoint"
+		  use-expressions="true">
+		<form-login authentication-success-handler-ref="restApiAuthSuccessHandler"
+					authentication-failure-handler-ref="restApiAuthFailureHandler" />
+
+		<intercept-url pattern="/ding/mg/private/**" access="isAuthenticated()" />
+		<remember-me remember-me-parameter="rememberMe" />
+		<custom-filter ref="myFilter" before="FILTER_SECURITY_INTERCEPTOR" />
+	</http>
+
+
+	<b:bean id="restApiAuthEntryPoint" class="cn.com.dingduoduo.interceptor.authority.RestApiAuthEntryPoint"/>
+	<b:bean id="restApiAuthSuccessHandler" class="cn.com.dingduoduo.interceptor.authority.RestAuthenticationSucessHandler"/>
+	<b:bean id="restApiAuthFailureHandler" class="org.springframework.security.web.authentication.SimpleUrlAuthenticationFailureHandler"/>
+
+
+
+	<b:bean id="myFilter" class="cn.com.dingduoduo.interceptor.authority.MyFilterSecurityInterceptor">
+		<b:property name="authenticationManager"
+					ref="authenticationManager" />
+		<b:property name="accessDecisionManager"
+					ref="myAccessDecisionManagerBean" />
+		<b:property name="securityMetadataSource"
+					ref="mySecurityMetadataSource" />
+	</b:bean>
+
+	<!-- 访问决策器，决定某个用户具有的角色，是否有足够的权限去访问某个资源     -->
+	<b:bean id="myAccessDecisionManagerBean"
+			class="cn.com.dingduoduo.interceptor.authority.MyAccessDecisionManager">
+	</b:bean>
+
+	<!-- 资源源数据定义，将所有的资源和权限对应关系建立起来，即定义某一资源可以被哪些角色访问 	-->
+	<b:bean id="mySecurityMetadataSource"
+			class="cn.com.dingduoduo.interceptor.authority.MyInvocationSecurityMetadataSourceService">
+	</b:bean>
+
+	<authentication-manager alias="authenticationManager">
+		<authentication-provider user-service-ref="userService">
+			<password-encoder hash="md5">
+				<!--
+                   <salt-source user-property="username"/>
+                   -->
+			</password-encoder>
+		</authentication-provider>
+	</authentication-manager>
+
+</b:beans>

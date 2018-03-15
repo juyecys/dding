@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans:beans xmlns:beans="http://www.springframework.org/schema/beans"
+			 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://www.springframework.org/schema/beans"
+			 xsi:schemaLocation="http://www.springframework.org/schema/beans
+    http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<!-- 配置storage服务 -->
+    <bean id="ossConfig" class="cn.com.dingduoduo.entity.aliyun.oss.AliYunOssConfig">
+        <property name="endpoint" value="${oss.endpoint}" />
+        <property name="endpointInternal" value="${oss.endpointInternal}" />
+        <property name="accessKeyId" value="${oss.accessKeyId}" />
+        <property name="accessKeySecret" value="${oss.accessKeySecret}" />
+        <property name="bucketName" value="${oss.bucketName}" />
+    </bean>
+                                                                                                                                  
+    <bean id="aliyunContentStorageService" class="cn.com.dingduoduo.service.aliyun.oss.impl.AliyunContentStorageServiceImpl">
+        <property name="ossConfig" ref="ossConfig" />                                                                             
+    </bean>                                                                                                                       
+                                                                                                                                  
+    <bean id="contentStorageUtils" class="cn.com.dingduoduo.utils.common.AliyunContentStorageUtils">
+        <property name="OBJ_ACCESS_URL_PREFIX" value="http://${domain.prefix.cdn.oss}/" />
+        <property name="OBJ_ACCESS_SECURE_URL_PREFIX" value="https://${domain.prefix.cdn.oss}/" />
+        <property name="OBJ_INTERNAL_ACCESS_SECURE_URL_PREFIX" value="https://${oss.bucketName}.${oss.endpointInternal}/" />                               
+        <property name="THUMBNAIL_IMG_URL_PREFIX" value="http://${domain.prefix.cdn.oss}/" />
+        <property name="THUMBNAIL_IMG_WIDTH" value="${oss.thumbnailImage.width}" />                               
+    </bean>
+</beans:beans>

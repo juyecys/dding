@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans:beans xmlns:beans="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://www.springframework.org/schema/beans"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:task="http://www.springframework.org/schema/task" xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:mongo="http://www.springframework.org/schema/data/mongo"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+	    http://www.springframework.org/schema/beans/spring-beans.xsd
+	    http://www.springframework.org/schema/context
+	    http://www.springframework.org/schema/context/spring-context.xsd
+	    http://www.springframework.org/schema/task 
+	    http://www.springframework.org/schema/task/spring-task-4.0.xsd
+	    http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.0.xsd
+	    http://www.springframework.org/schema/data/mongo
+    http://www.springframework.org/schema/data/mongo/spring-mongo.xsd
+	    ">
+	<import resource="wechat-context-database.xml" />
+	<import resource="wechat-context-redis.xml" />
+	<import resource="wechat-context-aliyun.xml" />
+	<import resource="wechat-context-dubbo.xml" />
+	<import resource="wechat-context-mongo.xml" />
+
+	<task:annotation-driven />
+	<aop:aspectj-autoproxy proxy-target-class="true" />
+
+<!--	<context:property-placeholder  ignore-resource-not-found="true"
+								   location="classpath:properties/*.properties" />-->
+
+	<context:component-scan base-package="cn.com.dingduoduo">
+		<context:exclude-filter type="annotation"
+								expression="org.springframework.stereotype.Controller"/>
+	</context:component-scan>
+
+	<beans profile="dev">
+		<bean id="wechatSignUtil" class="cn.com.dingduoduo.untils.wechat.WechatSignUtil">
+			<property name="DING_TOKEN" value="ding_token" />
+		</bean>
+
+		<bean id="placeholderProperties"
+			  class="cn.com.dingduoduo.common.config.AddConfigurationPropertiesToEnvironmentPlaceHolderConfiguer">
+			<property name="locations">
+				<list>
+					<value>classpath*:common-dev.properties</value>
+					<value>classpath*:wechat-dev.properties</value>
+				</list>
+			</property>
+			<property name="ignoreResourceNotFound" value="false" />
+			<!-- 是否忽略不可解析的 Placeholder-->
+			<property name="ignoreUnresolvablePlaceholders" value="false" />
+			<!-- 加载顺序优先级 -->
+			<property name="order" value="1" />
+		</bean>
+	</beans>
+
+	<beans profile="test">
+		<bean id="wechatSignUtil" class="cn.com.dingduoduo.untils.wechat.WechatSignUtil">
+			<property name="DING_TOKEN" value="ding_token" />
+		</bean>
+
+		<bean id="placeholderProperties"
+			  class="cn.com.dingduoduo.common.config.AddConfigurationPropertiesToEnvironmentPlaceHolderConfiguer">
+			<property name="locations">
+				<list>
+					<value>file:${commonProperties}</value>
+					<value>file:${wcProperties}</value>
+				</list>
+			</property>
+			<property name="ignoreResourceNotFound" value="false" />
+			<!-- 是否忽略不可解析的 Placeholder-->
+			<property name="ignoreUnresolvablePlaceholders" value="false" />
+			<!-- 加载顺序优先级 -->
+			<property name="order" value="1" />
+		</bean>
+	</beans>
+
+	<beans profile="prod">
+		<bean id="wechatSignUtil" class="cn.com.dingduoduo.untils.wechat.WechatSignUtil">
+			<property name="DING_TOKEN" value="ding_token" />
+		</bean>
+
+		<bean id="placeholderProperties"
+			  class="cn.com.dingduoduo.common.config.AddConfigurationPropertiesToEnvironmentPlaceHolderConfiguer">
+			<property name="locations">
+				<list>
+					<value>classpath*:common-prod.properties</value>
+					<value>classpath*:wechat-prod.properties</value>
+				</list>
+			</property>
+			<property name="ignoreResourceNotFound" value="false" />
+			<!-- 是否忽略不可解析的 Placeholder-->
+			<property name="ignoreUnresolvablePlaceholders" value="false" />
+			<!-- 加载顺序优先级 -->
+			<property name="order" value="1" />
+		</bean>
+	</beans>
+
+	<beans>
+		<bean id="wechatConfigSecret" class="cn.com.dingduoduo.config.wechat.WechatConfigSecret">
+			<property name="wechatAppid" value="${wechat.dingduoduo.appid}" />
+			<property name="wechatSecret" value="${wechat.dingduoduo.appsecret}" />
+		</bean>
+	</beans>
+
+</beans:beans>

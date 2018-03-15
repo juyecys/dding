@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans:beans xmlns:beans="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://www.springframework.org/schema/beans"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:task="http://www.springframework.org/schema/task" xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:mongo="http://www.springframework.org/schema/data/mongo"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+	    http://www.springframework.org/schema/beans/spring-beans.xsd
+	    http://www.springframework.org/schema/context
+	    http://www.springframework.org/schema/context/spring-context.xsd
+	    http://www.springframework.org/schema/task 
+	    http://www.springframework.org/schema/task/spring-task-4.0.xsd
+	    http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.0.xsd
+	    http://www.springframework.org/schema/data/mongo
+    http://www.springframework.org/schema/data/mongo/spring-mongo.xsd
+	    ">
+	<task:annotation-driven />
+	<aop:aspectj-autoproxy proxy-target-class="true" />
+
+	<context:component-scan base-package="cn.com.dingduoduo">
+		<context:exclude-filter type="annotation"
+								expression="org.springframework.stereotype.Controller"/>
+	</context:component-scan>
+
+	<import resource="application-context-database.xml" />
+	<import resource="application-context-redis.xml" />
+	<import resource="application-context-aliyun.xml" />
+	<import resource="application-context-security.xml" />
+	<import resource="application-context-jackson.xml" />
+	<import resource="application-context-mongo.xml" />
+	<import resource="application-context-dubbo.xml" />
+
+	<beans profile="dev">
+		<bean id="placeholderProperties"
+			  class="cn.com.dingduoduo.common.config.AddConfigurationPropertiesToEnvironmentPlaceHolderConfiguer">
+			<property name="locations">
+				<list>
+					<value>classpath*:common-dev.properties</value>
+					<value>classpath*:admin-dev.properties</value>
+				</list>
+			</property>
+			<property name="ignoreResourceNotFound" value="false" />
+			<!-- 是否忽略不可解析的 Placeholder-->
+			<property name="ignoreUnresolvablePlaceholders" value="false" />
+			<!-- 加载顺序优先级 -->
+			<property name="order" value="1" />
+		</bean>
+	</beans>
+
+	<beans profile="test">
+		<bean id="placeholderProperties"
+			  class="cn.com.dingduoduo.common.config.AddConfigurationPropertiesToEnvironmentPlaceHolderConfiguer">
+			<property name="locations">
+				<list>
+					<value>file:${commonProperties}</value>
+					<value>file:${adminProperties}</value>
+					<value>file:${configPartnerProperties}</value>
+				</list>
+			</property>
+			<property name="ignoreResourceNotFound" value="false" />
+			<!-- 是否忽略不可解析的 Placeholder-->
+			<property name="ignoreUnresolvablePlaceholders" value="false" />
+			<!-- 加载顺序优先级 -->
+			<property name="order" value="1" />
+		</bean>
+	</beans>
+
+	<beans profile="prod">
+		<bean id="placeholderProperties"
+			  class="cn.com.dingduoduo.common.config.AddConfigurationPropertiesToEnvironmentPlaceHolderConfiguer">
+			<property name="locations">
+				<list>
+					<value>classpath*:common-prod.properties</value>
+					<value>classpath*:admin-prod.properties</value>
+				</list>
+			</property>
+			<property name="ignoreResourceNotFound" value="false" />
+			<!-- 是否忽略不可解析的 Placeholder-->
+			<property name="ignoreUnresolvablePlaceholders" value="false" />
+			<!-- 加载顺序优先级 -->
+			<property name="order" value="1" />
+		</bean>
+	</beans>
+
+
+</beans:beans>

@@ -1,0 +1,197 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://xmlns.jcp.org/xml/ns/javaee"
+         xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd"
+         version="3.1">
+
+    <display-name>Archetype Created Web Application</display-name>
+
+    <welcome-file-list>
+        <welcome-file>index.jsp</welcome-file>
+    </welcome-file-list>
+
+    <!-- 容器中Session过期时间,单位分钟 -->
+    <session-config>
+        <session-timeout>120</session-timeout>
+    </session-config>
+
+    <!-- spring读取的配置文件 -->
+    <context-param>
+        <param-name>contextConfigLocation</param-name>
+        <param-value>classpath*:spring/application-context.xml
+        </param-value>
+    </context-param>
+
+    <!-- spring默认的profile -->
+    <context-param>
+        <param-name>spring.profiles.default</param-name>
+        <param-value>dev</param-value>
+    </context-param>
+    <!-- ************************** ServletContext 配置区域End ************************** -->
+
+
+    <!-- ************************** listener 配置区域Begin ************************** -->
+    <!-- 使用spring所需要配置的Listener -->
+    <listener>
+        <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+    </listener>
+    <!-- ************************** listener 配置区域End ************************** -->
+
+
+    <!-- ************************** filter 配置区域Begin ************************** -->
+    <!-- 解决中文乱码问题 -->
+    <filter>
+        <filter-name>CharacterEncodingFilter</filter-name>
+        <filter-class>org.springframework.web.filter.CharacterEncodingFilter</filter-class>
+        <init-param>
+            <param-name>encoding</param-name>
+            <param-value>utf-8</param-value>
+        </init-param>
+    </filter>
+    <filter-mapping>
+        <filter-name>CharacterEncodingFilter</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
+
+    <!--解决跨域访问-->
+    <filter>
+        <filter-name>cors</filter-name>
+        <filter-class>cn.com.dingduoduo.filter.CorsFilter</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>cors</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
+
+    <!-- Spring Session配置 指定哪些请求需要共享session -->
+    <!--<filter>
+      <filter-name>springSessionRepositoryFilter</filter-name>
+      <filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class>
+    </filter>
+    <filter-mapping>
+      <filter-name>springSessionRepositoryFilter</filter-name>
+      <url-pattern>/*</url-pattern>
+    </filter-mapping>-->
+
+    <!--Log process filter-->
+    <filter>
+        <filter-name>logProcessFilter</filter-name>
+        <filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class>
+        <init-param>
+            <description>必须过滤的url,优先级高于excludeUrlPattern,用于显示指定被excludeUrlPattern排除掉的url</description>
+            <param-name>includeUrlPattern</param-name>
+            <param-value>/**/*.htm</param-value>
+        </init-param>
+        <init-param>
+            <description>不过滤的url,使用的表达式是Ant Pattern</description>
+            <param-name>excludeUrlPattern</param-name>
+            <param-value>/**/*.*</param-value>
+        </init-param>
+        <init-param>
+            <description>指定Spring管理Filter生命周期</description>
+            <param-name>targetFilterLifecycle</param-name>
+            <param-value>true</param-value>
+        </init-param>
+    </filter>
+    <filter-mapping>
+        <filter-name>logProcessFilter</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
+    <!-- Proxy for a standard Servlet Filter, delegating to a Spring-managed
+        bean that implements the Filter interface（把普通的servlet filter让spring管理起来 ） -->
+    <!-- SpringSecurity的权限拦截过滤器,这个必须放在所有身份认证的filter之前!!! -->
+    <filter>
+        <filter-name>springSecurityFilterChain</filter-name>
+        <filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>springSecurityFilterChain</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
+    <!-- ************************** filter 配置区域End ************************** -->
+
+    <!--后台用户过滤器-->
+    <filter>
+        <filter-name>adminAuthEndpointFilter</filter-name>
+        <filter-class>cn.com.dingduoduo.filter.AdminAuthEndpointFilter</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>adminAuthEndpointFilter</filter-name>
+        <url-pattern>/ding/mg/private/*</url-pattern>
+    </filter-mapping>
+
+    <!-- ************************** servlet 配置区域End ************************** -->
+
+    <!-- druid监控 -->
+    <servlet>
+        <servlet-name>DruidStatView</servlet-name>
+        <servlet-class>com.alibaba.druid.support.http.StatViewServlet</servlet-class>
+        <init-param>
+            <!-- 用户名 -->
+            <param-name>loginUsername</param-name>
+            <param-value>druid</param-value>
+        </init-param>
+        <init-param>
+            <!-- 密码 -->
+            <param-name>loginPassword</param-name>
+            <param-value>bounter</param-value>
+        </init-param>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>DruidStatView</servlet-name>
+        <url-pattern>/druid/*</url-pattern>
+    </servlet-mapping>
+
+    <filter>
+        <filter-name>DruidWebStatFilter</filter-name>
+        <filter-class>com.alibaba.druid.support.http.WebStatFilter</filter-class>
+        <!-- 经常需要排除一些不必要的url，比如*.js,/jslib/*等等。配置在init-param中。比如：-->
+        <init-param>
+            <param-name>exclusions</param-name>
+            <param-value>*.js,*.gif,*.jpg,*.png,*.css,*.ico,/druid/*</param-value>
+        </init-param>
+        <!--缺省sessionStatMaxCount是1000个-->
+        <init-param>
+            <param-name>sessionStatMaxCount</param-name>
+            <param-value>1000</param-value>
+        </init-param>
+        <!--关闭session统计功能-->
+        <!--<init-param>-->
+        <!--<param-name>sessionStatEnable</param-name>-->
+        <!--<param-value>false</param-value>-->
+        <!--</init-param>-->
+        <!--配置principalSessionName，使得druid能够知道当前的session的用户是谁-->
+        <!--<init-param>-->
+        <!--<param-name>principalSessionName</param-name>-->
+        <!--<param-value>xxx.user</param-value>-->
+        <!--</init-param>-->
+        <!--如果你的user信息保存在cookie中，你可以配置principalCookieName，使得druid知道当前的user是谁-->
+        <!--<init-param>-->
+        <!--<param-name>principalCookieName</param-name>-->
+        <!--<param-value>xxx.user</param-value>-->
+        <!--</init-param>-->
+        <!--druid 0.2.7版本开始支持profile，配置profileEnable能够监控单个url调用的sql列表。-->
+        <init-param>
+            <param-name>profileEnable</param-name>
+            <param-value>true</param-value>
+        </init-param>
+    </filter>
+    <filter-mapping>
+        <filter-name>DruidWebStatFilter</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
+
+    <!-- SpringMVC处理的请求 -->
+    <servlet>
+        <servlet-name>spring-mvc</servlet-name>
+        <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+        <init-param>
+            <param-name>contextConfigLocation</param-name>
+            <param-value>/WEB-INF/spring/webmvc-config.xml</param-value>
+        </init-param>
+        <load-on-startup>1</load-on-startup>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>spring-mvc</servlet-name>
+        <url-pattern>/</url-pattern>
+    </servlet-mapping>
+</web-app>

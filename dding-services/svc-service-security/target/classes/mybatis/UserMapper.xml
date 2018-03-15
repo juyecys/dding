@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8" ?>    
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="cn.com.dingduoduo.dao.user.UserDAO">
+
+	<insert id="create" parameterType="UserM">
+		INSERT INTO
+			ding_user (id, name, password, type, description, expire_date, enabled, created_by, created_date, updated_date, updated_by, role_id)
+	  	VALUES
+	  		(#{id}, #{name}, #{password}, #{type}, #{description}, #{expireDate}, #{enabled}, #{createdBy}, #{createdDate}, #{updatedDate}, #{updatedBy}, #{roleId})
+	</insert>
+
+	<update id="update" parameterType="UserM">
+		UPDATE ding_user
+		<set>
+			<if test="name != null">
+				name = #{name},
+			</if>
+			<if test="updatedDate != null">
+				updated_date = #{updatedDate},
+			</if>
+			<if test="updatedBy != null">
+				updated_by =  #{updatedBy},
+			</if>
+			<if test="password != null">
+				password = #{password},
+			</if>
+			<if test="description != null">
+				description = #{description},
+			</if>
+			<if test="expireDate != null">
+				expire_date = #{expireDate},
+			</if>
+			<if test="enabled != null">
+				enabled = #{enabled},
+			</if>
+
+			<if test="roleId != null">
+				role_id = #{roleId}
+			</if>
+		</set>
+		WHERE id = #{id}
+	</update>
+
+	<sql id="sql_where">
+		<where>
+			<if test="id != null">
+				and u.id = #{id}
+			</if>
+			<if test="name != null">
+				and u.name = #{name}
+			</if>
+		</where>
+	</sql>
+
+	<sql id="from_user">
+		ding_user u
+	</sql>
+
+	<sql id="join_role">
+		LEFT JOIN ding_role r ON u.role_id = r.id
+	</sql>
+
+	<select id="findByConditionPage" resultType="UserQM">
+		SELECT
+			u.*, r.name "roleName", r.id "roleId", r.description role_description, r.is_active, r.code role_code
+		FROM
+		<include refid="from_user" />
+		<include refid="join_role" />
+		<include refid="sql_where" />
+	    ORDER BY u.created_date DESC
+	</select>
+
+	<select id="findOneByCondition" resultType="UserQM">
+		SELECT
+			u.*, r.name "roleName", r.id "roleId", r.description role_description, r.is_active, r.code role_code
+		FROM
+		<include refid="from_user" />
+		<include refid="join_role" />
+		<include refid="sql_where" />
+		LIMIT 1
+	</select>
+
+	<update id="deleteById" >
+		DELETE FROM
+		<include refid="from_user" />
+		where u.id = #{id}
+	</update>
+</mapper>
+

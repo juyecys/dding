@@ -1,0 +1,26 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN" "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+	<settings>
+		<!-- 注意着两个属性，需要把属性延迟加载和关联对象加载给关闭了，不然放进redis中的cglib代理对象，在对数据发生更改的时候，会出错(摘自他人博客,待验证) -->
+		<setting name="lazyLoadingEnabled" value="false" />
+		<setting name="cacheEnabled" value="true" />
+		<setting name="logImpl" value="SLF4J" />
+		<setting name="logPrefix" value="virtual.pkg.logger.mybatis." />
+		<!-- 下划线转驼峰命名,与autoMapping配合使用 -->
+		<setting name="mapUnderscoreToCamelCase" value="true" />
+	</settings>
+
+	<typeAliases>
+		<package name="cn.com.dingduoduo.entity" />
+	</typeAliases>
+
+	<plugins>
+		<plugin interceptor="cn.com.dingduoduo.utils.common.PagePlugin">
+			<property name="dialect" value="PostgreSQL" />
+			<property name="pageSqlId" value=".*Page.*" />
+		</plugin>
+
+		<plugin interceptor="cn.com.dingduoduo.interceptor.AuditableInterceptor"/>
+	</plugins>
+</configuration>

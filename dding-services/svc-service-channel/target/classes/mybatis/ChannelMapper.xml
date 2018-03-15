@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8" ?>    
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="cn.com.dingduoduo.dao.channel.ChannelDAO">
+	<resultMap id="WechaQRCodeResultMap" type="cn.com.dingduoduo.entity.channel.ChannelDTO"
+		autoMapping="true">
+		<result column="id" jdbcType="VARCHAR" property="id" />
+		<result column="created_by" jdbcType="VARCHAR" property="createdBy" />
+		<result column="created_date" jdbcType="TIMESTAMP" property="createdDate" />
+		<result column="updated_date" jdbcType="TIMESTAMP" property="updatedDate" />
+		<result column="updated_by" jdbcType="VARCHAR" property="updatedBy" />
+		<result column="channels" jdbcType="VARCHAR" property="channels" />
+		<result column="qr_code_url" jdbcType="VARCHAR" property="qrCodeUrl" />
+		<result column="scene" jdbcType="VARCHAR" property="scene" />
+		<result column="ticket" jdbcType="VARCHAR" property="ticket" />
+		<result column="send_channel_message" jdbcType="BOOLEAN" property="sendChannelMessage" />
+		<result column="send_subscribe_message" jdbcType="BOOLEAN" property="sendSubscribeMessage" />
+		<result column="channel_group_id" jdbcType="BOOLEAN" property="channelGroupId" />
+	</resultMap>
+
+	<insert id="create" parameterType="ChannelM">
+		INSERT INTO
+			ding_wechat_channel (id, created_by, created_date, updated_date, updated_by,
+			channels, qr_code_url, scene, ticket, send_channel_message, send_subscribe_message, channel_group_id)
+	  	VALUES
+	  		(#{id}, #{createdBy}, #{createdDate}, #{updatedDate}, #{updatedBy}
+	  		, #{channels}, #{qrCodeUrl}, #{scene}, #{ticket}, #{sendChannelMessage}, #{sendSubscribeMessage}, #{channelGroupId})
+	</insert>
+
+	<update id="update" parameterType="ChannelM">
+		UPDATE ding_wechat_channel
+		<set>
+			<if test="channels != null">
+				channels = #{channels},
+			</if>
+			<if test="updatedDate != null">
+				updated_date = #{updatedDate},
+			</if>
+			<if test="updatedBy != null">
+				updated_by = #{updatedBy},
+			</if>
+			<if test="sendChannelMessage != null">
+				send_channel_message = #{sendChannelMessage},
+			</if>
+			<if test="sendSubscribeMessage != null">
+				send_subscribe_message = #{sendSubscribeMessage},
+			</if>
+			<if test="channelGroupId != null">
+				channel_group_id = #{channelGroupId},
+			</if>
+		</set>
+		WHERE id = #{id}
+	</update>
+
+	<sql id="sql_where">
+		<where>
+			<if test="id != null">
+				and wc.id = #{id}
+			</if>
+			<if test="channelGroupId != null">
+				and wc.channel_group_id = #{channelGroupId}
+			</if>
+			<if test="scene != null">
+				and wc.scene = #{scene}
+			</if>
+			<if test="channels != null">
+				and wc.channels LIKE '%${channels}%'
+			</if>
+
+		</where>
+	</sql>
+
+	<sql id="from_wechat_channel">
+		ding_wechat_channel wc
+	</sql>
+
+	<sql id="from_wechat_channel_group">
+		LEFT JOIN ding_wechat_channel_group wcg on wc.channel_group_id = wcg.id
+	</sql>
+	<select id="findByConditionPage" resultType="ChannelQM">
+		SELECT
+		wc.*,wcg.id "channel_group_id",wcg.name "channel_group_name"
+		FROM
+		<include refid="from_wechat_channel" />
+		<include refid="from_wechat_channel_group" />
+		<include refid="sql_where" />
+	    ORDER BY wc.created_date DESC
+	</select>
+
+	<select id="findOneByCondition" resultType="ChannelQM">
+		SELECT
+		wc.*,wcg.id "channel_group_id",wcg.name "channel_group_name"
+		FROM
+		<include refid="from_wechat_channel" />
+		<include refid="from_wechat_channel_group" />
+		<include refid="sql_where" />
+		LIMIT 1
+	</select>
+
+	<select id="findByCondition" resultType="ChannelQM">
+		SELECT
+		wc.*,wcg.id "channel_group_id",wcg.name "channel_group_name"
+		FROM
+		<include refid="from_wechat_channel" />
+		<include refid="from_wechat_channel_group" />
+		<include refid="sql_where" />
+		ORDER BY wc.created_date DESC
+	</select>
+</mapper>
+
