@@ -1,5 +1,6 @@
 *.iml
 .idea
 */target/
-ins-services/*/target/
+dding-services/*/target/
 test.log
+*.class
