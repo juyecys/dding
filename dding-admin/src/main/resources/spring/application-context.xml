@@ -54,7 +54,6 @@
 				<list>
 					<value>file:${commonProperties}</value>
 					<value>file:${adminProperties}</value>
-					<value>file:${configPartnerProperties}</value>
 				</list>
 			</property>
 			<property name="ignoreResourceNotFound" value="false" />
