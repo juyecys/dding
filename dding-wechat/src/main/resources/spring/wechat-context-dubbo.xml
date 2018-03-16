@@ -22,31 +22,31 @@
 	<!-- 声明需要暴露的服务接口 -->
 	<dubbo:service
 		interface="cn.com.dingduoduo.service.wechat.menu.WechatMenuService"
-		ref="wechatMenuServiceRPC" timeout="3000"/>
+		ref="wechatMenuServiceRPC" timeout="5000"/>
 	<bean id="wechatMenuServiceRPC"
 		class="cn.com.dingduoduo.service.wechat.menu.impl.WechatMenuServiceImpl" />
 
 	<dubbo:service
 			interface="cn.com.dingduoduo.service.wechat.message.WechatMessageService"
-			ref="wechatMessageServiceRPC" timeout="3000"/>
+			ref="wechatMessageServiceRPC" timeout="5000"/>
 	<bean id="wechatMessageServiceRPC"
 		  class="cn.com.dingduoduo.service.wechat.message.impl.WechatMessageServiceImpl" />
 
 	<dubbo:service
 			interface="cn.com.dingduoduo.service.wechat.user.WechatUserService"
-			ref="wechatUserServiceRPC" timeout="3000"/>
+			ref="wechatUserServiceRPC" timeout="5000"/>
 	<bean id="wechatUserServiceRPC"
 		  class="cn.com.dingduoduo.service.wechat.user.impl.WechatUserServiceImpl" />
 
 	<dubbo:service
 			interface="cn.com.dingduoduo.service.wechat.auth.WechatAuthService"
-			ref="wechatAuthServiceRPC" timeout="3000" retries="0"/>
+			ref="wechatAuthServiceRPC" timeout="5000" retries="0"/>
 	<bean id="wechatAuthServiceRPC"
 		  class="cn.com.dingduoduo.service.wechat.auth.impl.WechatAuthServiceImpl" />
 
 	<dubbo:service
 			interface="cn.com.dingduoduo.service.wechat.material.WechatMaterialService"
-			ref="wechatMaterialServiceRPC" timeout="3000"/>
+			ref="wechatMaterialServiceRPC" timeout="5000"/>
 	<bean id="wechatMaterialServiceRPC"
 		  class="cn.com.dingduoduo.service.wechat.material.impl.WechatMaterialServiceImpl" />
 </beans>

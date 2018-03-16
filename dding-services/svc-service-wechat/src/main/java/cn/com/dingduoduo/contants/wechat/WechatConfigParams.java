@@ -7,7 +7,7 @@ public class WechatConfigParams {
 	//从微信获取access token需要的分布式锁key
 	public static final String ACCESS_TOKEN_KEY_MUTEX = ACCESS_TOKEN_KEY + "_mutex";
 
-	public static final String WECHAT_TEMPLATE_FILE_DIR = "/cn.com.dingduoduo.api.admin.wechat/";
+	public static final String WECHAT_TEMPLATE_FILE_DIR = "/wechat/";
 
 	// 扫描二维码EventKey前缀
 	public static final String WECHAT_PREFIX_QRCODE_EVENT_KEY = "qrscene_";

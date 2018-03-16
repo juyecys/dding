@@ -16,12 +16,12 @@
 
 	<!-- 生成远程服务代理，可以和本地bean一样使用demoService -->
 	<dubbo:reference id="wechatMessageServiceRPC"
-					 interface="cn.com.dingduoduo.service.wechat.message.WechatMessageService" timeout="3000"/>
+					 interface="cn.com.dingduoduo.service.wechat.message.WechatMessageService" timeout="5000" retries="0"/>
 
 	<dubbo:reference id="wechatMaterialServiceRPC"
-					 interface="cn.com.dingduoduo.service.wechat.material.WechatMaterialService" timeout="3000"/>
+					 interface="cn.com.dingduoduo.service.wechat.material.WechatMaterialService" timeout="5000" retries="0"/>
 
 	<dubbo:reference id="wechatMenuServiceRPC"
-					 interface="cn.com.dingduoduo.service.wechat.menu.WechatMenuService" timeout="3000"/>
+					 interface="cn.com.dingduoduo.service.wechat.menu.WechatMenuService" timeout="5000" retries="0"/>
 
 </beans>

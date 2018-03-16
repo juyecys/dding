@@ -18,13 +18,13 @@ public class AliyunOssPath {
 	public static String[] PROFILE;
 
 	/** 临时保存路径 **/
-	public static final String TEMP_FILEPATH = "ykb_tmp_dir/";
+	public static final String TEMP_FILEPATH = "ding_tmp_dir/";
 
 	/** 推广二维码保存路径 **/
-	public static final String CHANNEL_QRCODE_FILEPATH = "cn.com.dingduoduo.api.admin.wechat/channel_qrcode/";
+	public static final String CHANNEL_QRCODE_FILEPATH = "wechat/channel_qrcode/";
 
 	/** 消息图片保存路径 **/
-	public static final String MESSAGE_FILEPATH = "cn.com.dingduoduo.api.admin.wechat/cn.com.dingduoduo.api.admin.adminuser.message/";
+	public static final String MESSAGE_FILEPATH = "wechat/message/";
 
 	public static void setPROFILE(String[] profile) {
 		PROFILE = profile;
