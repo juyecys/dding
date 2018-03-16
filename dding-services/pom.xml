@@ -19,6 +19,7 @@
         <module>svc-service-user</module>
         <module>svc-service-wechat</module>
         <module>svc-service-aliyun</module>
+        <module>svc-service-course</module>
     </modules>
 
     <dependencies>

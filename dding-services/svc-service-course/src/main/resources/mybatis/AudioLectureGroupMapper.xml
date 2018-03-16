@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8" ?>    
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="cn.com.dingduoduo.dao.radio.AudioCourseDAO">
+
+	<insert id="create" parameterType="RadioCourseM">
+		INSERT INTO
+			ding_radio_answer (id, created_by, created_date, updated_date, updated_by,
+			courseId, sequence, question, audioUrl, audioName, audioTimestamp)
+	  	VALUES
+	  		(#{id}, #{createdBy}, #{createdDate}, #{updatedDate}, #{updatedBy}
+	  		, #{courseId}, #{sequence}, #{question}, #{audioUrl}, #{audioName}, #{audioTimestamp}, #{doctorTitle}, #{doctorHeadImg}, #{isLecture}, #{isSolution})
+	</insert>
+
+	<update id="update" parameterType="RadioCourseM">
+		UPDATE ding_radio_course
+		<set>
+			<if test="name != null">
+				name = #{name},
+			</if>
+			<if test="updatedDate != null">
+				updated_date = #{updatedDate},
+			</if>
+			<if test="updatedBy != null">
+				updated_by = #{updatedBy},
+			</if>
+			<if test="introduction != null">
+				introduction = #{introduction},
+			</if>
+			<if test="pictureUrl != null">
+				picture_url = #{pictureUrl},
+			</if>
+			<if test="peopleCount != null">
+				people_count = #{peopleCount},
+			</if>
+			<if test="doctorName != null">
+				doctor_name = #{doctorName},
+			</if>
+			<if test="hospitalName != null">
+				hospital_name = #{hospitalName},
+			</if>
+			<if test="doctorTitle != null">
+				doctor_title = #{doctorTitle},
+			</if>
+			<if test="doctorHeadImg != null">
+				doctor_head_img = #{doctorHeadImg},
+			</if>
+			<if test="isLecture != null">
+				is_lecture = #{isLecture},
+			</if>
+			<if test="isSolution != null">
+				is_solution = #{isSolution},
+			</if>
+		</set>
+		WHERE id = #{id}
+	</update>
+
+	<sql id="sql_where">
+		<where>
+			<if test="id != null">
+				and rc.id = #{id}
+			</if>
+		</where>
+	</sql>
+
+	<sql id="from_radio_course">
+		ding_radio_course rc
+	</sql>
+
+	<select id="findByConditionPage" resultType="RadioCourseM">
+		SELECT
+		rc.*
+		FROM
+		<include refid="from_radio_course" />
+		<include refid="sql_where" />
+	    ORDER BY rc.created_date DESC
+	</select>
+
+	<select id="findOneByCondition" resultType="RadioCourseM">
+		SELECT
+		rc.*
+		FROM
+		<include refid="from_radio_course" />
+		<include refid="sql_where" />
+		LIMIT 1
+	</select>
+
+	<select id="findByCondition" resultType="RadioCourseM">
+		SELECT
+		rc.*
+		FROM
+		<include refid="from_radio_course" />
+		<include refid="sql_where" />
+		ORDER BY rc.created_date DESC
+	</select>
+</mapper>
+

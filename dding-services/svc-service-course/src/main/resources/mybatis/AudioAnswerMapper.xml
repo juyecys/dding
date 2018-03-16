@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8" ?>    
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="cn.com.dingduoduo.dao.radio.AudioAnswerDAO">
+
+	<insert id="create" parameterType="AudioAnswerM">
+		INSERT INTO
+			ding_radio_answer (id, created_by, created_date, updated_date, updated_by,
+			course_id, sequence, question, audio_url, audio_name, audio_timestamp)
+	  	VALUES
+	  		(#{id}, #{createdBy}, #{createdDate}, #{updatedDate}, #{updatedBy}
+	  		, #{courseId}, #{sequence}, #{question}, #{audioUrl}, #{audioName}, #{audioTimestamp})
+	</insert>
+
+	<update id="update" parameterType="AudioAnswerM">
+		UPDATE ding_radio_answer
+		<set>
+			<if test="name != null">
+				name = #{name},
+			</if>
+			<if test="updatedDate != null">
+				updated_date = #{updatedDate},
+			</if>
+			<if test="updatedBy != null">
+				updated_by = #{updatedBy},
+			</if>
+			<if test="courseId != null">
+				course_id = #{courseId},
+			</if>
+			<if test="sequence != null">
+				sequence = #{sequence},
+			</if>
+			<if test="question != null">
+				question = #{question},
+			</if>
+			<if test="audioUrl != null">
+				audio_url = #{audioUrl},
+			</if>
+			<if test="audioName != null">
+				audio_name = #{audioName},
+			</if>
+			<if test="audioTimestamp != null">
+				audio_timestamp = #{audioTimestamp},
+			</if>
+		</set>
+		WHERE id = #{id}
+	</update>
+
+	<sql id="sql_where">
+		<where>
+			<if test="id != null">
+				and ra.id = #{id}
+			</if>
+		</where>
+	</sql>
+
+	<sql id="from_radio_course">
+		ding_radio_answer ra
+	</sql>
+
+	<select id="findByConditionPage" resultType="AudioAnswerM">
+		SELECT
+		ra.*
+		FROM
+		<include refid="from_radio_course" />
+		<include refid="sql_where" />
+	    ORDER BY ra.created_date DESC
+	</select>
+
+	<select id="findOneByCondition" resultType="AudioAnswerM">
+		SELECT
+		ra.*
+		FROM
+		<include refid="from_radio_course" />
+		<include refid="sql_where" />
+		LIMIT 1
+	</select>
+
+	<select id="findByCondition" resultType="AudioAnswerM">
+		SELECT
+		ra.*
+		FROM
+		<include refid="from_radio_course" />
+		<include refid="sql_where" />
+		ORDER BY ra.created_date DESC
+	</select>
+</mapper>
+
