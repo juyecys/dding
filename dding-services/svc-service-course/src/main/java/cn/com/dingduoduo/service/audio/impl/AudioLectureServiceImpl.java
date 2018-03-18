@@ -1,17 +1,17 @@
-package cn.com.dingduoduo.service.radio.impl;
+package cn.com.dingduoduo.service.audio.impl;
 
-import cn.com.dingduoduo.dao.radio.AudioLectureDAO;
-import cn.com.dingduoduo.entity.radio.AudioLecture;
+import cn.com.dingduoduo.dao.audio.AudioLectureDAO;
+import cn.com.dingduoduo.entity.audio.AudioLecture;
 import cn.com.dingduoduo.service.common.impl.BaseServiceImpl;
-import cn.com.dingduoduo.service.radio.AudioLectureService;
+import cn.com.dingduoduo.service.audio.AudioLectureService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 /**
  * Created by jeysine on 2018/3/16.
  */
-@Service("radioLectureService")
-public class RadioLectureServiceImpl extends BaseServiceImpl<AudioLecture, AudioLecture> implements AudioLectureService {
+@Service("audioLectureService")
+public class AudioLectureServiceImpl extends BaseServiceImpl<AudioLecture, AudioLecture> implements AudioLectureService {
 
     @Autowired
     private AudioLectureDAO dao;

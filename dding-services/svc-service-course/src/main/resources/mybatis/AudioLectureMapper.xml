@@ -1,19 +1,19 @@
 <?xml version="1.0" encoding="UTF-8" ?>    
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="cn.com.dingduoduo.dao.audio.AudioAnswerDAO">
+<mapper namespace="cn.com.dingduoduo.dao.audio.AudioLectureDAO">
 
-	<insert id="create" parameterType="AudioAnswerM">
+	<insert id="create" parameterType="AudioLectureM">
 		INSERT INTO
-			ding_radio_answer (id, created_by, created_date, updated_date, updated_by,
-			course_id, sequence, question, audio_url, audio_name, audio_timestamp)
+			ding_radio_lecture (id, created_by, created_date, updated_date, updated_by,
+			course_id, group_id, name, sequence, audio_url, audio_name, audio_timestamp)
 	  	VALUES
 	  		(#{id}, #{createdBy}, #{createdDate}, #{updatedDate}, #{updatedBy}
-	  		, #{courseId}, #{sequence}, #{question}, #{audioUrl}, #{audioName}, #{audioTimestamp})
+	  		, #{courseId}, #{groupId}, #{name}, #{sequence}, #{audioUrl}, #{audioName}, #{audioTimestamp})
 	</insert>
 
-	<update id="update" parameterType="AudioAnswerM">
-		UPDATE ding_radio_answer
+	<update id="update" parameterType="AudioLectureM">
+		UPDATE ding_radio_lecture
 		<set>
 			<if test="name != null">
 				name = #{name},
@@ -49,40 +49,46 @@
 	<sql id="sql_where">
 		<where>
 			<if test="id != null">
-				and aa.id = #{id}
+				and rl.id = #{id}
+			</if>
+			<if test="courseId != null">
+				and rl.course_id = #{courseId}
+			</if>
+			<if test="groupId != null">
+				and rl.group_id = #{groupId}
 			</if>
 		</where>
 	</sql>
 
-	<sql id="from_audio_course">
-		ding_audio_answer aa
+	<sql id="from_table">
+		ding_radio_lecture rl
 	</sql>
 
-	<select id="findByConditionPage" resultType="AudioAnswerM">
+	<select id="findByConditionPage" resultType="AudioLectureM">
 		SELECT
-		aa.*
+		rl.*
 		FROM
-		<include refid="from_audio_course" />
+		<include refid="from_table" />
 		<include refid="sql_where" />
-	    ORDER BY aa.created_date DESC
+	    ORDER BY rl.created_date DESC
 	</select>
 
-	<select id="findOneByCondition" resultType="AudioAnswerM">
+	<select id="findOneByCondition" resultType="AudioLectureM">
 		SELECT
-		aa.*
+		rl.*
 		FROM
-		<include refid="from_audio_course" />
+		<include refid="from_table" />
 		<include refid="sql_where" />
 		LIMIT 1
 	</select>
 
-	<select id="findByCondition" resultType="AudioAnswerM">
+	<select id="findByCondition" resultType="AudioLectureM">
 		SELECT
-		aa.*
+		rl.*
 		FROM
-		<include refid="from_audio_course" />
+		<include refid="from_table" />
 		<include refid="sql_where" />
-		ORDER BY aa.sequence DESC
+		ORDER BY rl.sequence DESC
 	</select>
 </mapper>
 

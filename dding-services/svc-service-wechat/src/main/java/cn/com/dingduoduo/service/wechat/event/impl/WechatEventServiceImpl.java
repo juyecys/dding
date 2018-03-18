@@ -68,6 +68,15 @@ public class WechatEventServiceImpl implements WechatEventService {
     public void processSubscribeEvent(WechatSubscribeEvent subscribeEvent) throws IOException, EventServiceException {
         logger.debug("发布关注事件 subscribeEvent: {}",subscribeEvent);
 
+        Event event = new Event();
+        event.addProperty("openId", subscribeEvent.getFromUserName());
+        event.addProperty("createTime", subscribeEvent.getCreateTime());
+        if (!StringUtil.isEmpty(subscribeEvent.getEventKey())) {
+            event.addProperty("eventKey", subscribeEvent.getEventKey());
+        }
+        event.setType(WechatEventConstant.EVENT_TYPE_WECHAT_USER_SUBSCRIBE);
+        eventService.publish(event);
+
         String eventKey = subscribeEvent.getEventKey();
         if (!StringUtil.isEmpty(eventKey)) {
             eventKey = eventKey.replace(WechatConfigParams.WECHAT_PREFIX_QRCODE_EVENT_KEY, "");
@@ -92,14 +101,7 @@ public class WechatEventServiceImpl implements WechatEventService {
             wechatMessageService.pushSubscribeMessage(subscribeEvent.getFromUserName());
         }
 
-        Event event = new Event();
-        event.addProperty("openId", subscribeEvent.getFromUserName());
-        event.addProperty("createTime", subscribeEvent.getCreateTime());
-        if (!StringUtil.isEmpty(subscribeEvent.getEventKey())) {
-            event.addProperty("eventKey", subscribeEvent.getEventKey());
-        }
-        event.setType(WechatEventConstant.EVENT_TYPE_WECHAT_USER_SUBSCRIBE);
-        eventService.publish(event);
+
 
     }
 

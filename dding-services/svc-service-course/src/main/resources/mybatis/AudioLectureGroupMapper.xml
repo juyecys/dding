@@ -1,19 +1,19 @@
 <?xml version="1.0" encoding="UTF-8" ?>    
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="cn.com.dingduoduo.dao.radio.AudioCourseDAO">
+<mapper namespace="cn.com.dingduoduo.dao.audio.AudioLectureGroupDAO">
 
-	<insert id="create" parameterType="RadioCourseM">
+	<insert id="create" parameterType="AudioLectureGroupM">
 		INSERT INTO
-			ding_radio_answer (id, created_by, created_date, updated_date, updated_by,
-			courseId, sequence, question, audioUrl, audioName, audioTimestamp)
+			ding_radio_lecture_group (id, created_by, created_date, updated_date, updated_by,
+			course_id, name, sequence, is_exist)
 	  	VALUES
 	  		(#{id}, #{createdBy}, #{createdDate}, #{updatedDate}, #{updatedBy}
-	  		, #{courseId}, #{sequence}, #{question}, #{audioUrl}, #{audioName}, #{audioTimestamp}, #{doctorTitle}, #{doctorHeadImg}, #{isLecture}, #{isSolution})
+	  		, #{courseId}, #{name}, #{sequence}, #{isExist})
 	</insert>
 
-	<update id="update" parameterType="RadioCourseM">
-		UPDATE ding_radio_course
+	<update id="update" parameterType="AudioLectureGroupM">
+		UPDATE ding_radio_lecture_group
 		<set>
 			<if test="name != null">
 				name = #{name},
@@ -24,32 +24,11 @@
 			<if test="updatedBy != null">
 				updated_by = #{updatedBy},
 			</if>
-			<if test="introduction != null">
-				introduction = #{introduction},
+			<if test="sequence != null">
+				sequence = #{sequence},
 			</if>
-			<if test="pictureUrl != null">
-				picture_url = #{pictureUrl},
-			</if>
-			<if test="peopleCount != null">
-				people_count = #{peopleCount},
-			</if>
-			<if test="doctorName != null">
-				doctor_name = #{doctorName},
-			</if>
-			<if test="hospitalName != null">
-				hospital_name = #{hospitalName},
-			</if>
-			<if test="doctorTitle != null">
-				doctor_title = #{doctorTitle},
-			</if>
-			<if test="doctorHeadImg != null">
-				doctor_head_img = #{doctorHeadImg},
-			</if>
-			<if test="isLecture != null">
-				is_lecture = #{isLecture},
-			</if>
-			<if test="isSolution != null">
-				is_solution = #{isSolution},
+			<if test="isExist != null">
+				is_exist = #{isExist},
 			</if>
 		</set>
 		WHERE id = #{id}
@@ -58,40 +37,43 @@
 	<sql id="sql_where">
 		<where>
 			<if test="id != null">
-				and rc.id = #{id}
+				and rlg.id = #{id}
+			</if>
+			<if test="courseId != null">
+				and rlg.course_id = #{courseId}
 			</if>
 		</where>
 	</sql>
 
-	<sql id="from_radio_course">
-		ding_radio_course rc
+	<sql id="from_table">
+		ding_radio_lecture_group rlg
 	</sql>
 
-	<select id="findByConditionPage" resultType="RadioCourseM">
+	<select id="findByConditionPage" resultType="AudioLectureGroupQM">
 		SELECT
-		rc.*
+		rlg.*
 		FROM
-		<include refid="from_radio_course" />
+		<include refid="from_table" />
 		<include refid="sql_where" />
-	    ORDER BY rc.created_date DESC
+	    ORDER BY rlg.created_date DESC
 	</select>
 
-	<select id="findOneByCondition" resultType="RadioCourseM">
+	<select id="findOneByCondition" resultType="AudioLectureGroupQM">
 		SELECT
-		rc.*
+		rlg.*
 		FROM
-		<include refid="from_radio_course" />
+		<include refid="from_table" />
 		<include refid="sql_where" />
 		LIMIT 1
 	</select>
 
-	<select id="findByCondition" resultType="RadioCourseM">
+	<select id="findByCondition" resultType="AudioLectureGroupQM">
 		SELECT
-		rc.*
+		rlg.*
 		FROM
-		<include refid="from_radio_course" />
+		<include refid="from_table" />
 		<include refid="sql_where" />
-		ORDER BY rc.created_date DESC
+		ORDER BY rlg.sequence DESC
 	</select>
 </mapper>
 

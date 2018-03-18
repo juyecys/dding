@@ -29,12 +29,8 @@ public class PrivateAdminChannelGroupController {
     private static final Logger logger = LoggerFactory.getLogger(PrivateAdminChannelGroupController.class);
 
     @RequestMapping(value = "/", method = RequestMethod.POST)
-    public ResponseEntity<ApiResult> saveOrUpdateChannelGroup(@RequestBody ChannelGroup channelGroup) {
-        try {
-            channelGroup = channelGroupService.createOrUpdate(channelGroup);
-        } catch (Exception e) {
-            logger.debug("error: {}", e);
-        }
+    public ResponseEntity<ApiResult> saveOrUpdateChannelGroup(@RequestBody ChannelGroup channelGroup) throws Exception {
+        channelGroup = channelGroupService.createOrUpdate(channelGroup);
         return new ResponseEntity<>(ApiResult.success(channelGroup), HttpStatus.OK);
     }
 

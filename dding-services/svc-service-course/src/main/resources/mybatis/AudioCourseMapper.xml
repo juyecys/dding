@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" ?>    
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="cn.com.dingduoduo.dao.radio.AudioCourseDAO">
+<mapper namespace="cn.com.dingduoduo.dao.audio.AudioCourseDAO">
 
-	<insert id="create" parameterType="RadioCourseM">
+	<insert id="create" parameterType="AudioCourseM">
 		INSERT INTO
 			ding_radio_course (id, created_by, created_date, updated_date, updated_by,
 			name, introduction, picture_url, people_count, doctor_name, hospital_name, doctor_title, doctor_head_img, is_lecture, is_solution)
@@ -12,7 +12,7 @@
 	  		, #{name}, #{introduction}, #{pictureUrl}, #{peopleCount}, #{doctorName}, #{hospitalName}, #{doctorTitle}, #{doctorHeadImg}, #{isLecture}, #{isSolution})
 	</insert>
 
-	<update id="update" parameterType="RadioCourseM">
+	<update id="update" parameterType="AudioCourseM">
 		UPDATE ding_radio_course
 		<set>
 			<if test="name != null">
@@ -63,35 +63,39 @@
 		</where>
 	</sql>
 
-	<sql id="from_radio_course">
+	<sql id="from_table">
 		ding_radio_course rc
 	</sql>
 
-	<select id="findByConditionPage" resultType="RadioCourseM">
+	<sql id="join_radio_lecture_group">
+		LEFT JOIN ding_radio_lecture_group rlg ON rlg.course_id = rc.id
+	</sql>
+
+	<select id="findByConditionPage" resultType="AudioCourseQM">
 		SELECT
 		rc.*
 		FROM
-		<include refid="from_radio_course" />
+		<include refid="from_table" />
 		<include refid="sql_where" />
 	    ORDER BY rc.created_date DESC
 	</select>
 
-	<select id="findOneByCondition" resultType="RadioCourseM">
+	<select id="findOneByCondition" resultType="AudioCourseQM">
 		SELECT
 		rc.*
 		FROM
-		<include refid="from_radio_course" />
+		<include refid="from_table" />
 		<include refid="sql_where" />
 		LIMIT 1
 	</select>
 
-	<select id="findByCondition" resultType="RadioCourseM">
+	<select id="findByCondition" resultType="AudioCourseQM">
 		SELECT
 		rc.*
 		FROM
-		<include refid="from_radio_course" />
+		<include refid="from_table" />
 		<include refid="sql_where" />
-		ORDER BY rc.created_date DESC
+		ORDER BY rc.sequence DESC
 	</select>
 </mapper>
 

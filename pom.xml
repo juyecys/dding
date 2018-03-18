@@ -566,6 +566,12 @@
                 <artifactId>svc-service-user</artifactId>
                 <version>${project.version}</version>
             </dependency>
+
+            <dependency>
+                <groupId>cn.com.dingduoduo</groupId>
+                <artifactId>svc-service-course</artifactId>
+                <version>${project.version}</version>
+            </dependency>
         </dependencies>
     </dependencyManagement>
 

@@ -1,30 +1,44 @@
-package cn.com.dingduoduo.entity.radio;
+package cn.com.dingduoduo.entity.audio;
 
 import cn.com.dingduoduo.entity.common.Base;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import org.apache.ibatis.type.Alias;
 
 /**
  * Created by jeysine on 2018/3/16.
  */
-@Alias("RadioAnswerM")
+@Alias("AudioLectureM")
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class AudioAnswer extends Base {
+public class AudioLecture extends Base{
+
+    @JsonProperty("courseId")
     private String courseId;
+
+    /**
+     * 分类id
+     */
+    @JsonProperty("groupId")
+    private String groupId;
+
+    @JsonProperty("name")
+    private String name;
 
     /**
      * 序列号
      */
+    @JsonProperty("sequence")
     private Integer sequence;
 
-    private String question;
-
+    @JsonProperty("audioUrl")
     private String audioUrl;
 
+    @JsonProperty("audioName")
     private String audioName;
 
+    @JsonProperty("audioTimestamp")
     private Long audioTimestamp;
 
     public String getCourseId() {
@@ -35,20 +49,28 @@ public class AudioAnswer extends Base {
         this.courseId = courseId;
     }
 
+    public String getGroupId() {
+        return groupId;
+    }
+
+    public void setGroupId(String groupId) {
+        this.groupId = groupId;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
     public Integer getSequence() {
         return sequence;
     }
 
     public void setSequence(Integer sequence) {
         this.sequence = sequence;
-    }
-
-    public String getQuestion() {
-        return question;
-    }
-
-    public void setQuestion(String question) {
-        this.question = question;
     }
 
     public String getAudioUrl() {
@@ -77,10 +99,11 @@ public class AudioAnswer extends Base {
 
     @Override
     public String toString() {
-        return "AudioAnswer{" +
+        return "AudioLecture{" +
                 "courseId='" + courseId + '\'' +
+                ", groupId='" + groupId + '\'' +
+                ", name='" + name + '\'' +
                 ", sequence=" + sequence +
-                ", question='" + question + '\'' +
                 ", audioUrl='" + audioUrl + '\'' +
                 ", audioName='" + audioName + '\'' +
                 ", audioTimestamp=" + audioTimestamp +

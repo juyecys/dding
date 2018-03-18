@@ -1,15 +1,18 @@
-package cn.com.dingduoduo.entity.radio;
+package cn.com.dingduoduo.entity.audio;
 
 import cn.com.dingduoduo.entity.common.Base;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.apache.ibatis.type.Alias;
+import org.springframework.data.annotation.Transient;
+
+import java.util.List;
 
 /**
  * Created by jeysine on 2018/3/16.
  */
-@Alias("RadioCourseM")
+@Alias("AudioCourseM")
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class AudioCourse extends Base {
@@ -47,6 +50,8 @@ public class AudioCourse extends Base {
      */
     @JsonProperty("isSolution")
     private Boolean isSolution;
+
+
 
     public String getName() {
         return name;
@@ -127,6 +132,7 @@ public class AudioCourse extends Base {
     public void setSolution(Boolean solution) {
         isSolution = solution;
     }
+
 
     @Override
     public String toString() {

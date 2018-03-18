@@ -1,7 +1,7 @@
-package cn.com.dingduoduo.dao.radio;
+package cn.com.dingduoduo.dao.audio;
 
 import cn.com.dingduoduo.dao.common.BaseDAO;
-import cn.com.dingduoduo.entity.radio.AudioLecture;
+import cn.com.dingduoduo.entity.audio.AudioLecture;
 import org.springframework.stereotype.Component;
 
 /**

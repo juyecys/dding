@@ -1,6 +1,6 @@
-package cn.com.dingduoduo.service.radio;
+package cn.com.dingduoduo.service.audio;
 
-import cn.com.dingduoduo.entity.radio.AudioAnswer;
+import cn.com.dingduoduo.entity.audio.AudioAnswer;
 import cn.com.dingduoduo.service.common.BaseService;
 
 /**
