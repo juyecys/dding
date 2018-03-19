@@ -31,18 +31,22 @@ public class LocalWechatMenuServiceImpl extends BaseServiceImpl<LocalWechatMenu,
     public LocalWechatMenu createOrUpdate(LocalWechatMenu menu) throws Exception {
         LocalWechatMenu check = new LocalWechatMenu();
         check.setKey(menu.getKey());
-        if (StringUtil.isEmpty(menu.getId()) && StringUtil.isEmpty(menu.getKey())&& isExistKey(menu)) {
-            throw new Exception("微信菜单key不能重复");
-        }
-        if (StringUtil.isEmpty(menu.getId()) && !isExistKey(menu)) {
-            menu = create(menu);
-        } else if (!StringUtil.isEmpty(menu.getId())){
+        if (StringUtil.isEmpty(menu.getId())) {
+            if (isExistKey(menu)) {
+                throw new Exception("微信菜单key不能重复");
+            } else {
+                menu = create(menu);
+            }
+        } else {
             menu = update(menu);
         }
         return menu;
     }
 
     private Boolean isExistKey(LocalWechatMenu menu) {
+        if (menu.getKey() == null) {
+            return false;
+        }
         LocalWechatMenu search = new LocalWechatMenu();
         search.setKey(menu.getKey());
         search = findOneByCondition(search);

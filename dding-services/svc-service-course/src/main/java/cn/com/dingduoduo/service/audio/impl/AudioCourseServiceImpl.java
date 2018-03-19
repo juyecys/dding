@@ -38,7 +38,7 @@ public class AudioCourseServiceImpl extends BaseServiceImpl<AudioCourse, AudioCo
             for (AudioCourseDTO one : page.getResult()) {
                 audioLectureGroup.setCourseId(one.getId());
                 List<AudioLectureGroupDTO> audioLectureGroupList = audioLectureGroupService.findByCondition(audioLectureGroup);
-                one.setLectureGroupList(audioLectureGroupList);
+                one.setAudioLectureGroupList(audioLectureGroupList);
             }
         }
         return page;

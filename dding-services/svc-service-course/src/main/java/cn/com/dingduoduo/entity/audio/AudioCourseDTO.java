@@ -13,21 +13,34 @@ import java.util.List;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class AudioCourseDTO extends AudioCourse {
     @Transient
-    @JsonProperty("lectureGroupList")
-    private List<AudioLectureGroupDTO> lectureGroupList;
+    @JsonProperty("audioLectureGroupList")
+    private List<AudioLectureGroupDTO> audioLectureGroupList;
 
-    public List<AudioLectureGroupDTO> getLectureGroupList() {
-        return lectureGroupList;
+    @Transient
+    @JsonProperty("audioAnswerList")
+    private List<AudioAnswer> audioAnswerList;
+
+    public List<AudioLectureGroupDTO> getAudioLectureGroupList() {
+        return audioLectureGroupList;
     }
 
-    public void setLectureGroupList(List<AudioLectureGroupDTO> lectureGroupList) {
-        this.lectureGroupList = lectureGroupList;
+    public void setAudioLectureGroupList(List<AudioLectureGroupDTO> audioLectureGroupList) {
+        this.audioLectureGroupList = audioLectureGroupList;
+    }
+
+    public List<AudioAnswer> getAudioAnswerList() {
+        return audioAnswerList;
+    }
+
+    public void setAudioAnswerList(List<AudioAnswer> audioAnswerList) {
+        this.audioAnswerList = audioAnswerList;
     }
 
     @Override
     public String toString() {
         return super.toString() + "AudioCourseDTO{" +
-                "lectureGroupList=" + lectureGroupList +
+                "audioLectureGroupList=" + audioLectureGroupList +
+                ", audioAnswerList=" + audioAnswerList +
                 '}';
     }
 }
