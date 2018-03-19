@@ -30,6 +30,21 @@
 	<import resource="application-context-mongo.xml" />
 	<import resource="application-context-dubbo.xml" />
 
+	<bean id="taskExecutor" class="org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor">
+		<!-- 线程池维护线程的最少数量 -->
+		<property name="corePoolSize" value="${threadPool.corePoolSize}" />
+		<!-- 允许的空闲时间 -->
+		<property name="keepAliveSeconds" value="${threadPool.keepAliveSeconds}" />
+		<!-- 线程池维护线程的最大数量 -->
+		<property name="maxPoolSize" value="${threadPool.maxPoolSize}" />
+		<!-- 缓存队列 -->
+		<property name="queueCapacity" value="${threadPool.queueCapacity}" />
+		<!-- 对拒绝task的处理策略 -->
+		<property name="rejectedExecutionHandler">
+			<bean class="java.util.concurrent.ThreadPoolExecutor$CallerRunsPolicy" />
+		</property>
+	</bean>
+
 	<beans profile="dev">
 		<bean id="placeholderProperties"
 			  class="cn.com.dingduoduo.common.config.AddConfigurationPropertiesToEnvironmentPlaceHolderConfiguer">

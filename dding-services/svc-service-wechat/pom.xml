@@ -35,5 +35,10 @@
             <groupId>cn.com.dingduoduo</groupId>
             <artifactId>svc-service-message</artifactId>
         </dependency>
+
+        <dependency>
+            <groupId>cn.com.dingduoduo</groupId>
+            <artifactId>svc-service-user</artifactId>
+        </dependency>
     </dependencies>
 </project>

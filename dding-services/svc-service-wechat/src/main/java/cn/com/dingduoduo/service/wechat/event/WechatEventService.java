@@ -14,7 +14,7 @@ import java.util.HashMap;
 public interface WechatEventService {
     void processEvent(HashMap<String, Object> data) throws Exception;
 
-    void processSubscribeEvent(WechatSubscribeEvent subscribeEvent) throws IOException, EventServiceException;
+    void processSubscribeEvent(WechatSubscribeEvent subscribeEvent) throws Exception;
 
     void processUnSubscribeEvent(WechatSubscribeEvent unsubscribeEvent) throws EventServiceException;
 
