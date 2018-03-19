@@ -2,7 +2,7 @@ package cn.com.dingduoduo.contants.wechat;
 
 public class WechatConfigParams {
 	// access token 在redis中的键
-	public static final String ACCESS_TOKEN_KEY = "dding_access_token";
+	public static final String ACCESS_TOKEN_KEY = "ding_access_token";
 
 	//从微信获取access token需要的分布式锁key
 	public static final String ACCESS_TOKEN_KEY_MUTEX = ACCESS_TOKEN_KEY + "_mutex";

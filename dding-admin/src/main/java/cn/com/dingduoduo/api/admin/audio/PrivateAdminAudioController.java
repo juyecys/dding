@@ -30,8 +30,8 @@ public class PrivateAdminAudioController {
     private AudioLectureGroupService audioLectureGroupService;
 
     @RequestMapping(value = "/course", method = RequestMethod.POST)
-    public ResponseEntity<ApiResult> saveOrUpdateCourse(@RequestBody AudioCourse audioCourse) throws Exception {
-        audioCourse = audioCourseService.createOrUpdate(audioCourse);
+    public ResponseEntity<ApiResult> saveOrUpdateCourse(@RequestBody AudioCourseDTO audioCourse) throws Exception {
+        //audioCourse = audioCourseService.createOrUpdate(audioCourse);
         return new ResponseEntity<>(ApiResult.success(audioCourse), HttpStatus.OK);
     }
 

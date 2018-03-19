@@ -61,12 +61,10 @@ public class PrivateAdminWechatController {
     private static Logger logger = LoggerFactory.getLogger(PrivateAdminWechatController.class);
 
     @RequestMapping(value = "/menu", method = RequestMethod.POST)
-    public ResponseEntity<ApiResult> createWechatMenu(@RequestBody LocalWechatMenu menu) {
-        try {
-            localWechatMenuService.createOrUpdate(menu);
-        } catch (Exception e) {
-            return new ResponseEntity<>(new ApiResult(ApiCodes.STATUS_INVALID_PARAMETER, "微信菜单不能存在重复key"), HttpStatus.OK);
-        }
+    public ResponseEntity<ApiResult> createWechatMenu(@RequestBody LocalWechatMenu menu) throws Exception {
+
+        localWechatMenuService.createOrUpdate(menu);
+
         return new ResponseEntity<>(ApiResult.success(menu), HttpStatus.OK);
     }
 
