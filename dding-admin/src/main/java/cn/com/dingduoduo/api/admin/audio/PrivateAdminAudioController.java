@@ -9,10 +9,7 @@ import cn.com.dingduoduo.service.audio.AudioLectureService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -24,26 +21,29 @@ public class PrivateAdminAudioController {
     private AudioCourseService audioCourseService;
 
     @Autowired
-    private AudioLectureService audioLectureService;
-
-    @Autowired
     private AudioLectureGroupService audioLectureGroupService;
 
     @RequestMapping(value = "/course", method = RequestMethod.POST)
-    public ResponseEntity<ApiResult> saveOrUpdateCourse(@RequestBody AudioCourseDTO audioCourse) throws Exception {
-        //audioCourse = audioCourseService.createOrUpdate(audioCourse);
+    public ResponseEntity<ApiResult> saveOrUpdateCourse(@RequestBody AudioCourse audioCourse) throws Exception {
+        audioCourse = audioCourseService.createOrUpdate(audioCourse);
         return new ResponseEntity<>(ApiResult.success(audioCourse), HttpStatus.OK);
     }
 
-    @RequestMapping(value = "/course", method = RequestMethod.GET)
-    public ResponseEntity<ApiResult> getCoursePage(AudioCourseDTO audioCourse) throws Exception {
+    @RequestMapping(value = "/course/page", method = RequestMethod.POST)
+    public ResponseEntity<ApiResult> getCoursePage(@RequestBody AudioCourseDTO audioCourse) throws Exception {
         Page<AudioCourseDTO> page = audioCourseService.findByConditionPage(audioCourse);
         return new ResponseEntity<>(ApiResult.success(page), HttpStatus.OK);
     }
 
-    @RequestMapping(value = "/lecture", method = RequestMethod.POST)
-    public ResponseEntity<ApiResult> saveOrUpdateLecture(@RequestBody AudioLecture audioLecture) throws Exception {
-        audioLecture = audioLectureService.createOrUpdate(audioLecture);
-        return new ResponseEntity<>(ApiResult.success(audioLecture), HttpStatus.OK);
+    @RequestMapping(value = "/lectureGroup", method = RequestMethod.POST)
+    public ResponseEntity<ApiResult> saveOrUpdateLecture(@RequestBody List<AudioLectureGroupDTO> audioLectureGroupList) throws Exception {
+        audioLectureGroupList = audioLectureGroupService.createOrUpdateByBatch(audioLectureGroupList);
+        return new ResponseEntity<>(ApiResult.success(audioLectureGroupList), HttpStatus.OK);
+    }
+
+    @RequestMapping(value = "/lectureGroup", method = RequestMethod.GET)
+    public ResponseEntity<ApiResult> getLectureGroupList(AudioLectureGroupDTO audioLectureGroup) throws Exception {
+        List<AudioLectureGroupDTO> audioLectureGroupList = audioLectureGroupService.findByCondition(audioLectureGroup);
+        return new ResponseEntity<>(ApiResult.success(audioLectureGroupList), HttpStatus.OK);
     }
 }

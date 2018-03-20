@@ -5,7 +5,7 @@
 
 	<insert id="create" parameterType="AudioLectureM">
 		INSERT INTO
-			ding_radio_lecture (id, created_by, created_date, updated_date, updated_by,
+			ding_audio_lecture (id, created_by, created_date, updated_date, updated_by,
 			course_id, group_id, name, sequence, audio_url, audio_name, audio_timestamp)
 	  	VALUES
 	  		(#{id}, #{createdBy}, #{createdDate}, #{updatedDate}, #{updatedBy}
@@ -13,7 +13,7 @@
 	</insert>
 
 	<update id="update" parameterType="AudioLectureM">
-		UPDATE ding_radio_lecture
+		UPDATE ding_audio_lecture
 		<set>
 			<if test="name != null">
 				name = #{name},
@@ -61,7 +61,7 @@
 	</sql>
 
 	<sql id="from_table">
-		ding_radio_lecture rl
+		ding_audio_lecture rl
 	</sql>
 
 	<select id="findByConditionPage" resultType="AudioLectureM">

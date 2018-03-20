@@ -5,15 +5,15 @@
 
 	<insert id="create" parameterType="AudioLectureGroupM">
 		INSERT INTO
-			ding_radio_lecture_group (id, created_by, created_date, updated_date, updated_by,
-			course_id, name, sequence, is_exist)
+			ding_audio_lecture_group (id, created_by, created_date, updated_date, updated_by,
+			course_id, name, sequence, exist)
 	  	VALUES
 	  		(#{id}, #{createdBy}, #{createdDate}, #{updatedDate}, #{updatedBy}
-	  		, #{courseId}, #{name}, #{sequence}, #{isExist})
+	  		, #{courseId}, #{name}, #{sequence}, #{exist})
 	</insert>
 
 	<update id="update" parameterType="AudioLectureGroupM">
-		UPDATE ding_radio_lecture_group
+		UPDATE ding_audio_lecture_group
 		<set>
 			<if test="name != null">
 				name = #{name},
@@ -27,8 +27,8 @@
 			<if test="sequence != null">
 				sequence = #{sequence},
 			</if>
-			<if test="isExist != null">
-				is_exist = #{isExist},
+			<if test="exist != null">
+				exist = #{exist},
 			</if>
 		</set>
 		WHERE id = #{id}
@@ -46,7 +46,7 @@
 	</sql>
 
 	<sql id="from_table">
-		ding_radio_lecture_group rlg
+		ding_audio_lecture_group rlg
 	</sql>
 
 	<select id="findByConditionPage" resultType="AudioLectureGroupQM">

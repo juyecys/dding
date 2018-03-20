@@ -5,7 +5,7 @@
 
 	<insert id="create" parameterType="AudioCourseM">
 		INSERT INTO
-			ding_radio_course (id, created_by, created_date, updated_date, updated_by,
+			ding_audio_course (id, created_by, created_date, updated_date, updated_by,
 			name, introduction, picture_url, people_count, doctor_name, hospital_name, doctor_title, doctor_head_img, is_lecture, is_solution)
 	  	VALUES
 	  		(#{id}, #{createdBy}, #{createdDate}, #{updatedDate}, #{updatedBy}
@@ -13,7 +13,7 @@
 	</insert>
 
 	<update id="update" parameterType="AudioCourseM">
-		UPDATE ding_radio_course
+		UPDATE ding_audio_course
 		<set>
 			<if test="name != null">
 				name = #{name},
@@ -64,7 +64,7 @@
 	</sql>
 
 	<sql id="from_table">
-		ding_radio_course rc
+		ding_audio_course rc
 	</sql>
 
 	<sql id="join_radio_lecture_group">

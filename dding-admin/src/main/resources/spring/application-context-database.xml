@@ -20,7 +20,7 @@
 		<property name="username" value="${database.username}"/>
 		<property name="password" value="${database.password}"/>
 		<property name="maxActive" value="${database.maxActiveConnection}"/>
-		<property name="initialSize" value="${database.maxActiveConnection}"></property>
+		<property name="initialSize" value="${database.initSize}" />
 		<property name="validationQuery" value="${database.validationQuery}"/>
 
 		<!--申请连接的时候检测，如果空闲时间大于timeBetweenEvictionRunsMillis，执行validationQuery检测连接是否有效-->

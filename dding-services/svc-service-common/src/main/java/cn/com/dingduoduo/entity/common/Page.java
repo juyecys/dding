@@ -1,18 +1,28 @@
 package cn.com.dingduoduo.entity.common;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.util.Collections;
 import java.util.List;
 
-public class Page<E> implements java.io.Serializable {
+@JsonIgnoreProperties(ignoreUnknown = true)
+@JsonInclude(JsonInclude.Include.NON_EMPTY)
+public class Page<E> {
 
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = -5874717906598880778L;
+	@JsonProperty("pageSize")
 	private Integer pageSize;
+	@JsonProperty("totalPage")
 	private Integer totalPage;
+	@JsonProperty("totalCount")
 	private Integer totalCount;
+	@JsonProperty("start")
 	private Integer start;
+	@JsonProperty("nowPage")
 	private Integer nowPage;
 	private List<E> result = Collections.emptyList();
 

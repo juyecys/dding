@@ -47,9 +47,10 @@
         <logger name="org.mybatis.spring" level="INFO"/>
         <logger name="cn.com.dingduoduo" level="DEBUG"/>
         <logger name="org.I0Itec.zkclient" level="INFO" />
+        <logger name="com.alibaba.dubbo" level="WARN" />
         <logger name="org.apache.http.impl.conn.Wire.wire" level="INFO" />
         <logger name="org.apache.http.impl.conn.PoolingHttpClientConnectionManager" level="INFO" />
-
+        <logger name="com.alibaba.druid" level="INFO" />
         <logger name="cn.com.dingduoduo.service.event.EventServiceImpl" level="INFO" />
         <root level="all">
             <appender-ref ref="Console"/>

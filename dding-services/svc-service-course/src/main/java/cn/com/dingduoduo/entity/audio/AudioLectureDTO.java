@@ -6,27 +6,17 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import org.apache.ibatis.type.Alias;
 import org.springframework.data.annotation.Transient;
 
-import java.util.List;
-
-@Alias("AudioLectureGroupQM")
+/**
+ * Created by jeysine on 2018/3/16.
+ */
+@Alias("AudioLectureQM")
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class AudioLectureGroupDTO extends AudioLectureGroup {
+public class AudioLectureDTO extends AudioLecture{
+
     @Transient
     @JsonProperty("delete")
     private Boolean delete;
-
-    @Transient
-    @JsonProperty("audioLectureList")
-    private List<AudioLectureDTO> audioLectureList;
-
-    public List<AudioLectureDTO> getAudioLectureList() {
-        return audioLectureList;
-    }
-
-    public void setAudioLectureList(List<AudioLectureDTO> audioLectureList) {
-        this.audioLectureList = audioLectureList;
-    }
 
     public Boolean getDelete() {
         return delete;
@@ -38,9 +28,8 @@ public class AudioLectureGroupDTO extends AudioLectureGroup {
 
     @Override
     public String toString() {
-        return super.toString() + "AudioLectureGroupDTO{" +
+        return super.toString() + "AudioLectureDTO{" +
                 "delete=" + delete +
-                ", audioLectureList=" + audioLectureList +
                 '}';
     }
 }

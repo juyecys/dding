@@ -29,18 +29,4 @@ public class AudioCourseServiceImpl extends BaseServiceImpl<AudioCourse, AudioCo
         this.dao = dao;
         super.setDAO(dao);
     }
-
-    @Override
-    public Page<AudioCourseDTO> findByConditionPage(AudioCourseDTO qm) {
-        Page<AudioCourseDTO> page = findByConditionPage(qm);
-        if (page.getResult() != null) {
-            AudioLectureGroupDTO audioLectureGroup = new AudioLectureGroupDTO();
-            for (AudioCourseDTO one : page.getResult()) {
-                audioLectureGroup.setCourseId(one.getId());
-                List<AudioLectureGroupDTO> audioLectureGroupList = audioLectureGroupService.findByCondition(audioLectureGroup);
-                one.setAudioLectureGroupList(audioLectureGroupList);
-            }
-        }
-        return page;
-    }
 }

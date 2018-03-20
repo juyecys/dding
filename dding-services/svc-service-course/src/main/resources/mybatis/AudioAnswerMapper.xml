@@ -5,7 +5,7 @@
 
 	<insert id="create" parameterType="AudioAnswerM">
 		INSERT INTO
-			ding_radio_answer (id, created_by, created_date, updated_date, updated_by,
+			ding_audio_answer (id, created_by, created_date, updated_date, updated_by,
 			course_id, sequence, question, audio_url, audio_name, audio_timestamp)
 	  	VALUES
 	  		(#{id}, #{createdBy}, #{createdDate}, #{updatedDate}, #{updatedBy}
@@ -13,7 +13,7 @@
 	</insert>
 
 	<update id="update" parameterType="AudioAnswerM">
-		UPDATE ding_radio_answer
+		UPDATE ding_audio_answer
 		<set>
 			<if test="name != null">
 				name = #{name},

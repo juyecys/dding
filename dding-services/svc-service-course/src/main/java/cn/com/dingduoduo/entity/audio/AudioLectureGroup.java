@@ -26,8 +26,8 @@ public class AudioLectureGroup extends Base{
     @JsonProperty("sequence")
     private Integer sequence;
 
-    @JsonProperty("isExist")
-    private Boolean isExist;
+    @JsonProperty("exist")
+    private Boolean exist;
 
 
 
@@ -56,13 +56,12 @@ public class AudioLectureGroup extends Base{
     }
 
     public Boolean getExist() {
-        return isExist;
+        return exist;
     }
 
     public void setExist(Boolean exist) {
-        isExist = exist;
+        this.exist = exist;
     }
-
 
     @Override
     public String toString() {
@@ -70,7 +69,7 @@ public class AudioLectureGroup extends Base{
                 "courseId='" + courseId + '\'' +
                 ", name='" + name + '\'' +
                 ", sequence=" + sequence +
-                ", isExist=" + isExist +
+                ", exist=" + exist +
                 '}';
     }
 }
