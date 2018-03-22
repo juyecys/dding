@@ -19,5 +19,5 @@ public interface MessageDAO extends PagingAndSortingRepository<Message, String> 
 
     List<Message> findByStatusAndTypeAndQrCodeSceneOrderBySequence(Boolean status, String type, String qrCodeScene);
 
-    List<Message> findByStatusAndKeyWordOrderBySequence(Boolean status, String keyWordId);
+    List<Message> findByStatusAndKeyWordIdOrderBySequence(Boolean status, String keyWordId);
 }

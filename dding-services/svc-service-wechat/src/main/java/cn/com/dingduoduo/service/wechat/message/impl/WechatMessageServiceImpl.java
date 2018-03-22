@@ -1,5 +1,7 @@
 package cn.com.dingduoduo.service.wechat.message.impl;
 
+import cn.com.dingduoduo.entity.keyword.LocalWechatKeyWord;
+import cn.com.dingduoduo.service.keyword.LocalWechatKeyWordService;
 import cn.com.dingduoduo.utils.common.AliyunContentStorageUtils;
 import cn.com.dingduoduo.utils.common.FileUtils;
 import cn.com.dingduoduo.utils.common.StringUtil;
@@ -36,6 +38,9 @@ public class WechatMessageServiceImpl implements WechatMessageService {
 
     @Autowired
     private MessageService messageService;
+
+    @Autowired
+    private LocalWechatKeyWordService localWechatKeyWordService;
 
     private static final ObjectMapper mapper = new ObjectMapper();
 
@@ -169,7 +174,10 @@ public class WechatMessageServiceImpl implements WechatMessageService {
 
     @Override
     public void pushKeyWordMessage(String openid, String keyWord) throws IOException {
-        List<Message> messageList = messageService.findByStatusAndKeyWordOrderBySequence(true, keyWord);
+        LocalWechatKeyWord localWechatKeyWord = new LocalWechatKeyWord();
+        localWechatKeyWord.setKeyWord(keyWord);
+        localWechatKeyWord = localWechatKeyWordService.findOneByCondition(localWechatKeyWord);
+        List<Message> messageList = messageService.findByStatusAndKeyWordIdOrderBySequence(true, localWechatKeyWord.getId());
         logger.debug("keyword messageList: {}", messageList);
         pushMessageListByMessage(openid, messageList);
     }

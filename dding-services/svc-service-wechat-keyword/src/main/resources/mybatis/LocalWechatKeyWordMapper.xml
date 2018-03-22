@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8" ?>    
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="cn.com.dingduoduo.dao.keyword.LocalWechatKeyWordDAO">
+
+	<insert id="create" parameterType="LocalWechatKeyWordM">
+		INSERT INTO
+			ding_wechat_keyword (id, created_by, created_date, updated_date, updated_by,
+			keyWord)
+	  	VALUES
+	  		(#{id}, #{createdBy}, #{createdDate}, #{updatedDate}, #{updatedBy}
+	  		, #{keyWord})
+	</insert>
+
+	<update id="update" parameterType="LocalWechatKeyWordM">
+		UPDATE ding_wechat_keyword
+		<set>
+			<if test="keyWord != null">
+				key_word = #{keyWord},
+			</if>
+		</set>
+		WHERE id = #{id}
+	</update>
+
+	<update id="deleteById" parameterType="LocalWechatKeyWordM">
+		DELETE FROM ding_wechat_keyword WHERE id = #{id}
+	</update>
+
+	<sql id="sql_where">
+		<where>
+			<if test="id != null">
+				and wk.id = #{id}
+			</if>
+			<if test="keyWord != null">
+				and wk.key_word = #{keyWord}
+			</if>
+		</where>
+	</sql>
+
+	<sql id="from_table">
+		ding_wechat_keyword wk
+	</sql>
+
+	<select id="findByConditionPage" resultType="LocalWechatKeyWordM">
+		SELECT
+		wk.*
+		FROM
+		<include refid="from_table" />
+		<include refid="sql_where" />
+	    ORDER BY wk.created_date DESC
+	</select>
+
+	<select id="findOneByCondition" resultType="LocalWechatKeyWordM">
+		SELECT
+		wk.*
+		FROM
+		<include refid="from_table" />
+		<include refid="sql_where" />
+		LIMIT 1
+	</select>
+
+	<select id="findByCondition" resultType="LocalWechatKeyWordM">
+		SELECT
+		wk.*
+		FROM
+		<include refid="from_table" />
+		<include refid="sql_where" />
+		ORDER BY wk.sequence DESC
+	</select>
+</mapper>
+

@@ -40,5 +40,10 @@
             <groupId>cn.com.dingduoduo</groupId>
             <artifactId>svc-service-user</artifactId>
         </dependency>
+
+        <dependency>
+            <groupId>cn.com.dingduoduo</groupId>
+            <artifactId>svc-service-wechat-keyword</artifactId>
+        </dependency>
     </dependencies>
 </project>

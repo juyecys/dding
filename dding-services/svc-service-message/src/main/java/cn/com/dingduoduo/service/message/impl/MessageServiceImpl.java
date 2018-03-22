@@ -49,8 +49,8 @@ public class MessageServiceImpl implements MessageService {
     }
 
     @Override
-    public List<Message> findByStatusAndKeyWordOrderBySequence(Boolean status, String keyWordId) {
-        return dao.findByStatusAndKeyWordOrderBySequence(status, keyWordId);
+    public List<Message> findByStatusAndKeyWordIdOrderBySequence(Boolean status, String keyWordId) {
+        return dao.findByStatusAndKeyWordIdOrderBySequence(status, keyWordId);
     }
 
     @Override
