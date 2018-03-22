@@ -46,7 +46,7 @@ public class WechatConfigParams {
 	public static final String WEHCAT_DELETE_CUSTOM_URL = "https://api.weixin.qq.com/customservice/kfaccount/del?access_token=ACCESS_TOKEN";
 	public static final String WEHCAT_UPDATE_CUSTOM_HEAD_PIC_URL = "http://api.weixin.qq.com/customservice/kfaccount/uploadheadimg?access_token=ACCESS_TOKEN&kf_account=KFACCOUNT";
 	public static final String WEHCAT_GET_CUSTOM_LIST_URL = "https://api.weixin.qq.com/cgi-bin/customservice/getkflist?access_token=ACCESS_TOKEN";
-	public static final String WECHAT_CUSTOM_MESSAGE = "https://api.weixin.qq.com/cgi-bin/cn.com.dingduoduo.api.admin.adminuser.message/custom/send?access_token=ACCESS_TOKEN";
+	public static final String WECHAT_CUSTOM_MESSAGE = "https://api.weixin.qq.com/cgi-bin/message/custom/send?access_token=ACCESS_TOKEN";
 
 	public static final String WEHCAT_ANALYSE_USER_SUMMARY = "https://api.weixin.qq.com/datacube/getusersummary?access_token=ACCESS_TOKEN";
 	public static final String WECHAT_ANALYSE_USER_CUMULATE = "https://api.weixin.qq.com/datacube/getusercumulate?access_token=ACCESS_TOKEN";
