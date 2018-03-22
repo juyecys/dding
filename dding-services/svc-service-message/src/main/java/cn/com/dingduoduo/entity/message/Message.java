@@ -61,6 +61,9 @@ public class Message implements Serializable{
     @JsonProperty("qr_code_scene")
     private String qrCodeScene;
 
+    @JsonProperty("keyWordId")
+    private String keyWordId;
+
     @JsonProperty("article_list")
     private List<Article> articleList;
 
@@ -80,7 +83,8 @@ public class Message implements Serializable{
 
     public enum TypeEnum {
         CHANNEL,
-        SUBSCRIBE
+        SUBSCRIBE,
+        KEY_WORD
     }
 
     public enum MsgTypeEnum {
@@ -114,6 +118,13 @@ public class Message implements Serializable{
         }
     }
 
+    public String getKeyWordId() {
+        return keyWordId;
+    }
+
+    public void setKeyWordId(String keyWordId) {
+        this.keyWordId = keyWordId;
+    }
 
     public Date getCreatedDate() {
         return createdDate;
@@ -290,7 +301,12 @@ public class Message implements Serializable{
                 ", status=" + status +
                 ", type='" + type + '\'' +
                 ", qrCodeScene='" + qrCodeScene + '\'' +
+                ", keyWordId='" + keyWordId + '\'' +
                 ", articleList=" + articleList +
+                ", createdDate=" + createdDate +
+                ", createdBy='" + createdBy + '\'' +
+                ", updatedDate=" + updatedDate +
+                ", updatedBy='" + updatedBy + '\'' +
                 '}';
     }
 }

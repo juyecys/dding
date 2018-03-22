@@ -71,6 +71,14 @@
 	    ORDER BY aa.created_date DESC
 	</select>
 
+	<select id="countAudioAnswerByCourseId" resultType="java.lang.Long">
+		SELECT
+		SUM (audio_timestamp)
+		FROM
+		<include refid="from_audio_course" />
+		WHERE aa.course_id = #{courseId}
+	</select>
+
 	<select id="findOneByCondition" resultType="AudioAnswerQM">
 		SELECT
 		aa.*

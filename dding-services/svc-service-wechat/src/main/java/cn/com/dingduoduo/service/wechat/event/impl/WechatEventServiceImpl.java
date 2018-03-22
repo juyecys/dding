@@ -1,6 +1,7 @@
 package cn.com.dingduoduo.service.wechat.event.impl;
 
 import cn.com.dingduoduo.entity.common.Event;
+import cn.com.dingduoduo.entity.wechat.keyword.WechatTextKeyWord;
 import cn.com.dingduoduo.entity.wechat.user.WechatUser;
 import cn.com.dingduoduo.entity.wechatuser.LocalWechatUser;
 import cn.com.dingduoduo.entity.wechatuser.LocalWechatUserDTO;
@@ -64,21 +65,15 @@ public class WechatEventServiceImpl implements WechatEventService {
 
     @Override
     public void processEvent(HashMap<String, Object> data) throws Exception {
-        String event = (String) data.get("Event");
+        String msgType = (String) data.get("MsgType");
         logger.debug("处理微信事件 data: {}",data);
-        if (WechatBaseEvent.EventEnum.SUBSCRIBE.getValue().equals(event)) {
-            WechatSubscribeEvent subscribeEvent = (WechatSubscribeEvent) MapUtils.getObject(data, WechatSubscribeEvent.class, MapUtils.FirstOneCaseEnum.UPPER);
-            processSubscribeEvent(subscribeEvent);
-        } else if (WechatBaseEvent.EventEnum.UN_SUBSCRIBE.getValue().equals(event)) {
-            WechatSubscribeEvent unsubscribeEvent = (WechatSubscribeEvent) MapUtils.getObject(data, WechatSubscribeEvent.class, MapUtils.FirstOneCaseEnum.UPPER);
-            processUnSubscribeEvent(unsubscribeEvent);
-        } else if (WechatBaseEvent.EventEnum.SCAN.getValue().equals(event)) {
-            WechatScanEvent scanEvent = (WechatScanEvent) MapUtils.getObject(data, WechatScanEvent.class, MapUtils.FirstOneCaseEnum.UPPER);
-            processScanEvent(scanEvent);
-        } else if (WechatBaseEvent.EventEnum.CLICK.getValue().equals(event)) {
-            WechatMenuClickEvent menuClickEvent = (WechatMenuClickEvent) MapUtils.getObject(data, WechatMenuClickEvent.class, MapUtils.FirstOneCaseEnum.UPPER);
-            processMenuClickEvent(menuClickEvent);
+        WechatBaseEvent.MsgTypeEnum msgTypeEnum = WechatBaseEvent.MsgTypeEnum.getEnumByValue(msgType);
+        switch (msgTypeEnum) {
+            case EVENT: handleWechatEvent(data); break;
+            case TEXT: handleTextKeyWord(data); break;
+            default: logger.warn("not exist wechat msgType");
         }
+
     }
 
     @Override
@@ -217,6 +212,38 @@ public class WechatEventServiceImpl implements WechatEventService {
                 wechatMessageService.pushTextMessageByMenuEvent(menuEvent.getFromUserName(), menu);
                 break;
         }
+    }
+
+    private void handleWechatEvent(HashMap<String, Object> data) throws Exception {
+        String event = (String) data.get("Event");
+        if (WechatBaseEvent.EventEnum.SUBSCRIBE.getValue().equals(event)) {
+            WechatSubscribeEvent subscribeEvent = (WechatSubscribeEvent) MapUtils.getObject(data, WechatSubscribeEvent.class, MapUtils.FirstOneCaseEnum.UPPER);
+            processSubscribeEvent(subscribeEvent);
+        } else if (WechatBaseEvent.EventEnum.UN_SUBSCRIBE.getValue().equals(event)) {
+            WechatSubscribeEvent unSubscribeEvent = (WechatSubscribeEvent) MapUtils.getObject(data, WechatSubscribeEvent.class, MapUtils.FirstOneCaseEnum.UPPER);
+            processUnSubscribeEvent(unSubscribeEvent);
+        } else if (WechatBaseEvent.EventEnum.SCAN.getValue().equals(event)) {
+            WechatScanEvent scanEvent = (WechatScanEvent) MapUtils.getObject(data, WechatScanEvent.class, MapUtils.FirstOneCaseEnum.UPPER);
+            processScanEvent(scanEvent);
+        } else if (WechatBaseEvent.EventEnum.CLICK.getValue().equals(event)) {
+            WechatMenuClickEvent menuClickEvent = (WechatMenuClickEvent) MapUtils.getObject(data, WechatMenuClickEvent.class, MapUtils.FirstOneCaseEnum.UPPER);
+            processMenuClickEvent(menuClickEvent);
+        }
+    }
+
+    private void handleTextKeyWord(HashMap<String, Object> data) throws Exception {
+        taskExecutor.execute(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    WechatTextKeyWord wechatTextKeyWord = (WechatTextKeyWord) MapUtils.getObject(data, WechatTextKeyWord.class, MapUtils.FirstOneCaseEnum.UPPER);
+                    wechatMessageService.pushKeyWordMessage(wechatTextKeyWord.getFromUserName(), wechatTextKeyWord.getContent());
+                } catch (Exception e) {
+                    logger.error("error: {}",e);
+                }
+
+            }
+        });
     }
 
     public static void main(String[] args) {

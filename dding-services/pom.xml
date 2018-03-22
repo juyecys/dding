@@ -21,6 +21,7 @@
         <module>svc-service-aliyun</module>
         <module>svc-service-course</module>
         <module>svc-service-notification</module>
+        <module>svc-service-wechat-keyword</module>
     </modules>
 
     <dependencies>

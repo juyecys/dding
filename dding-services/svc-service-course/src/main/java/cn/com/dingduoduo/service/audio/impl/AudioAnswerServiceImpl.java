@@ -6,6 +6,7 @@ import cn.com.dingduoduo.entity.audio.AudioAnswerDTO;
 import cn.com.dingduoduo.entity.audio.AudioCourse;
 import cn.com.dingduoduo.service.audio.AudioAnswerService;
 import cn.com.dingduoduo.service.audio.AudioCourseService;
+import cn.com.dingduoduo.service.audio.AudioLectureService;
 import cn.com.dingduoduo.service.common.impl.BaseServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -23,6 +24,9 @@ public class AudioAnswerServiceImpl extends BaseServiceImpl<AudioAnswer, AudioAn
 
     @Autowired
     private AudioCourseService audioCourseService;
+
+    @Autowired
+    private AudioLectureService audioLectureService;
 
     @Autowired
     public void setDao(AudioAnswerDAO dao) {
@@ -46,11 +50,18 @@ public class AudioAnswerServiceImpl extends BaseServiceImpl<AudioAnswer, AudioAn
             }
         }
         if (audioAnswerList.size() > 0) {
+            Long audioLectureTotalTime = audioLectureService.countAudioLectureByCourseId(audioAnswerList.get(0).getCourseId());
+            audioLectureTotalTime = (audioLectureTotalTime == null ? 0L: audioLectureTotalTime);
             AudioCourse audioCourse = new AudioCourse();
             audioCourse.setId(audioAnswerList.get(0).getCourseId());
-            audioCourse.setTotalTime(totalTime);
+            audioCourse.setTotalTime(totalTime + audioLectureTotalTime);
             audioCourseService.createOrUpdate(audioCourse);
         }
         return audioAnswerList;
+    }
+
+    @Override
+    public Long countAudioAnswerByCourseId(String courseId) {
+        return dao.countAudioAnswerByCourseId(courseId);
     }
 }

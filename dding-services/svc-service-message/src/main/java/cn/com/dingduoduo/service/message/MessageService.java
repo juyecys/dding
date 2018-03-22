@@ -19,6 +19,8 @@ public interface MessageService extends BaseMongoService<Message, Message> {
 
     List<Message> findByStatusAndTypeOrderBySequence(Boolean status, String type);
 
+    List<Message> findByStatusAndKeyWordOrderBySequence(Boolean status, String keyWordId);
+
     List<Message> findByStatusAndTypeAndQrCodeSceneOrderBySequence(Boolean status, String type, String qrCodeScene);
 
 

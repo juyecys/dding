@@ -11,4 +11,5 @@ import java.util.List;
  */
 public interface AudioLectureService extends BaseService<AudioLecture, AudioLectureDTO> {
     List<AudioLectureDTO> createOrUpdateByBatch(String groupId, List<AudioLectureDTO> audioLectureList) throws Exception;
+    Long countAudioLectureByCourseId(String courseId);
 }

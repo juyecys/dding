@@ -65,6 +65,14 @@
 		DELETE FROM ding_audio_lecture WHERE id = #{id}
 	</update>
 
+	<select id="countAudioLectureByCourseId" resultType="java.lang.Long">
+		SELECT
+		SUM (audio_timestamp)
+		FROM
+		<include refid="from_table" />
+		WHERE rl.course_id = #{courseId}
+	</select>
+
 	<select id="findByConditionPage" resultType="AudioLectureQM">
 		SELECT
 		rl.*

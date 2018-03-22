@@ -35,6 +35,30 @@ public class WechatBaseEvent {
         }
     }
 
+    public static enum MsgTypeEnum {
+        EVENT("event"),
+        TEXT("text");
+
+        private String value ;
+
+        private MsgTypeEnum(String value) {
+            this.value = value;
+        }
+
+        public String getValue() {
+            return value;
+        }
+
+        public static MsgTypeEnum getEnumByValue(String value) {
+            for (MsgTypeEnum e: MsgTypeEnum.values()) {
+                if (value.equals(e.getValue())) {
+                    return e;
+                }
+            }
+            return null;
+        }
+    }
+
     public String getToUserName() {
         return toUserName;
     }
@@ -74,6 +98,7 @@ public class WechatBaseEvent {
     public void setEvent(String event) {
         this.event = event;
     }
+
 
     @Override
     public String toString() {

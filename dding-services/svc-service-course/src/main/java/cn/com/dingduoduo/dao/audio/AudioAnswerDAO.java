@@ -2,6 +2,7 @@ package cn.com.dingduoduo.dao.audio;
 
 import cn.com.dingduoduo.dao.common.BaseDAO;
 import cn.com.dingduoduo.entity.audio.AudioAnswer;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Component;
 
 /**
@@ -9,4 +10,5 @@ import org.springframework.stereotype.Component;
  */
 @Component
 public interface AudioAnswerDAO extends BaseDAO<AudioAnswer, AudioAnswer> {
+    Long countAudioAnswerByCourseId(@Param("courseId") String courseId);
 }

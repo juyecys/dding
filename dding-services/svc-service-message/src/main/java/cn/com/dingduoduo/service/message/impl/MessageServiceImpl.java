@@ -49,6 +49,11 @@ public class MessageServiceImpl implements MessageService {
     }
 
     @Override
+    public List<Message> findByStatusAndKeyWordOrderBySequence(Boolean status, String keyWordId) {
+        return dao.findByStatusAndKeyWordOrderBySequence(status, keyWordId);
+    }
+
+    @Override
     public List<Message> findByStatusAndTypeAndQrCodeSceneOrderBySequence(Boolean status, String type, String qrCodeScene) {
         return dao.findByStatusAndTypeAndQrCodeSceneOrderBySequence(status, type, qrCodeScene);
     }

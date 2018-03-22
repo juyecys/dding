@@ -4,9 +4,11 @@ import cn.com.dingduoduo.api.common.ApiResult;
 import cn.com.dingduoduo.entity.audio.AudioAnswerDTO;
 import cn.com.dingduoduo.entity.audio.AudioCourseDTO;
 import cn.com.dingduoduo.entity.audio.AudioLectureDTO;
+import cn.com.dingduoduo.entity.audio.AudioLectureGroupDTO;
 import cn.com.dingduoduo.entity.common.Page;
 import cn.com.dingduoduo.service.audio.AudioAnswerService;
 import cn.com.dingduoduo.service.audio.AudioCourseService;
+import cn.com.dingduoduo.service.audio.AudioLectureGroupService;
 import cn.com.dingduoduo.service.audio.AudioLectureService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -34,7 +36,7 @@ public class PublicWPAudioCourseController {
     private AudioAnswerService audioAnswerService;
 
     @Autowired
-    private AudioLectureService audioLectureService;
+    private AudioLectureGroupService audioLectureGroupService;
 
     @RequestMapping(value = "/answer", method = RequestMethod.GET)
     public ResponseEntity<ApiResult> getAnswerList(AudioAnswerDTO audioAnswer) throws Exception {
@@ -42,15 +44,21 @@ public class PublicWPAudioCourseController {
         return new ResponseEntity<>(ApiResult.success(audioAnswerList), HttpStatus.OK);
     }
 
-    @RequestMapping(value = "/lecture", method = RequestMethod.GET)
-    public ResponseEntity<ApiResult> getLectureList(AudioLectureDTO audioLecture) throws Exception {
-        List<AudioLectureDTO> audioLectureList = audioLectureService.findByCondition(audioLecture);
-        return new ResponseEntity<>(ApiResult.success(audioLectureList), HttpStatus.OK);
+    @RequestMapping(value = "/lectureGroup", method = RequestMethod.GET)
+    public ResponseEntity<ApiResult> getLectureList(AudioLectureGroupDTO audioLectureGroup) throws Exception {
+        List<AudioLectureGroupDTO> audioLectureGroupList = audioLectureGroupService.findByCondition(audioLectureGroup);
+        return new ResponseEntity<>(ApiResult.success(audioLectureGroupList), HttpStatus.OK);
     }
 
     @RequestMapping(value = "/course", method = RequestMethod.GET)
     public ResponseEntity<ApiResult> getCoursePage(AudioCourseDTO audioCourse) throws Exception {
         Page<AudioCourseDTO> page = audioCourseService.findByConditionPage(audioCourse);
         return new ResponseEntity<>(ApiResult.success(page), HttpStatus.OK);
+    }
+
+    @RequestMapping(value = "/course/one", method = RequestMethod.GET)
+    public ResponseEntity<ApiResult> getOneCourse(AudioCourseDTO audioCourse) throws Exception {
+        audioCourse = audioCourseService.findOneByCondition(audioCourse);
+        return new ResponseEntity<>(ApiResult.success(audioCourse), HttpStatus.OK);
     }
 }

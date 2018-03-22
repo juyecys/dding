@@ -36,4 +36,6 @@ public interface WechatMessageService {
 
     void pushChannelsMessage(String openId, String qrCodeScene) throws IOException;
 
+    void pushKeyWordMessage(String openid, String keyWord) throws IOException;
+
 }

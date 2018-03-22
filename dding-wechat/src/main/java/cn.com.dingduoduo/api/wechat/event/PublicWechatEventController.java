@@ -47,7 +47,11 @@ public class PublicWechatEventController {
 
         try {
             HashMap<String, Object> data = Dom4jUtils.readXml(inputStream);
-            wechatEventService.processEvent(data);
+            if ("event".equals(data.get("MsgType"))) {
+                wechatEventService.processEvent(data);
+            } else {
+
+            }
             logger.debug("微信事件处理结束");
             out.print("");
         } catch (DocumentException | InstantiationException | IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
