@@ -15,9 +15,6 @@
 	<update id="update" parameterType="AudioAnswerM">
 		UPDATE ding_audio_answer
 		<set>
-			<if test="name != null">
-				name = #{name},
-			</if>
 			<if test="updatedDate != null">
 				updated_date = #{updatedDate},
 			</if>
@@ -51,6 +48,9 @@
 			<if test="id != null">
 				and aa.id = #{id}
 			</if>
+			<if test="courseId != null">
+				and aa.course_id = #{courseId}
+			</if>
 		</where>
 	</sql>
 
@@ -58,7 +58,11 @@
 		ding_audio_answer aa
 	</sql>
 
-	<select id="findByConditionPage" resultType="AudioAnswerM">
+	<update id="deleteById" parameterType="AudioAnswerM">
+		DELETE FROM ding_audio_answer WHERE id = #{id}
+	</update>
+
+	<select id="findByConditionPage" resultType="AudioAnswerQM">
 		SELECT
 		aa.*
 		FROM
@@ -67,7 +71,7 @@
 	    ORDER BY aa.created_date DESC
 	</select>
 
-	<select id="findOneByCondition" resultType="AudioAnswerM">
+	<select id="findOneByCondition" resultType="AudioAnswerQM">
 		SELECT
 		aa.*
 		FROM
@@ -76,7 +80,7 @@
 		LIMIT 1
 	</select>
 
-	<select id="findByCondition" resultType="AudioAnswerM">
+	<select id="findByCondition" resultType="AudioAnswerQM">
 		SELECT
 		aa.*
 		FROM

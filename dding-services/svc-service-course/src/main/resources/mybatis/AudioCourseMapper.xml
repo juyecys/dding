@@ -6,10 +6,10 @@
 	<insert id="create" parameterType="AudioCourseM">
 		INSERT INTO
 			ding_audio_course (id, created_by, created_date, updated_date, updated_by,
-			name, introduction, picture_url, people_count, doctor_name, hospital_name, doctor_title, doctor_head_img, is_lecture, is_solution)
+			name, introduction, picture_url, people_count, doctor_name, hospital_name, doctor_title, doctor_head_img, is_lecture, is_solution, total_time)
 	  	VALUES
 	  		(#{id}, #{createdBy}, #{createdDate}, #{updatedDate}, #{updatedBy}
-	  		, #{name}, #{introduction}, #{pictureUrl}, #{peopleCount}, #{doctorName}, #{hospitalName}, #{doctorTitle}, #{doctorHeadImg}, #{isLecture}, #{isSolution})
+	  		, #{name}, #{introduction}, #{pictureUrl}, #{peopleCount}, #{doctorName}, #{hospitalName}, #{doctorTitle}, #{doctorHeadImg}, #{isLecture}, #{isSolution}, #{totalTime})
 	</insert>
 
 	<update id="update" parameterType="AudioCourseM">
@@ -51,8 +51,15 @@
 			<if test="isSolution != null">
 				is_solution = #{isSolution},
 			</if>
+			<if test="totalTime != null">
+				total_time = #{totalTime},
+			</if>
 		</set>
 		WHERE id = #{id}
+	</update>
+
+	<update id="deleteById" parameterType="AudioCourseM">
+		DELETE FROM ding_audio_course WHERE id = #{id}
 	</update>
 
 	<sql id="sql_where">

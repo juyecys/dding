@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	   xmlns:tx="http://www.springframework.org/schema/tx"
+	   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	   xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
+
+
+
+
+		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.0.xsd">
+		
+	<!--<import resource="application-context-hibernate.xml" />-->
+	<import resource="wechat-public-context-mybatis.xml" />
+
+	<!--  数据源 -->
+	<!--<bean id="dataSource" class="org.apache.commons.dbcp2.BasicDataSource" destroy-method="close">-->
+	<bean id="dataSource" class="com.alibaba.druid.pool.DruidDataSource" init-method="init" destroy-method="close">
+		<property name="driverClassName" value="${database.driverClassName}"/>
+		<property name="url" value="${database.url}"/>
+		<property name="username" value="${database.username}"/>
+		<property name="password" value="${database.password}"/>
+		<property name="maxActive" value="${database.maxActiveConnection}"/>
+		<property name="initialSize" value="${database.maxActiveConnection}" />
+		<property name="validationQuery" value="${database.validationQuery}"/>
+
+		<!--申请连接的时候检测，如果空闲时间大于timeBetweenEvictionRunsMillis，执行validationQuery检测连接是否有效-->
+		<property name="testWhileIdle" value="${database.testWhileIdle}"/>
+		<!-- 配置间隔多久才进行一次检测，检测需要关闭的空闲连接，单位是毫秒 -->
+		<property name="timeBetweenEvictionRunsMillis" value="${database.timeBetweenEvictionRunsMillis}"/>
+		<!-- 配置一个连接在池中最小生存的时间，单位是毫秒 -->
+		<property name="minEvictableIdleTimeMillis" value="${database.minEvictableIdleTimeMillis}"/>
+		<!--申请连接时执行validationQuery检测连接是否有效，做了这个配置会降低性能。-->
+		<property name="testOnBorrow" value="${database.testOnBorrow}"/>
+		<!--归还连接时执行validationQuery检测连接是否有效，做了这个配置会降低性能-->
+		<property name="testOnReturn" value="${database.testOnReturn}"/>
+		<!-- 打开PSCache，并且指定每个连接上PSCache的大小 -->
+		<!--是否缓存preparedStatement，也就是PSCache。PSCache对支持游标的数据库性能提升巨大，比如说oracle。在mysql5.5以下的版本中没有PSCache功能，建议关闭掉。5.5及以上版本有PSCache，建议开启。-->
+		<!--<property name="poolPreparedStatements" value="${database.poolPreparedStatements}"/>-->
+		<!--<property name="maxPoolPreparedStatementPerConnectionSize" value="${database.maxPoolPreparedStatementPerConnectionSize}"/>-->
+		<!-- 配置监控统计拦截的filters merge:合并为参数化sql wall:防御sql注入-->
+		<property name="filters" value="${database.filters}"/>
+		<!--日志输出执行慢的SQL-->
+		<!--<property name="connectionProperties" value="${database.connectionProperties}" />-->
+	</bean>
+
+</beans>

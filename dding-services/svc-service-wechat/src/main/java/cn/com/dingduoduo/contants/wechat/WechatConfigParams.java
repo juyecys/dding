@@ -63,4 +63,8 @@ public class WechatConfigParams {
 	/* 获取永久素材 */
 	public static final String WECHAT_GET_MATERIAL = "https://api.weixin.qq.com/cgi-bin/material/get_material?access_token=ACCESS_TOKEN";
 	public static final String WECHAT_GET_CALL_BACK_IP = "https://api.weixin.qq.com/cgi-bin/getcallbackip?access_token=ACCESS_TOKEN";
+
+	/* 发送模板消息 */
+	public static final String WECHAT_SEND_TEMPLATE_MESSAGE = "https://api.weixin.qq.com/cgi-bin/message/template/send?access_token=ACCESS_TOKEN";
+
 }

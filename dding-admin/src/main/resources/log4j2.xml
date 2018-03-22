@@ -36,21 +36,23 @@
             <!-- DefaultRolloverStrategy属性如不设置，则默认为最多同一文件夹下7个文件，这里设置了20 -->
            <!-- <DefaultRolloverStrategy max="20"/>-->
         </RollingFile>
+
     </appenders>
     <!--然后定义logger，只有定义了logger并引入的appender，appender才会生效-->
     <loggers>
         <!--过滤掉spring和mybatis的一些无用的DEBUG信息-->
         <logger name="org.springframework.web" level="ERROR" />
         <logger name="org.springframework" level="ERROR"/>
+        <logger name="org.springframework.data.mongodb" level="DEBUG"/>
         <logger name="org.mybatis" level="DEBUG"/>
+        <logger name="org.apache.http.impl.conn.Wire.wire" level="INFO"/>
         <logger name="org.apache.ibatis.io.ResolverUtil" level="INFO"/>
         <logger name="org.mybatis.spring" level="INFO"/>
         <logger name="cn.com.dingduoduo" level="DEBUG"/>
         <logger name="org.I0Itec.zkclient" level="INFO" />
-        <logger name="com.alibaba.dubbo" level="WARN" />
-        <logger name="org.apache.http.impl.conn.Wire.wire" level="INFO" />
+        <logger name="org.apache.http.impl.conn.Wire" level="INFO" />
         <logger name="org.apache.http.impl.conn.PoolingHttpClientConnectionManager" level="INFO" />
-        <logger name="com.alibaba.druid" level="INFO" />
+        <logger name="com.alibaba.dubbo" level="WARN" />
         <logger name="cn.com.dingduoduo.service.event.EventServiceImpl" level="INFO" />
         <root level="all">
             <appender-ref ref="Console"/>

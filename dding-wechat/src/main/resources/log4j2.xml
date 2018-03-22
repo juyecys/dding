@@ -50,6 +50,7 @@
         <!--过滤掉spring和mybatis的一些无用的DEBUG信息-->
         <logger name="org.springframework.web" level="ERROR" />
         <logger name="org.springframework" level="ERROR"/>
+        <logger name="org.springframework.data.mongodb" level="DEBUG"/>
         <logger name="org.mybatis" level="DEBUG"/>
         <logger name="org.apache.ibatis.io.ResolverUtil" level="INFO"/>
         <logger name="org.mybatis.spring" level="INFO"/>
@@ -58,7 +59,6 @@
         <logger name="com.alibaba.dubbo" level="WARN" />
         <logger name="cn.com.dingduoduo.service.event.EventServiceImpl" level="INFO" />
         <logger name="org.apache.http.impl.conn.PoolingHttpClientConnectionManager" level="INFO" />
-        <logger name="com.alibaba.druid.filter" level="INFO" />
         <root level="all">
             <appender-ref ref="Console"/>
             <appender-ref ref="RollingFileDebug"/>

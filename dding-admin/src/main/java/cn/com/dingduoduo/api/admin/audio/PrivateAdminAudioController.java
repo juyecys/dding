@@ -1,15 +1,21 @@
 package cn.com.dingduoduo.api.admin.audio;
 
 import cn.com.dingduoduo.api.common.ApiResult;
-import cn.com.dingduoduo.entity.audio.*;
+import cn.com.dingduoduo.entity.audio.AudioAnswerDTO;
+import cn.com.dingduoduo.entity.audio.AudioCourse;
+import cn.com.dingduoduo.entity.audio.AudioCourseDTO;
+import cn.com.dingduoduo.entity.audio.AudioLectureGroupDTO;
 import cn.com.dingduoduo.entity.common.Page;
+import cn.com.dingduoduo.service.audio.AudioAnswerService;
 import cn.com.dingduoduo.service.audio.AudioCourseService;
 import cn.com.dingduoduo.service.audio.AudioLectureGroupService;
-import cn.com.dingduoduo.service.audio.AudioLectureService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
@@ -22,6 +28,9 @@ public class PrivateAdminAudioController {
 
     @Autowired
     private AudioLectureGroupService audioLectureGroupService;
+
+    @Autowired
+    private AudioAnswerService audioAnswerService;
 
     @RequestMapping(value = "/course", method = RequestMethod.POST)
     public ResponseEntity<ApiResult> saveOrUpdateCourse(@RequestBody AudioCourse audioCourse) throws Exception {
@@ -45,5 +54,17 @@ public class PrivateAdminAudioController {
     public ResponseEntity<ApiResult> getLectureGroupList(AudioLectureGroupDTO audioLectureGroup) throws Exception {
         List<AudioLectureGroupDTO> audioLectureGroupList = audioLectureGroupService.findByCondition(audioLectureGroup);
         return new ResponseEntity<>(ApiResult.success(audioLectureGroupList), HttpStatus.OK);
+    }
+
+    @RequestMapping(value = "/answer", method = RequestMethod.POST)
+    public ResponseEntity<ApiResult> saveOrUpdateAnswer(@RequestBody List<AudioAnswerDTO> audioAnswerList) throws Exception {
+        audioAnswerList = audioAnswerService.createOrUpdateByBatch(audioAnswerList);
+        return new ResponseEntity<>(ApiResult.success(audioAnswerList), HttpStatus.OK);
+    }
+
+    @RequestMapping(value = "/answer", method = RequestMethod.GET)
+    public ResponseEntity<ApiResult> getAnswerList(AudioAnswerDTO audioAnswer) throws Exception {
+        List<AudioAnswerDTO> audioAnswerList = audioAnswerService.findByCondition(audioAnswer);
+        return new ResponseEntity<>(ApiResult.success(audioAnswerList), HttpStatus.OK);
     }
 }

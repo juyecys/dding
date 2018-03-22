@@ -113,13 +113,13 @@
 				and wu.qr_code_scene = #{qrCodeScene}
 			</if>
 			<if test="subscribeDateStart == null and subscribeDateEnd != null">
-				and wu.subscribe_time &lt;= #{subscribeDateEnd}
+				and wu.subscribe_time &lt; #{subscribeDateEnd}
 			</if>
 			<if test="subscribeDateStart != null and subscribeDateEnd == null">
 				and wu.subscribe_time &gt;= #{subscribeDateStart}
 			</if>
 			<if test="subscribeDateStart != null and subscribeDateEnd != null">
-				and wu.subscribe_time &gt;= #{subscribeDateStart} AND wu.subscribe_time &lt;= #{subscribeDateEnd}
+				and wu.subscribe_time &gt;= #{subscribeDateStart} AND wu.subscribe_time &lt; #{subscribeDateEnd}
 			</if>
             <if test="channelGroupName != null">
                 and wcg.name = #{channelGroupName}

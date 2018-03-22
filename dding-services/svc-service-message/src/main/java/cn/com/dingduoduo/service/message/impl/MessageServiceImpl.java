@@ -25,6 +25,7 @@ public class MessageServiceImpl implements MessageService {
 
     @Override
     public Message createOrUpdate(Message message) {
+        logger.debug("save message to mongo: {}", message);
         if (message.getId() == null) {
             message.setId(UUID.randomUUID().toString());
         }

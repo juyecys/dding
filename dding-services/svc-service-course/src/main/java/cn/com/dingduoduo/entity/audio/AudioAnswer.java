@@ -13,7 +13,7 @@ import org.apache.ibatis.type.Alias;
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class AudioAnswer extends Base {
-    @JsonProperty("isLecture")
+    @JsonProperty("courseId")
     private String courseId;
 
     /**

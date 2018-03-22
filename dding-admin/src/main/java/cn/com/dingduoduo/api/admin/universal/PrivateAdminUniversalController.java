@@ -3,11 +3,11 @@ package cn.com.dingduoduo.api.admin.universal;
 
 import cn.com.dingduoduo.api.common.ApiResult;
 import cn.com.dingduoduo.exception.AdminException;
-import cn.com.dingduoduo.utils.common.AliyunContentStorageUtils;
-import cn.com.dingduoduo.utils.common.StringUtil;
-import cn.com.dingduoduo.constants.AliyunOssPath;
 import cn.com.dingduoduo.exception.aliyun.oss.AliyunContentStorageException;
 import cn.com.dingduoduo.service.aliyun.oss.AliyunContentStorageService;
+import cn.com.dingduoduo.utils.common.AliyunContentStorageUtils;
+import cn.com.dingduoduo.utils.common.FileUtils;
+import cn.com.dingduoduo.utils.common.StringUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,13 +40,45 @@ public class PrivateAdminUniversalController {
         }
         try {
             InputStream inputStream = file.getInputStream();
-            url = path + StringUtil.random(9) + "_" + System.currentTimeMillis() + ".jpg";
+            url = path + StringUtil.random(9).toUpperCase() + "_" + System.currentTimeMillis() + "." + FileUtils.getExtend(file.getOriginalFilename());
             aliyunContentStorageService.store(url, inputStream, file.getContentType());
         } catch (IOException | AliyunContentStorageException e) {
             logger.error("error: {}", e);
             throw e;
         }
         url = AliyunContentStorageUtils.getFullAccessUrlForKey(url);
-        return new ResponseEntity<>(ApiResult.success(url), HttpStatus.OK);
+        File file1 = new File();
+        file1.setOriginName(file.getOriginalFilename());
+        file1.setUrl(url);
+        return new ResponseEntity<>(ApiResult.success(file1), HttpStatus.OK);
+    }
+
+    public class File {
+        private String url;
+        private String originName;
+
+        public String getUrl() {
+            return url;
+        }
+
+        public void setUrl(String url) {
+            this.url = url;
+        }
+
+        public String getOriginName() {
+            return originName;
+        }
+
+        public void setOriginName(String originName) {
+            this.originName = originName;
+        }
+
+        @Override
+        public String toString() {
+            return "File{" +
+                    "url='" + url + '\'' +
+                    ", originName='" + originName + '\'' +
+                    '}';
+        }
     }
 }

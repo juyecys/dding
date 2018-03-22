@@ -20,6 +20,7 @@
         <module>svc-service-wechat</module>
         <module>svc-service-aliyun</module>
         <module>svc-service-course</module>
+        <module>svc-service-notification</module>
     </modules>
 
     <dependencies>
@@ -160,6 +161,11 @@
         <dependency>
             <groupId>org.apache.logging.log4j</groupId>
             <artifactId>log4j-core</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.logging.log4j</groupId>
+            <artifactId>log4j-nosql</artifactId>
         </dependency>
 
         <dependency>

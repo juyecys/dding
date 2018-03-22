@@ -30,9 +30,6 @@
 			<if test="sequence != null">
 				sequence = #{sequence},
 			</if>
-			<if test="question != null">
-				question = #{question},
-			</if>
 			<if test="audioUrl != null">
 				audio_url = #{audioUrl},
 			</if>
@@ -64,7 +61,11 @@
 		ding_audio_lecture rl
 	</sql>
 
-	<select id="findByConditionPage" resultType="AudioLectureM">
+	<update id="deleteById" parameterType="AudioLectureM">
+		DELETE FROM ding_audio_lecture WHERE id = #{id}
+	</update>
+
+	<select id="findByConditionPage" resultType="AudioLectureQM">
 		SELECT
 		rl.*
 		FROM
@@ -73,7 +74,7 @@
 	    ORDER BY rl.created_date DESC
 	</select>
 
-	<select id="findOneByCondition" resultType="AudioLectureM">
+	<select id="findOneByCondition" resultType="AudioLectureQM">
 		SELECT
 		rl.*
 		FROM
@@ -82,7 +83,7 @@
 		LIMIT 1
 	</select>
 
-	<select id="findByCondition" resultType="AudioLectureM">
+	<select id="findByCondition" resultType="AudioLectureQM">
 		SELECT
 		rl.*
 		FROM

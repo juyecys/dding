@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Objects;
 
 /**
  * Created by jeysine on 2018/3/16.
@@ -33,13 +34,11 @@ public class AudioLectureGroupServiceImpl extends BaseServiceImpl<AudioLectureGr
     @Override
     public List<AudioLectureGroupDTO> createOrUpdateByBatch(List<AudioLectureGroupDTO> audioLectureGroupList) throws Exception {
         for (AudioLectureGroupDTO one: audioLectureGroupList) {
-            if (true == one.getDelete()) {
-                audioLectureService.deleteById(one.getId());
+            if (Objects.nonNull(one.getDelete()) && one.getDelete()) {
+                deleteById(one.getId());
             } else {
                 createOrUpdate(one);
-                if (one.getAudioLectureList() != null) {
-                    audioLectureService.createOrUpdateByBatch(one.getId(), one.getAudioLectureList());
-                }
+                audioLectureService.createOrUpdateByBatch(one.getId(), one.getAudioLectureList());
             }
         }
         return audioLectureGroupList;

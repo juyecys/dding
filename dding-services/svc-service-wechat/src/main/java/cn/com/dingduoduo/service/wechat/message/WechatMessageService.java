@@ -4,6 +4,7 @@ package cn.com.dingduoduo.service.wechat.message;
 import cn.com.dingduoduo.entity.message.Message;
 import cn.com.dingduoduo.entity.wechat.localwechatmenu.LocalWechatMenu;
 import cn.com.dingduoduo.entity.wechat.message.WechatCustomMessage;
+import cn.com.dingduoduo.entity.wechat.message.WechatTemplateMessage;
 import cn.com.dingduoduo.entity.wechat.result.WechatCommonResult;
 
 import java.io.IOException;
@@ -24,6 +25,8 @@ public interface WechatMessageService {
     WechatCommonResult pushTextMessage(String openId, String content) throws IOException;
 
     WechatCommonResult pushImageMessage(String openId, String mediaId) throws IOException;
+
+    WechatCommonResult pushTemplateMessage(WechatTemplateMessage templateMessage) throws IOException;
 
     void pushMessageByMessage(String openId, Message message) throws IOException;
 

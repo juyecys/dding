@@ -41,6 +41,7 @@
 		<property name="filters" value="${database.filters}"/>
 		<!--日志输出执行慢的SQL-->
 		<!--<property name="connectionProperties" value="${database.connectionProperties}" />-->
+
 	</bean>
 
 	<!-- 事务注解驱动，标注@Transactional的类和方法将具有事务性 -->

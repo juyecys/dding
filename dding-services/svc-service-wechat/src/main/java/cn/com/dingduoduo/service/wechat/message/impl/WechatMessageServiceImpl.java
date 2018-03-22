@@ -45,9 +45,9 @@ public class WechatMessageServiceImpl implements WechatMessageService {
         WechatAccessToken accessToken = wechatAccessTokenService.getAccessToken();
         String url = WechatConfigParams.WECHAT_CUSTOM_MESSAGE.replace("ACCESS_TOKEN", accessToken.getAccessToken());
         String messageJson = mapper.writeValueAsString(wechatCustomMessage);
-        logger.debug("send cn.com.dingduoduo.api.admin.adminuser.message to cn.com.dingduoduo.api.admin.wechat user: {}", messageJson);
+        logger.debug("send message to wechat user: {}", messageJson);
         String result = OkHttpUtils.postString().url(url).content(messageJson).build().execute().body().string();
-        logger.debug("send cn.com.dingduoduo.api.admin.adminuser.message to cn.com.dingduoduo.api.admin.wechat user result: {}", result);
+        logger.debug("send message to wechat user result: {}", result);
         return mapper.readValue(result,WechatCommonResult.class);
     }
 
@@ -110,6 +110,17 @@ public class WechatMessageServiceImpl implements WechatMessageService {
         message.setImage(image);
         message.setMsgtype(WechatCustomMessage.MsgTypeEnum.IMAGE.getValue());
         return pushMessage(message);
+    }
+
+    @Override
+    public WechatCommonResult pushTemplateMessage(WechatTemplateMessage templateMessage) throws IOException {
+        WechatAccessToken accessToken = wechatAccessTokenService.getAccessToken();
+        String url = WechatConfigParams.WECHAT_SEND_TEMPLATE_MESSAGE.replace("ACCESS_TOKEN", accessToken.getAccessToken());
+        String messageJson = mapper.writeValueAsString(templateMessage);
+        logger.debug("send message to wechat user: {}", messageJson);
+        String result = OkHttpUtils.postString().url(url).content(messageJson).build().execute().body().string();
+        logger.debug("send message towechat user result: {}", result);
+        return mapper.readValue(result,WechatCommonResult.class);
     }
 
     @Override

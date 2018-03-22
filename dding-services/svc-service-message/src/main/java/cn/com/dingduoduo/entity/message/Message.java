@@ -49,7 +49,6 @@ public class Message implements Serializable{
     @JsonProperty("hq_music_url")
     private String hqMusicUrl;
 
-
     @JsonProperty("sequence")
     private Integer sequence;
 

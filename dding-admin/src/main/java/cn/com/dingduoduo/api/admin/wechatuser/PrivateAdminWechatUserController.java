@@ -14,6 +14,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 @RestController
@@ -51,8 +53,11 @@ public class PrivateAdminWechatUserController {
             wechatUser.setSubscribeDateStart(DateUtils.stringToDate(subscribeDateStart));
         }
         if (!StringUtil.isEmpty(subscribeDateEnd)) {
-            wechatUser.setSubscribeDateEnd(DateUtils.stringToDate(subscribeDateEnd));
+            Date endDate = DateUtils.stringToDate(subscribeDateEnd);
+            wechatUser.setSubscribeDateEnd(DateUtils.add(endDate, Calendar.DAY_OF_MONTH, 1));
+
         }
+
         Page<LocalWechatUserDTO> wechatUserList =  localWechatUserService.findByConditionPage(wechatUser);
         return new ResponseEntity<>(ApiResult.success(wechatUserList), HttpStatus.OK);
     }
