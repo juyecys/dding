@@ -2,6 +2,7 @@ package cn.com.dingduoduo.api.admin.universal;
 
 
 import cn.com.dingduoduo.api.common.ApiResult;
+import cn.com.dingduoduo.entity.aliyun.oss.AliyunContentStorageResult;
 import cn.com.dingduoduo.exception.AdminException;
 import cn.com.dingduoduo.exception.aliyun.oss.AliyunContentStorageException;
 import cn.com.dingduoduo.service.aliyun.oss.AliyunContentStorageService;
@@ -38,18 +39,13 @@ public class PrivateAdminUniversalController {
         if (Objects.isNull(path)) {
             throw new AdminException(AdminException.AdminErrorCode.ERROR_PARAMETER);
         }
-        try {
-            InputStream inputStream = file.getInputStream();
-            url = path + StringUtil.random(9).toUpperCase() + "_" + System.currentTimeMillis() + "." + FileUtils.getExtend(file.getOriginalFilename());
-            aliyunContentStorageService.store(url, inputStream, file.getContentType());
-        } catch (IOException | AliyunContentStorageException e) {
-            logger.error("error: {}", e);
-            throw e;
-        }
-        url = AliyunContentStorageUtils.getFullAccessUrlForKey(url);
+        //url = path + StringUtil.random(9).toUpperCase() + "_" + System.currentTimeMillis() + "." + FileUtils.getExtend(file.getOriginalFilename());
+        AliyunContentStorageResult aliyunContentStorageResult = aliyunContentStorageService.storeCommon(file.getOriginalFilename(), file.getBytes(), file.getContentType(), path);
+
+        //url = AliyunContentStorageUtils.getFullAccessUrlForKey(url);
         File file1 = new File();
         file1.setOriginName(file.getOriginalFilename());
-        file1.setUrl(url);
+        file1.setUrl(aliyunContentStorageResult.getResourceUrl());
         return new ResponseEntity<>(ApiResult.success(file1), HttpStatus.OK);
     }
 

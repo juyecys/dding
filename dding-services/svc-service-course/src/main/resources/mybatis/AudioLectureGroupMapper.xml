@@ -77,7 +77,7 @@
 		FROM
 		<include refid="from_table" />
 		<include refid="sql_where" />
-		ORDER BY rlg.sequence DESC
+		ORDER BY rlg.sequence
 	</select>
 </mapper>
 
