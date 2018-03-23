@@ -33,6 +33,15 @@ public class WechatBaseEvent {
         public String getValue() {
             return value;
         }
+
+        public static EventEnum getEnumByValue(String value) {
+            for (EventEnum e: EventEnum.values()) {
+                if (e.getValue().equals(value)) {
+                    return e;
+                }
+            }
+            return null;
+        }
     }
 
     public static enum MsgTypeEnum {

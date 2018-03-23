@@ -102,7 +102,7 @@
 		FROM
 		<include refid="from_table" />
 		<include refid="sql_where" />
-		ORDER BY rc.sequence DESC
+		ORDER BY rc.created_date DESC
 	</select>
 </mapper>
 

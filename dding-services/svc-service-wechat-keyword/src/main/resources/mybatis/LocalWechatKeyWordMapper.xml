@@ -6,7 +6,7 @@
 	<insert id="create" parameterType="LocalWechatKeyWordM">
 		INSERT INTO
 			ding_wechat_keyword (id, created_by, created_date, updated_date, updated_by,
-			keyWord)
+			key_word)
 	  	VALUES
 	  		(#{id}, #{createdBy}, #{createdDate}, #{updatedDate}, #{updatedBy}
 	  		, #{keyWord})
@@ -65,7 +65,7 @@
 		FROM
 		<include refid="from_table" />
 		<include refid="sql_where" />
-		ORDER BY wk.sequence DESC
+		ORDER BY wk.created_date DESC
 	</select>
 </mapper>
 
