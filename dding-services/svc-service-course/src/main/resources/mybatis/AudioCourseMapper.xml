@@ -6,10 +6,10 @@
 	<insert id="create" parameterType="AudioCourseM">
 		INSERT INTO
 			ding_audio_course (id, created_by, created_date, updated_date, updated_by,
-			name, introduction, picture_url, people_count, doctor_name, hospital_name, doctor_title, doctor_head_img, is_lecture, is_solution, total_time)
+			name, introduction, picture_url, people_count, doctor_name, hospital_name, doctor_title, doctor_head_img, is_lecture, is_solution, total_time, status)
 	  	VALUES
 	  		(#{id}, #{createdBy}, #{createdDate}, #{updatedDate}, #{updatedBy}
-	  		, #{name}, #{introduction}, #{pictureUrl}, #{peopleCount}, #{doctorName}, #{hospitalName}, #{doctorTitle}, #{doctorHeadImg}, #{isLecture}, #{isSolution}, #{totalTime})
+	  		, #{name}, #{introduction}, #{pictureUrl}, #{peopleCount}, #{doctorName}, #{hospitalName}, #{doctorTitle}, #{doctorHeadImg}, #{isLecture}, #{isSolution}, #{totalTime}, #{status})
 	</insert>
 
 	<update id="update" parameterType="AudioCourseM">
@@ -54,6 +54,9 @@
 			<if test="totalTime != null">
 				total_time = #{totalTime},
 			</if>
+			<if test="status != null">
+				status = #{status},
+			</if>
 		</set>
 		WHERE id = #{id}
 	</update>
@@ -66,6 +69,9 @@
 		<where>
 			<if test="id != null">
 				and rc.id = #{id}
+			</if>
+			<if test="status != null">
+				and rc.status = #{status}
 			</if>
 		</where>
 	</sql>

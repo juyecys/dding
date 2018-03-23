@@ -57,6 +57,11 @@ public class AudioCourse extends Base {
     @JsonProperty("totalTime")
     private Long totalTime;
 
+    /**
+     * 开启关闭
+     */
+    @JsonProperty("status")
+    private Boolean status;
 
     public String getName() {
         return name;
@@ -146,6 +151,14 @@ public class AudioCourse extends Base {
         this.totalTime = totalTime;
     }
 
+    public Boolean getStatus() {
+        return status;
+    }
+
+    public void setStatus(Boolean status) {
+        this.status = status;
+    }
+
     @Override
     public String toString() {
         return "AudioCourse{" +
@@ -160,6 +173,7 @@ public class AudioCourse extends Base {
                 ", isLecture=" + isLecture +
                 ", isSolution=" + isSolution +
                 ", totalTime=" + totalTime +
+                ", status=" + status +
                 '}';
     }
 }
