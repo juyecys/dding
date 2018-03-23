@@ -44,7 +44,6 @@ public class AudioLectureServiceImpl extends BaseServiceImpl<AudioLecture, Audio
         int sequence = 1;
         for (AudioLectureDTO one: audioLectureList) {
             if (Objects.nonNull(one.getDelete()) && one.getDelete()) {
-                totalTime -= one.getAudioTimestamp();
                 deleteById(one.getId());
             } else {
                 totalTime += one.getAudioTimestamp();

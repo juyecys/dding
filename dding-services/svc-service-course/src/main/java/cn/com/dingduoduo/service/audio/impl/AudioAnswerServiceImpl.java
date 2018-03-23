@@ -42,7 +42,6 @@ public class AudioAnswerServiceImpl extends BaseServiceImpl<AudioAnswer, AudioAn
         }
         for (AudioAnswerDTO one: audioAnswerList) {
             if (Objects.nonNull(one.getDelete()) && one.getDelete()) {
-                totalTime -= one.getAudioTimestamp();
                 deleteById(one.getId());
             } else {
                 totalTime += one.getAudioTimestamp();
