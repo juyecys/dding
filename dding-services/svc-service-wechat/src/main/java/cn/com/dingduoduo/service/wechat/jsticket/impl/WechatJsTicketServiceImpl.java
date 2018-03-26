@@ -44,6 +44,7 @@ public class WechatJsTicketServiceImpl implements WechatJsTicketService {
         logger.debug("start to get accessToken");
 
         WechatJsTicket wechatJsTicket = null;
+        int count = 0;
         try {
             do {
                 Long ticketExpired = jedis.ttl(WechatConfigParams.JS_TICKET_KEY);
@@ -54,12 +55,13 @@ public class WechatJsTicketServiceImpl implements WechatJsTicketService {
                     logger.debug("get js api ticket from redis success, js api ticket:{} expired:{}", ticket, ticketExpired);
                 } else {
                     //logger.debug("Redis is not exists access token , start get lock to get access token from cn.com.dingduoduo.api.admin.wechat.");
+                    count ++;
                     String mutexKeyValue = UUID.randomUUID().toString();
                     if (isLeader(jedis, mutexKeyValue)) {
                         wechatJsTicket = getJsTicketFromWechat();
                     }
                 }
-            } while (wechatJsTicket == null);
+            } while (wechatJsTicket == null && count < 3);
         } finally {
             jedis.close();
         }

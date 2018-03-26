@@ -1,10 +1,9 @@
 package cn.com.dingduoduo.service.audio.impl;
 
 import cn.com.dingduoduo.dao.audio.AudioLectureGroupDAO;
-import cn.com.dingduoduo.entity.audio.AudioLecture;
-import cn.com.dingduoduo.entity.audio.AudioLectureDTO;
-import cn.com.dingduoduo.entity.audio.AudioLectureGroup;
-import cn.com.dingduoduo.entity.audio.AudioLectureGroupDTO;
+import cn.com.dingduoduo.entity.audio.*;
+import cn.com.dingduoduo.service.audio.AudioAnswerService;
+import cn.com.dingduoduo.service.audio.AudioCourseService;
 import cn.com.dingduoduo.service.audio.AudioLectureGroupService;
 import cn.com.dingduoduo.service.audio.AudioLectureService;
 import cn.com.dingduoduo.service.common.impl.BaseServiceImpl;
@@ -26,6 +25,12 @@ public class AudioLectureGroupServiceImpl extends BaseServiceImpl<AudioLectureGr
     private AudioLectureService audioLectureService;
 
     @Autowired
+    private AudioCourseService audioCourseService;
+
+    @Autowired
+    private AudioAnswerService audioAnswerService;
+
+    @Autowired
     public void setDao(AudioLectureGroupDAO dao) {
         this.dao = dao;
         super.setDAO(dao);
@@ -33,13 +38,22 @@ public class AudioLectureGroupServiceImpl extends BaseServiceImpl<AudioLectureGr
 
     @Override
     public List<AudioLectureGroupDTO> createOrUpdateByBatch(List<AudioLectureGroupDTO> audioLectureGroupList) throws Exception {
+        Long totalTime = 0L;
         for (AudioLectureGroupDTO one: audioLectureGroupList) {
             if (Objects.nonNull(one.getDelete()) && one.getDelete()) {
                 deleteById(one.getId());
             } else {
                 createOrUpdate(one);
-                audioLectureService.createOrUpdateByBatch(one.getId(), one.getAudioLectureList());
+                totalTime += audioLectureService.createOrUpdateByBatch(one.getId(), one.getAudioLectureList());
             }
+        }
+        if (audioLectureGroupList.size() > 0) {
+            Long audioAnswerTotalTime = audioAnswerService.countAudioAnswerByCourseId(audioLectureGroupList.get(0).getCourseId());
+            audioAnswerTotalTime = (audioAnswerTotalTime == null? 0L:audioAnswerTotalTime);
+            AudioCourse audioCourse = new AudioCourse();
+            audioCourse.setId(audioLectureGroupList.get(0).getCourseId());
+            audioCourse.setTotalTime(totalTime + audioAnswerTotalTime);
+            audioCourseService.createOrUpdate(audioCourse);
         }
         return audioLectureGroupList;
     }

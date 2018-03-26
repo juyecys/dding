@@ -7,10 +7,10 @@ public class WechatConfigParams {
 	//从微信获取access token需要的分布式锁key
 	public static final String ACCESS_TOKEN_KEY_MUTEX = ACCESS_TOKEN_KEY + "_mutex";
 
-	// access token 在redis中的键
+	// js api ticket 在redis中的键
 	public static final String JS_TICKET_KEY = "ding_js_ticket";
 
-	//从微信获取access token需要的分布式锁key
+	//从微信获取js api ticket需要的分布式锁key
 	public static final String JS_TICKET_KEY_MUTEX = JS_TICKET_KEY + "_mutex";
 
 
