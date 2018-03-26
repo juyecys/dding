@@ -95,4 +95,10 @@
 		</bean>
 	</beans>
 
+	<beans>
+		<bean id="wechatConfigSecret" class="cn.com.dingduoduo.config.wechat.WechatConfigSecret">
+			<property name="wechatAppid" value="${wechat.dingduoduo.appid}" />
+			<property name="wechatSecret" value="${wechat.dingduoduo.appsecret}" />
+		</bean>
+	</beans>
 </beans:beans>

@@ -7,6 +7,13 @@ public class WechatConfigParams {
 	//从微信获取access token需要的分布式锁key
 	public static final String ACCESS_TOKEN_KEY_MUTEX = ACCESS_TOKEN_KEY + "_mutex";
 
+	// access token 在redis中的键
+	public static final String JS_TICKET_KEY = "ding_js_ticket";
+
+	//从微信获取access token需要的分布式锁key
+	public static final String JS_TICKET_KEY_MUTEX = JS_TICKET_KEY + "_mutex";
+
+
 	public static final String WECHAT_TEMPLATE_FILE_DIR = "/wechat/";
 
 	// 扫描二维码EventKey前缀
@@ -23,6 +30,11 @@ public class WechatConfigParams {
 	 * 微信accesToken获取
 	 */
 	public static final String WECHAT_GET_ACCESSTOKEN_URL = "https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=APPID&secret=APPSECRET";
+
+	/**
+	 * 微信jsapi_ticket获取
+	 */
+	public static final String WECHAT_GET_JSAPI_TICKET_URL = "https://api.weixin.qq.com/cgi-bin/ticket/getticket?access_token=ACCESS_TOKEN&type=jsapi";
 
 	/**
 	 * 微信菜单Url

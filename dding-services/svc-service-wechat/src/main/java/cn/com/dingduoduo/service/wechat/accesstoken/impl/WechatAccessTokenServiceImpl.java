@@ -38,7 +38,7 @@ public class WechatAccessTokenServiceImpl implements WechatAccessTokenService {
 		WechatAccessToken wechatAccessToken = null;
 		Jedis jedis = jedisPool.getResource();
 		if (jedis == null) {
-			logger.error("Redis is not rechable");
+			logger.error("Redis is not reachable");
 		}
 		logger.debug("start to get accessToken");
 		try {
@@ -73,7 +73,7 @@ public class WechatAccessTokenServiceImpl implements WechatAccessTokenService {
 			logger.debug("set access token not need lock");
 			return true;
 		} else if (existsMutexKeyValue != null){
-			logger.debug("get leader faild");
+			logger.debug("get leader failed");
 			return false;
 		}
 
@@ -82,7 +82,7 @@ public class WechatAccessTokenServiceImpl implements WechatAccessTokenService {
 			logger.debug("get leader success");
 			return true;
 		} else {
-			logger.debug("get leader faild");
+			logger.debug("get leader failed");
 		}
 		return false;
 	}
@@ -93,25 +93,25 @@ public class WechatAccessTokenServiceImpl implements WechatAccessTokenService {
 
 		Response response = null;
 		WechatAccessToken wechatAccessToken = null;
-		logger.debug("get access token from cn.com.dingduoduo.api.admin.wechat start:{}", url);
+		logger.debug("get access token from wechat start:{}", url);
 		try {
 			response = OkHttpUtils.get().url(url)
 					.build().execute();
 
 			String result = response.body().string();
 			wechatAccessToken = mapper.readValue(result, WechatAccessToken.class);
-			logger.debug("get access token from cn.com.dingduoduo.api.admin.wechat success:{}", wechatAccessToken);
+			logger.debug("get access token from wechat success:{}", wechatAccessToken);
 			if (wechatAccessToken.getAccessToken() == null) {
-				logger.error("get access token from cn.com.dingduoduo.api.admin.wechat error, errcode:{},errmsg:{}", wechatAccessToken.getErrcode(),wechatAccessToken.getErrmsg());
+				logger.error("get access token from wechat error, errcode:{},errmsg:{}", wechatAccessToken.getErrcode(),wechatAccessToken.getErrmsg());
 				return null;
 			}
 
 			wechatAccessToken.setExpiresIn(
 					wechatAccessToken.getExpiresIn());
-			logger.debug("get cn.com.dingduoduo.api.admin.wechat access token suucess, accessToken:{}, accessToken expire time: {}", wechatAccessToken.getAccessToken(), wechatAccessToken.getExpiresIn());
+			logger.debug("get wechat access token success, accessToken:{}, accessToken expire time: {}", wechatAccessToken.getAccessToken(), wechatAccessToken.getExpiresIn());
 			setAccessTokenToRedis(wechatAccessToken);
 		} catch (IOException e) {
-			logger.error("visit cn.com.dingduoduo.api.admin.wechat get access token faild:{}", e);
+			logger.error("visit wechat get access token failed:{}", e);
 		}
 
 
@@ -150,7 +150,7 @@ public class WechatAccessTokenServiceImpl implements WechatAccessTokenService {
 		if (wechatCallBackIp.getIpList() == null) {
 			Jedis jedis = jedisPool.getResource();
 			jedis.del(WechatConfigParams.ACCESS_TOKEN_KEY);
-			logger.debug("cn.com.dingduoduo.api.admin.wechat access token is not active, try to get from cn.com.dingduoduo.api.admin.wechat");
+			logger.debug("wechat access token is not active, try to get from wechat");
 			return null;
 		}
 		return wechatAccessToken;
