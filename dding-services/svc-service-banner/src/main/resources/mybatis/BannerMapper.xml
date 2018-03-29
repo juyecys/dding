@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8" ?>    
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="cn.com.dingduoduo.dao.banner.BannerDAO">
+
+	<insert id="create" parameterType="BannerM">
+		INSERT INTO
+			ding_banner (id, created_by, created_date, updated_date, updated_by,
+			location, code, type, remark, sequence, url, banner_url)
+	  	VALUES
+	  		(#{id}, #{createdBy}, #{createdDate}, #{updatedDate}, #{updatedBy}
+	  		, #{location}, #{code}, #{type}, #{remark}, #{sequence}, #{url}, #{bannerUrl})
+	</insert>
+
+	<update id="update" parameterType="BannerM">
+		UPDATE ding_banner
+		<set>
+			<if test="location != null">
+				location = #{location},
+			</if>
+			<if test="type != null">
+				type = #{type},
+			</if>
+			<if test="remark != null">
+				remark = #{remark},
+			</if>
+			<if test="sequence != null">
+				sequence = #{sequence},
+			</if>
+			<if test="url != null">
+				url = #{url},
+			</if>
+			<if test="bannerUrl != null">
+				banner_url = #{bannerUrl},
+			</if>
+		</set>
+		WHERE id = #{id}
+	</update>
+
+	<update id="deleteById" parameterType="BannerM">
+		DELETE FROM ding_banner WHERE id = #{id}
+	</update>
+
+	<sql id="sql_where">
+		<where>
+			<if test="id != null">
+				and b.id = #{id}
+			</if>
+			<if test="code != null">
+				and b.code = #{code}
+			</if>
+			<if test="type != null">
+				and b.type = #{type}
+			</if>
+		</where>
+	</sql>
+
+	<sql id="from_table">
+		ding_banner b
+	</sql>
+
+	<select id="findByConditionPage" resultType="BannerM">
+		SELECT
+		b.*
+		FROM
+		<include refid="from_table" />
+		<include refid="sql_where" />
+	    ORDER BY b.created_date DESC
+	</select>
+
+	<select id="findOneByCondition" resultType="BannerM">
+		SELECT
+		b.*
+		FROM
+		<include refid="from_table" />
+		<include refid="sql_where" />
+		LIMIT 1
+	</select>
+
+	<select id="findByCondition" resultType="BannerM">
+		SELECT
+		b.*
+		FROM
+		<include refid="from_table" />
+		<include refid="sql_where" />
+		ORDER BY b.created_date DESC
+	</select>
+</mapper>
+

@@ -155,7 +155,7 @@
 		<include refid="from_wechat_channel" />
 		<include refid="from_wechat_channel_group" />
 		<include refid="sql_where_wu" />
-	    ORDER BY wu.created_date DESC
+	    ORDER BY wu.subscribe_time DESC
 	</select>
 
 	<select id="findOneByCondition" resultType="LocalWechatUserQM">

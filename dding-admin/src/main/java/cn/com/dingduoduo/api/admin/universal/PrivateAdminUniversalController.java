@@ -35,21 +35,33 @@ public class PrivateAdminUniversalController {
 
     @RequestMapping(value = "/upload", method = RequestMethod.POST)
     public ResponseEntity<ApiResult> uploadFile(@RequestParam("file") MultipartFile file, @RequestParam("path") String path) throws IOException, AliyunContentStorageException, AdminException {
-        String url;
         if (Objects.isNull(path)) {
             throw new AdminException(AdminException.AdminErrorCode.ERROR_PARAMETER);
         }
-        //url = path + StringUtil.random(9).toUpperCase() + "_" + System.currentTimeMillis() + "." + FileUtils.getExtend(file.getOriginalFilename());
         AliyunContentStorageResult aliyunContentStorageResult = aliyunContentStorageService.storeCommon(file.getOriginalFilename(), file.getBytes(), file.getContentType(), path);
 
-        //url = AliyunContentStorageUtils.getFullAccessUrlForKey(url);
-        File file1 = new File();
+        UploadFileResult file1 = new UploadFileResult();
         file1.setOriginName(file.getOriginalFilename());
         file1.setUrl(aliyunContentStorageResult.getResourceUrl());
         return new ResponseEntity<>(ApiResult.success(file1), HttpStatus.OK);
     }
 
-    public class File {
+    @RequestMapping(value = "/ueditorUpload", method = RequestMethod.POST)
+    public ResponseEntity<UEditorUploadFileResult> ueditorUploadFile(@RequestParam("upfile") MultipartFile file, @RequestParam("path") String path) throws IOException, AliyunContentStorageException, AdminException {
+        if (Objects.isNull(path)) {
+            throw new AdminException(AdminException.AdminErrorCode.ERROR_PARAMETER);
+        }
+        AliyunContentStorageResult aliyunContentStorageResult = aliyunContentStorageService.storeCommon(file.getOriginalFilename(), file.getBytes(), file.getContentType(), path);
+
+        UEditorUploadFileResult file1 = new UEditorUploadFileResult();
+        file1.setOriginal(file.getOriginalFilename());
+        file1.setName(file.getOriginalFilename());
+        file1.setUrl(aliyunContentStorageResult.getResourceUrl());
+        return new ResponseEntity<>(file1, HttpStatus.OK);
+    }
+
+
+    public class UploadFileResult {
         private String url;
         private String originName;
 
@@ -74,6 +86,75 @@ public class PrivateAdminUniversalController {
             return "File{" +
                     "url='" + url + '\'' +
                     ", originName='" + originName + '\'' +
+                    '}';
+        }
+    }
+
+    public class UEditorUploadFileResult {
+        private String url;
+        private String original;
+        private String name;
+        private String state="SUCCESS";
+        private String size = "32455";
+        private String type = ".jpg";
+
+        public String getUrl() {
+            return url;
+        }
+
+        public void setUrl(String url) {
+            this.url = url;
+        }
+
+        public String getOriginal() {
+            return original;
+        }
+
+        public void setOriginal(String original) {
+            this.original = original;
+        }
+
+        public String getName() {
+            return name;
+        }
+
+        public void setName(String name) {
+            this.name = name;
+        }
+
+        public String getSize() {
+            return size;
+        }
+
+        public void setSize(String size) {
+            this.size = size;
+        }
+
+        public String getType() {
+            return type;
+        }
+
+        public void setType(String type) {
+            this.type = type;
+        }
+
+        public String getState() {
+            return state;
+        }
+
+        public void setState(String state) {
+            this.state = state;
+        }
+
+        @Override
+        public String toString() {
+            return "UEditorUploadFileResult{" +
+                    "url='" + url + '\'' +
+                    ", original='" + original + '\'' +
+                    ", name='" + name + '\'' +
+                    ", state='" + state + '\'' +
+                    ", size='" + size + '\'' +
+                    ", type='" + type + '\'' +
                     '}';
         }
     }

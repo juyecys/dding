@@ -31,4 +31,55 @@
 		  class="org.springframework.web.multipart.commons.CommonsMultipartResolver"
 		  p:defaultEncoding="utf-8" p:maxInMemorySize="4194304" p:maxUploadSize="209715200"/>
 
+	<beans profile="dev">
+		<bean id="placeholderProperties"
+			  class="cn.com.dingduoduo.common.config.AddConfigurationPropertiesToEnvironmentPlaceHolderConfiguer">
+			<property name="locations">
+				<list>
+					<value>classpath*:common-dev.properties</value>
+					<value>classpath*:admin-dev.properties</value>
+				</list>
+			</property>
+			<property name="ignoreResourceNotFound" value="false" />
+			<!-- 是否忽略不可解析的 Placeholder-->
+			<property name="ignoreUnresolvablePlaceholders" value="false" />
+			<!-- 加载顺序优先级 -->
+			<property name="order" value="1" />
+		</bean>
+	</beans>
+
+	<beans profile="test">
+		<bean id="placeholderProperties"
+			  class="cn.com.dingduoduo.common.config.AddConfigurationPropertiesToEnvironmentPlaceHolderConfiguer">
+			<property name="locations">
+				<list>
+					<value>file:${commonProperties}</value>
+					<value>file:${adminProperties}</value>
+				</list>
+			</property>
+			<property name="ignoreResourceNotFound" value="false" />
+			<!-- 是否忽略不可解析的 Placeholder-->
+			<property name="ignoreUnresolvablePlaceholders" value="false" />
+			<!-- 加载顺序优先级 -->
+			<property name="order" value="1" />
+		</bean>
+	</beans>
+
+	<beans profile="prod">
+		<bean id="placeholderProperties"
+			  class="cn.com.dingduoduo.common.config.AddConfigurationPropertiesToEnvironmentPlaceHolderConfiguer">
+			<property name="locations">
+				<list>
+					<value>classpath*:common-prod.properties</value>
+					<value>classpath*:admin-prod.properties</value>
+				</list>
+			</property>
+			<property name="ignoreResourceNotFound" value="false" />
+			<!-- 是否忽略不可解析的 Placeholder-->
+			<property name="ignoreUnresolvablePlaceholders" value="false" />
+			<!-- 加载顺序优先级 -->
+			<property name="order" value="1" />
+		</bean>
+	</beans>
+
 </beans>

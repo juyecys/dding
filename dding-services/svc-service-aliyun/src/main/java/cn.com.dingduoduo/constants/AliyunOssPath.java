@@ -38,6 +38,9 @@ public class AliyunOssPath {
 	/** 音频课程医生头像保存路径 **/
 	public static final String AUDIO_COURSE_DOCTOR_HEAD_IMG_FILEPATH = "audio/course/head_img/";
 
+	/** UEDITOR图片路径 **/
+	public static final String UEDITOR_IMG_FILEPATH = "ueditor/img/";
+
 	public static void setPROFILE(String[] profile) {
 		PROFILE = profile;
 		log.info("当前系统profile配置为:{}", Arrays.asList(profile));

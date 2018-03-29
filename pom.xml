@@ -585,6 +585,12 @@
                 <artifactId>svc-service-wechat-keyword</artifactId>
                 <version>${project.version}</version>
             </dependency>
+
+            <dependency>
+                <groupId>cn.com.dingduoduo</groupId>
+                <artifactId>svc-service-banner</artifactId>
+                <version>${project.version}</version>
+            </dependency>
         </dependencies>
     </dependencyManagement>
 

@@ -48,7 +48,10 @@
             <groupId>cn.com.dingduoduo</groupId>
             <artifactId>dding-common</artifactId>
         </dependency>
-
+        <dependency>
+            <groupId>cn.com.dingduoduo</groupId>
+            <artifactId>svc-service-banner</artifactId>
+        </dependency>
     </dependencies>
     <build>
         <finalName>dding-admin</finalName>
