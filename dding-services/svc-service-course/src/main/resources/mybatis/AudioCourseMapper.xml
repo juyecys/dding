@@ -6,10 +6,10 @@
 	<insert id="create" parameterType="AudioCourseM">
 		INSERT INTO
 			ding_audio_course (id, created_by, created_date, updated_date, updated_by,
-			name, introduction, picture_url, people_count, doctor_name, hospital_name, doctor_title, doctor_head_img, is_lecture, is_solution, total_time, status)
+			name, introduction, picture_url, people_count, doctor_name, hospital_name, doctor_title, doctor_head_img, is_lecture, is_solution, total_time, status, sequence)
 	  	VALUES
 	  		(#{id}, #{createdBy}, #{createdDate}, #{updatedDate}, #{updatedBy}
-	  		, #{name}, #{introduction}, #{pictureUrl}, #{peopleCount}, #{doctorName}, #{hospitalName}, #{doctorTitle}, #{doctorHeadImg}, #{isLecture}, #{isSolution}, #{totalTime}, #{status})
+	  		, #{name}, #{introduction}, #{pictureUrl}, #{peopleCount}, #{doctorName}, #{hospitalName}, #{doctorTitle}, #{doctorHeadImg}, #{isLecture}, #{isSolution}, #{totalTime}, #{status}, #{sequence})
 	</insert>
 
 	<update id="update" parameterType="AudioCourseM">
@@ -57,6 +57,9 @@
 			<if test="status != null">
 				status = #{status},
 			</if>
+			<if test="sequence != null">
+				sequence = #{sequence},
+			</if>
 		</set>
 		WHERE id = #{id}
 	</update>
@@ -72,6 +75,9 @@
 			</if>
 			<if test="status != null">
 				and rc.status = #{status}
+			</if>
+			<if test="sequence != null">
+				and rc.sequence = #{sequence}
 			</if>
 		</where>
 	</sql>
@@ -109,6 +115,16 @@
 		<include refid="from_table" />
 		<include refid="sql_where" />
 		ORDER BY rc.created_date DESC
+	</select>
+
+	<select id="countMinSequence" resultType="java.lang.Integer">
+		SELECT
+		rc.sequence
+		FROM
+		<include refid="from_table" />
+		<include refid="sql_where" />
+		ORDER BY rc.sequence
+		LIMIT 1
 	</select>
 </mapper>
 

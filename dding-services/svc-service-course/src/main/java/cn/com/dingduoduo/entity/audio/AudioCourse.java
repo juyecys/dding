@@ -63,6 +63,9 @@ public class AudioCourse extends Base {
     @JsonProperty("status")
     private Boolean status;
 
+    @JsonProperty("sequence")
+    private Integer sequence;
+
     public String getName() {
         return name;
     }
@@ -159,6 +162,14 @@ public class AudioCourse extends Base {
         this.status = status;
     }
 
+    public Integer getSequence() {
+        return sequence;
+    }
+
+    public void setSequence(Integer sequence) {
+        this.sequence = sequence;
+    }
+
     @Override
     public String toString() {
         return "AudioCourse{" +
@@ -174,6 +185,7 @@ public class AudioCourse extends Base {
                 ", isSolution=" + isSolution +
                 ", totalTime=" + totalTime +
                 ", status=" + status +
+                ", sequence=" + sequence +
                 '}';
     }
 }

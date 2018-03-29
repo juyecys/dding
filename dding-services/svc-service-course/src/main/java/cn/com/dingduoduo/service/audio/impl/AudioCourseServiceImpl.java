@@ -29,4 +29,9 @@ public class AudioCourseServiceImpl extends BaseServiceImpl<AudioCourse, AudioCo
         this.dao = dao;
         super.setDAO(dao);
     }
+
+    @Override
+    public Integer countMinSequence() {
+        return dao.countMinSequence();
+    }
 }

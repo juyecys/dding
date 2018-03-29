@@ -9,4 +9,5 @@ import org.springframework.stereotype.Component;
  */
 @Component
 public interface AudioCourseDAO extends BaseDAO<AudioCourse, AudioCourse>{
+    Integer countMinSequence();
 }

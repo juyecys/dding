@@ -55,7 +55,7 @@ public class PrivateAdminUniversalController {
 
         UEditorUploadFileResult file1 = new UEditorUploadFileResult();
         file1.setOriginal(file.getOriginalFilename());
-        file1.setName(file.getOriginalFilename());
+        file1.setTitle(file.getOriginalFilename());
         file1.setUrl(aliyunContentStorageResult.getResourceUrl());
         return new ResponseEntity<>(file1, HttpStatus.OK);
     }
@@ -93,7 +93,7 @@ public class PrivateAdminUniversalController {
     public class UEditorUploadFileResult {
         private String url;
         private String original;
-        private String name;
+        private String title;
         private String state="SUCCESS";
         private String size = "32455";
         private String type = ".jpg";
@@ -114,12 +114,20 @@ public class PrivateAdminUniversalController {
             this.original = original;
         }
 
-        public String getName() {
-            return name;
+        public String getTitle() {
+            return title;
         }
 
-        public void setName(String name) {
-            this.name = name;
+        public void setTitle(String title) {
+            this.title = title;
+        }
+
+        public String getState() {
+            return state;
+        }
+
+        public void setState(String state) {
+            this.state = state;
         }
 
         public String getSize() {
@@ -138,20 +146,12 @@ public class PrivateAdminUniversalController {
             this.type = type;
         }
 
-        public String getState() {
-            return state;
-        }
-
-        public void setState(String state) {
-            this.state = state;
-        }
-
         @Override
         public String toString() {
             return "UEditorUploadFileResult{" +
                     "url='" + url + '\'' +
                     ", original='" + original + '\'' +
-                    ", name='" + name + '\'' +
+                    ", title='" + title + '\'' +
                     ", state='" + state + '\'' +
                     ", size='" + size + '\'' +
                     ", type='" + type + '\'' +
