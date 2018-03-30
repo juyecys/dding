@@ -6,6 +6,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import org.apache.ibatis.type.Alias;
 import org.springframework.data.annotation.Transient;
 
+import java.util.Date;
 import java.util.List;
 
 @Alias("AudioCourseQM")
@@ -19,6 +20,19 @@ public class AudioCourseDTO extends AudioCourse {
     @Transient
     @JsonProperty("audioAnswerList")
     private List<AudioAnswer> audioAnswerList;
+
+
+    @JsonProperty("sequenceStart")
+    private Integer sequenceStart;
+
+    @JsonProperty("sequenceEnd")
+    private Integer sequenceEnd;
+
+    @JsonProperty("createdDateStart")
+    private Date createdDateStart;
+
+    @JsonProperty("createdDateEnd")
+    private Date createdDateEnd;
 
     public List<AudioLectureGroupDTO> getAudioLectureGroupList() {
         return audioLectureGroupList;
@@ -36,11 +50,47 @@ public class AudioCourseDTO extends AudioCourse {
         this.audioAnswerList = audioAnswerList;
     }
 
+    public Integer getSequenceStart() {
+        return sequenceStart;
+    }
+
+    public void setSequenceStart(Integer sequenceStart) {
+        this.sequenceStart = sequenceStart;
+    }
+
+    public Integer getSequenceEnd() {
+        return sequenceEnd;
+    }
+
+    public void setSequenceEnd(Integer sequenceEnd) {
+        this.sequenceEnd = sequenceEnd;
+    }
+
+    public Date getCreatedDateStart() {
+        return createdDateStart;
+    }
+
+    public void setCreatedDateStart(Date createdDateStart) {
+        this.createdDateStart = createdDateStart;
+    }
+
+    public Date getCreatedDateEnd() {
+        return createdDateEnd;
+    }
+
+    public void setCreatedDateEnd(Date createdDateEnd) {
+        this.createdDateEnd = createdDateEnd;
+    }
+
     @Override
     public String toString() {
-        return super.toString() + "AudioCourseDTO{" +
+        return "AudioCourseDTO{" +
                 "audioLectureGroupList=" + audioLectureGroupList +
                 ", audioAnswerList=" + audioAnswerList +
+                ", sequenceStart=" + sequenceStart +
+                ", sequenceEnd=" + sequenceEnd +
+                ", createdDateStart=" + createdDateStart +
+                ", createdDateEnd=" + createdDateEnd +
                 '}';
     }
 }

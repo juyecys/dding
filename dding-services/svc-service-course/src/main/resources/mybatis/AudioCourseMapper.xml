@@ -79,6 +79,15 @@
 			<if test="sequence != null">
 				and rc.sequence = #{sequence}
 			</if>
+			<if test="createdDateStart != null and createdDateEnd == null ">
+				and rc.createdDate &gt;= #{createdDateStart}
+			</if>
+			<if test="createdDateStart == null and createdDateEnd != null ">
+				and rc.createdDate &lt;= #{createdDateEnd}
+			</if>
+			<if test="createdDateStart != null and createdDateEnd != null ">
+				and rc.createdDate BETWEEN #{createdDateStart} AND #{createdDateEnd}
+			</if>
 		</where>
 	</sql>
 

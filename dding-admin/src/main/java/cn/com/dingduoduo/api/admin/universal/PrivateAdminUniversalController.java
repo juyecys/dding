@@ -2,6 +2,7 @@ package cn.com.dingduoduo.api.admin.universal;
 
 
 import cn.com.dingduoduo.api.common.ApiResult;
+import cn.com.dingduoduo.constants.AliyunOssPath;
 import cn.com.dingduoduo.entity.aliyun.oss.AliyunContentStorageResult;
 import cn.com.dingduoduo.exception.AdminException;
 import cn.com.dingduoduo.exception.aliyun.oss.AliyunContentStorageException;
@@ -47,16 +48,16 @@ public class PrivateAdminUniversalController {
     }
 
     @RequestMapping(value = "/ueditorUpload", method = RequestMethod.POST)
-    public ResponseEntity<UEditorUploadFileResult> ueditorUploadFile(@RequestParam("upfile") MultipartFile file, @RequestParam("path") String path) throws IOException, AliyunContentStorageException, AdminException {
-        if (Objects.isNull(path)) {
-            throw new AdminException(AdminException.AdminErrorCode.ERROR_PARAMETER);
-        }
+    public ResponseEntity<UEditorUploadFileResult> ueditorUploadFile(@RequestParam("upfile") MultipartFile file) throws IOException, AliyunContentStorageException, AdminException {
+        String path = AliyunOssPath.UEDITOR_IMG_FILEPATH;
         AliyunContentStorageResult aliyunContentStorageResult = aliyunContentStorageService.storeCommon(file.getOriginalFilename(), file.getBytes(), file.getContentType(), path);
 
         UEditorUploadFileResult file1 = new UEditorUploadFileResult();
         file1.setOriginal(file.getOriginalFilename());
-        file1.setTitle(file.getOriginalFilename());
+        file1.setTitle(aliyunContentStorageResult.getResourceUrl());
         file1.setUrl(aliyunContentStorageResult.getResourceUrl());
+        file1.setSize(String.valueOf(file.getSize()));
+        file1.setType(FileUtils.getExtend(file.getOriginalFilename()));
         return new ResponseEntity<>(file1, HttpStatus.OK);
     }
 
