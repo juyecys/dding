@@ -22,11 +22,11 @@ public class PublicWPConfigController {
     private static Logger logger = LoggerFactory.getLogger(PublicWPConfigController.class);
 
     @Autowired
-    private WechatJsSignService wechatJsSignService;
+    private WechatJsSignService wechatJsSignServiceRPC;
 
     @RequestMapping(value = "/", method = RequestMethod.GET)
     public ResponseEntity<ApiResult> getConfig(@RequestParam("url") String url) throws Exception {
-        WechatJsSign sign = wechatJsSignService.signUrl(url);
+        WechatJsSign sign = wechatJsSignServiceRPC.signUrl(url);
         return new ResponseEntity<>(ApiResult.success(sign), HttpStatus.OK);
     }
 

@@ -44,7 +44,7 @@ public class PrivateAdminAudioController {
         return new ResponseEntity<>(ApiResult.success(page), HttpStatus.OK);
     }
 
-    @RequestMapping(value = "/course/count/minsequence", method = RequestMethod.GET)
+    @RequestMapping(value = "/course/count/min/sequence", method = RequestMethod.GET)
     public ResponseEntity<ApiResult> countMinSequence() throws Exception {
         Integer sequence = audioCourseService.countMinSequence();
         return new ResponseEntity<>(ApiResult.success(sequence), HttpStatus.OK);

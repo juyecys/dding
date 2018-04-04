@@ -38,6 +38,9 @@ public class BaseServiceImpl<M extends Base, QM extends M>  implements BaseServi
 
     @Override
     public void deleteById(String id) {
+        if (id == null) {
+            return;
+        }
         dao.deleteById(id);
     }
 

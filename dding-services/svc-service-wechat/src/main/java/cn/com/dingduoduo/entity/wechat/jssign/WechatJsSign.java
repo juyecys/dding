@@ -4,12 +4,15 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import java.io.Serializable;
+
 /**
  * Created by jeysine on 2018/3/26.
  */
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JsonInclude(JsonInclude.Include.NON_EMPTY)
-public class WechatJsSign {
+public class WechatJsSign implements Serializable {
+    private static final long serialVersionUID = -6253646681243553568L;
     @JsonProperty("url")
     private String url;
 

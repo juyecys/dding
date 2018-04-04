@@ -14,17 +14,8 @@ import org.apache.ibatis.type.Alias;
 @JsonInclude(JsonInclude.Include.NON_EMPTY)
 public class Banner extends Base {
 
-    @JsonProperty("location")
-    private String location;
-
-    @JsonProperty("code")
-    private String code;
-
-    @JsonProperty("type")
-    private String type;
-
-    @JsonProperty("remark")
-    private String remark;
+    @JsonProperty("bannerGroupId")
+    private String bannerGroupId;
 
     @JsonProperty("sequence")
     private Integer sequence;
@@ -39,39 +30,18 @@ public class Banner extends Base {
     /**
      * 图片url
      */
-    @JsonProperty("bannerUrl")
-    private String bannerUrl;
+    @JsonProperty("pictureUrl")
+    private String pictureUrl;
 
-    public String getLocation() {
-        return location;
+    @JsonProperty("bannerGroupCode")
+    private String bannerGroupCode;
+
+    public String getBannerGroupId() {
+        return bannerGroupId;
     }
 
-    public void setLocation(String location) {
-        this.location = location;
-    }
-
-    public String getCode() {
-        return code;
-    }
-
-    public void setCode(String code) {
-        this.code = code;
-    }
-
-    public String getType() {
-        return type;
-    }
-
-    public void setType(String type) {
-        this.type = type;
-    }
-
-    public String getRemark() {
-        return remark;
-    }
-
-    public void setRemark(String remark) {
-        this.remark = remark;
+    public void setBannerGroupId(String bannerGroupId) {
+        this.bannerGroupId = bannerGroupId;
     }
 
     public Integer getSequence() {
@@ -90,24 +60,30 @@ public class Banner extends Base {
         this.url = url;
     }
 
-    public String getBannerUrl() {
-        return bannerUrl;
+    public String getPictureUrl() {
+        return pictureUrl;
     }
 
-    public void setBannerUrl(String bannerUrl) {
-        this.bannerUrl = bannerUrl;
+    public void setPictureUrl(String pictureUrl) {
+        this.pictureUrl = pictureUrl;
+    }
+
+    public String getBannerGroupCode() {
+        return bannerGroupCode;
+    }
+
+    public void setBannerGroupCode(String bannerGroupCode) {
+        this.bannerGroupCode = bannerGroupCode;
     }
 
     @Override
     public String toString() {
         return "Banner{" +
-                "location='" + location + '\'' +
-                ", code='" + code + '\'' +
-                ", type='" + type + '\'' +
-                ", remark='" + remark + '\'' +
+                "bannerGroupId='" + bannerGroupId + '\'' +
                 ", sequence=" + sequence +
                 ", url='" + url + '\'' +
-                ", bannerUrl='" + bannerUrl + '\'' +
+                ", pictureUrl='" + pictureUrl + '\'' +
+                ", bannerGroupCode='" + bannerGroupCode + '\'' +
                 '}';
     }
 }

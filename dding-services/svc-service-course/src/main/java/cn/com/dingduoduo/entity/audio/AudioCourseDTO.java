@@ -1,5 +1,6 @@
 package cn.com.dingduoduo.entity.audio;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -28,9 +29,11 @@ public class AudioCourseDTO extends AudioCourse {
     @JsonProperty("sequenceEnd")
     private Integer sequenceEnd;
 
+    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
     @JsonProperty("createdDateStart")
     private Date createdDateStart;
 
+    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
     @JsonProperty("createdDateEnd")
     private Date createdDateEnd;
 

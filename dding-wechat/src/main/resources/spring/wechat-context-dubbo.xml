@@ -16,8 +16,9 @@
 	<dubbo:protocol name="dubbo" port="${dubbo.protocol.port}" accesslog="${service.accesslog.location}" />
 
 	<!-- zookeeper地址 -->
-	<dubbo:registry address="${dubbo.registry.address}" />
-	<dubbo:monitor protocol="${dubbo.monitor.protocol}"  />
+
+	<dubbo:registry address="${dubbo.registry.address}" file="${catalina.home}/ding-dubbo-registry/dubbo-registry.properties"/>
+	<!--<dubbo:monitor protocol="${dubbo.monitor.protocol}"  />-->
 
 	<!-- 声明需要暴露的服务接口 -->
 	<dubbo:service
@@ -49,4 +50,11 @@
 			ref="wechatMaterialServiceRPC" timeout="5000"/>
 	<bean id="wechatMaterialServiceRPC"
 		  class="cn.com.dingduoduo.service.wechat.material.impl.WechatMaterialServiceImpl" />
+
+
+	<dubbo:service
+			interface="cn.com.dingduoduo.service.wechat.jssign.WechatJsSignService"
+			ref="wechatJsSignServiceRPC" timeout="5000"/>
+	<bean id="wechatJsSignServiceRPC"
+		  class="cn.com.dingduoduo.service.wechat.jssign.impl.WechatJsSignServiceImpl" />
 </beans>

@@ -11,8 +11,9 @@
 	<dubbo:application name="${dubbo.application.name}" />
 
 	<!-- 使用multicast广播注册中心暴露服务地址 -->
-	<dubbo:registry address="${dubbo.registry.address}" />
-	<dubbo:monitor protocol="${dubbo.monitor.protocol}"  />
+
+	<dubbo:registry address="${dubbo.registry.address}" file="${catalina.home}/ding-dubbo-registry/ding-dubbo-registry.properties"/>
+	<!--<dubbo:monitor protocol="${dubbo.monitor.protocol}"  />-->
 
 	<!-- 生成远程服务代理，可以和本地bean一样使用demoService -->
 	<dubbo:reference id="wechatMessageServiceRPC"

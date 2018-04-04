@@ -34,7 +34,7 @@ public class WechatUserUnSubscribeEventListener implements EventListener{
 
     @Override
     public String getId() {
-        return "YKB_EVENT_WECHAT_USER_SUBSCRIBE_EVENT";
+        return "DING_EVENT_WECHAT_USER_SUBSCRIBE_EVENT";
     }
 
     @Override

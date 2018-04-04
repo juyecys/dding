@@ -41,6 +41,9 @@ public class AliyunOssPath {
 	/** UEDITOR图片路径 **/
 	public static final String UEDITOR_IMG_FILEPATH = "ueditor/img/";
 
+	/** 广告图片路径 **/
+	public static final String ADVERTISE_IMG_FILEPATH = "advertise/img/";
+
 	public static void setPROFILE(String[] profile) {
 		PROFILE = profile;
 		log.info("当前系统profile配置为:{}", Arrays.asList(profile));

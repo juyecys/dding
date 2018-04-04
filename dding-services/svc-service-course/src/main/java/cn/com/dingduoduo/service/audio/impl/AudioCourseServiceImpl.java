@@ -3,10 +3,7 @@ package cn.com.dingduoduo.service.audio.impl;
 import cn.com.dingduoduo.dao.audio.AudioCourseDAO;
 import cn.com.dingduoduo.entity.audio.AudioCourse;
 import cn.com.dingduoduo.entity.audio.AudioCourseDTO;
-import cn.com.dingduoduo.entity.audio.AudioLectureGroupDTO;
-import cn.com.dingduoduo.entity.common.Page;
 import cn.com.dingduoduo.service.audio.AudioCourseService;
-import cn.com.dingduoduo.service.audio.AudioLectureGroupService;
 import cn.com.dingduoduo.service.common.impl.BaseServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -21,8 +18,6 @@ public class AudioCourseServiceImpl extends BaseServiceImpl<AudioCourse, AudioCo
     @Autowired
     private AudioCourseDAO dao;
 
-    @Autowired
-    private AudioLectureGroupService audioLectureGroupService;
 
     @Autowired
     public void setDao(AudioCourseDAO dao) {
@@ -34,4 +29,50 @@ public class AudioCourseServiceImpl extends BaseServiceImpl<AudioCourse, AudioCo
     public Integer countMinSequence() {
         return dao.countMinSequence();
     }
+
+    @Override
+    public List<AudioCourseDTO> findNeedOrderBySequence(AudioCourseDTO audioCourse) {
+        return dao.findNeedOrderBySequence(audioCourse);
+    }
+
+    @Override
+    public AudioCourse createOrUpdate(AudioCourse entity) throws Exception {
+        if (entity.getSequence() != null) {
+            updateSequence(entity);
+        }
+        if (entity.getId() == null) {
+            return create(entity);
+        }
+        return update(entity);
+    }
+
+    private synchronized void updateSequence(AudioCourse newAudioCourse) {
+        List<AudioCourseDTO> list = null;
+        AudioCourseDTO oldAudioCourse = new AudioCourseDTO();
+        AudioCourseDTO updateAudioCourse = new AudioCourseDTO();
+        int sequenceStep = 1;
+        if (newAudioCourse.getId() != null) {
+            oldAudioCourse.setId(newAudioCourse.getId());
+            oldAudioCourse = findOneByCondition(oldAudioCourse);
+
+            if (newAudioCourse.getSequence() > oldAudioCourse.getSequence()) {
+                updateAudioCourse.setSequenceEnd(newAudioCourse.getSequence() + 1);
+                updateAudioCourse.setSequenceStart(oldAudioCourse.getSequence() + 1);
+                list = findNeedOrderBySequence(updateAudioCourse);
+                sequenceStep = -1;
+            } else if (newAudioCourse.getSequence() < oldAudioCourse.getSequence()) {
+                updateAudioCourse.setSequenceEnd(oldAudioCourse.getSequence());
+                updateAudioCourse.setSequenceStart(newAudioCourse.getSequence());
+                list = findNeedOrderBySequence(updateAudioCourse);
+            }
+        }
+
+        if (list != null) {
+            for (AudioCourseDTO one: list) {
+                one.setSequence(one.getSequence() + sequenceStep);
+                update(one);
+            }
+        }
+    }
+
 }
