@@ -66,6 +66,18 @@ public class AudioCourse extends Base {
     @JsonProperty("sequence")
     private Integer sequence;
 
+    /**
+     * 尾部html
+     */
+    @JsonProperty("tail")
+    private String tail;
+
+    /**
+     * 头部html
+     */
+    @JsonProperty("head")
+    private String head;
+
     public String getName() {
         return name;
     }
@@ -168,6 +180,22 @@ public class AudioCourse extends Base {
 
     public void setSequence(Integer sequence) {
         this.sequence = sequence;
+    }
+
+    public String getTail() {
+        return tail;
+    }
+
+    public void setTail(String tail) {
+        this.tail = tail;
+    }
+
+    public String getHead() {
+        return head;
+    }
+
+    public void setHead(String head) {
+        this.head = head;
     }
 
     @Override

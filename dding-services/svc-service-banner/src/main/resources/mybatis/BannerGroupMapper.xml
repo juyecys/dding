@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8" ?>    
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="cn.com.dingduoduo.dao.banner.BannerGroupDAO">
+
+	<insert id="create" parameterType="BannerGroupM">
+		INSERT INTO
+			ding_banner_group (id, created_by, created_date, updated_date, updated_by,
+			location, code, type, remark)
+	  	VALUES
+	  		(#{id}, #{createdBy}, #{createdDate}, #{updatedDate}, #{updatedBy}
+	  		, #{location}, #{code}, #{type}, #{remark})
+	</insert>
+
+	<update id="update" parameterType="BannerGroupM">
+		UPDATE ding_banner_group
+		<set>
+			<if test="location != null">
+				location = #{location},
+			</if>
+			<if test="type != null">
+				type = #{type},
+			</if>
+			<if test="remark != null">
+				remark = #{remark},
+			</if>
+		</set>
+		WHERE id = #{id}
+	</update>
+
+	<update id="deleteById" parameterType="BannerGroupM">
+		DELETE FROM ding_banner_group WHERE id = #{id}
+	</update>
+
+	<sql id="sql_where">
+		<where>
+			<if test="id != null">
+				and bg.id = #{id}
+			</if>
+			<if test="code != null">
+				and bg.code = #{code}
+			</if>
+			<if test="type != null">
+				and bg.type = #{type}
+			</if>
+		</where>
+	</sql>
+
+	<sql id="from_table">
+		ding_banner_group bg
+	</sql>
+
+	<select id="findByConditionPage" resultType="BannerGroupQM">
+		SELECT
+		bg.*
+		FROM
+		<include refid="from_table" />
+		<include refid="sql_where" />
+	    ORDER BY bg.created_date DESC
+	</select>
+
+	<select id="findOneByCondition" resultType="BannerGroupQM">
+		SELECT
+		bg.*
+		FROM
+		<include refid="from_table" />
+		<include refid="sql_where" />
+		LIMIT 1
+	</select>
+
+	<select id="findByCondition" resultType="BannerGroupQM">
+		SELECT
+		bg.*
+		FROM
+		<include refid="from_table" />
+		<include refid="sql_where" />
+		ORDER BY bg.created_date DESC
+	</select>
+</mapper>
+

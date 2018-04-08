@@ -26,7 +26,7 @@ public class WechatScanQRCodeEventListener  implements EventListener {
 
     @Override
     public String getId() {
-        return "YKB_EVENT_WECHAT_SCAN_QRCODE_EVENT";
+        return "DING_EVENT_WECHAT_SCAN_QRCODE_EVENT";
     }
 
     @Override

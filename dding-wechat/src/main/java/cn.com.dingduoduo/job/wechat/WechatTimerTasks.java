@@ -27,7 +27,7 @@ public class WechatTimerTasks {
 
     private Logger logger = LoggerFactory.getLogger(WechatTimerTasks.class);
 
-    @Scheduled(cron = "0 0/1 * * * ?")
+    @Scheduled(cron = "${wechat.timer.task.get.user.info}")
     public void getUserInfo() throws IOException {
         List<LocalWechatUserDTO> localWechatUserDTOList = localWechatUserService.findByUnsynchronous();
         if (!localWechatUserDTOList.isEmpty()) {

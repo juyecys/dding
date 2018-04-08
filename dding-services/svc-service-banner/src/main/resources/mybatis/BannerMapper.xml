@@ -6,33 +6,26 @@
 	<insert id="create" parameterType="BannerM">
 		INSERT INTO
 			ding_banner (id, created_by, created_date, updated_date, updated_by,
-			location, code, type, remark, sequence, url, banner_url)
+			sequence, url, picture_url, banner_group_id, banner_group_code)
 	  	VALUES
 	  		(#{id}, #{createdBy}, #{createdDate}, #{updatedDate}, #{updatedBy}
-	  		, #{location}, #{code}, #{type}, #{remark}, #{sequence}, #{url}, #{bannerUrl})
+	  		, #{sequence}, #{url}, #{pictureUrl}, #{bannerGroupId}, #{bannerGroupCode})
 	</insert>
 
 	<update id="update" parameterType="BannerM">
 		UPDATE ding_banner
 		<set>
-			<if test="location != null">
-				location = #{location},
-			</if>
-			<if test="type != null">
-				type = #{type},
-			</if>
-			<if test="remark != null">
-				remark = #{remark},
-			</if>
 			<if test="sequence != null">
 				sequence = #{sequence},
 			</if>
 			<if test="url != null">
 				url = #{url},
 			</if>
-			<if test="bannerUrl != null">
-				banner_url = #{bannerUrl},
+			<if test="pictureUrl != null">
+				picture_url = #{pictureUrl},
 			</if>
+
+
 		</set>
 		WHERE id = #{id}
 	</update>
@@ -44,13 +37,13 @@
 	<sql id="sql_where">
 		<where>
 			<if test="id != null">
-				and b.id = #{id}
+				AND b.id = #{id}
 			</if>
-			<if test="code != null">
-				and b.code = #{code}
+			<if test="bannerGroupId != null">
+				AND banner_group_id = #{bannerGroupId}
 			</if>
-			<if test="type != null">
-				and b.type = #{type}
+			<if test="bannerGroupCode != null">
+				AND banner_group_code = #{bannerGroupCode}
 			</if>
 		</where>
 	</sql>
@@ -59,7 +52,7 @@
 		ding_banner b
 	</sql>
 
-	<select id="findByConditionPage" resultType="BannerM">
+	<select id="findByConditionPage" resultType="BannerQM">
 		SELECT
 		b.*
 		FROM
@@ -68,7 +61,7 @@
 	    ORDER BY b.created_date DESC
 	</select>
 
-	<select id="findOneByCondition" resultType="BannerM">
+	<select id="findOneByCondition" resultType="BannerQM">
 		SELECT
 		b.*
 		FROM
@@ -77,13 +70,13 @@
 		LIMIT 1
 	</select>
 
-	<select id="findByCondition" resultType="BannerM">
+	<select id="findByCondition" resultType="BannerQM">
 		SELECT
 		b.*
 		FROM
 		<include refid="from_table" />
 		<include refid="sql_where" />
-		ORDER BY b.created_date DESC
+		ORDER BY b.sequence
 	</select>
 </mapper>
 

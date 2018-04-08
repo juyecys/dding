@@ -1,14 +1,11 @@
 package cn.com.dingduoduo.service.wechat.jsticket.impl;
 
-import cn.com.dingduoduo.config.wechat.WechatConfigSecret;
 import cn.com.dingduoduo.contants.wechat.WechatConfigParams;
-import cn.com.dingduoduo.entity.wechat.acesstoken.WechatAccessToken;
 import cn.com.dingduoduo.entity.wechat.jsticket.WechatJsTicket;
 import cn.com.dingduoduo.service.wechat.accesstoken.WechatAccessTokenService;
 import cn.com.dingduoduo.service.wechat.jsticket.WechatJsTicketService;
 import cn.com.dingduoduo.utils.common.okhttputil.OkHttpUtils;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import okhttp3.Response;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,7 +38,7 @@ public class WechatJsTicketServiceImpl implements WechatJsTicketService {
         if (jedis == null) {
             logger.error("Redis is not reachable");
         }
-        logger.debug("start to get accessToken");
+        logger.debug("start to get js api ticket");
 
         WechatJsTicket wechatJsTicket = null;
         int count = 0;

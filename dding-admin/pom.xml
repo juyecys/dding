@@ -52,6 +52,15 @@
             <groupId>cn.com.dingduoduo</groupId>
             <artifactId>svc-service-banner</artifactId>
         </dependency>
+        <dependency>
+            <groupId>org.json</groupId>
+            <artifactId>json</artifactId>
+            <version>20160212</version>
+        </dependency>
+        <!-- <dependency>
+             <groupId>com.baidu</groupId>
+             <artifactId>ueditor</artifactId>
+         </dependency>-->
     </dependencies>
     <build>
         <finalName>dding-admin</finalName>
