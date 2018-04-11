@@ -46,11 +46,11 @@
 
 	<!-- 事务注解驱动，标注@Transactional的类和方法将具有事务性 -->
 	
-	<!--<bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager">
-		<property name="entityManagerFactory" ref="entityManagerFactory" />
-	</bean>-->
+	<bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+		<property name="dataSource" ref="dataSource" />
+	</bean>
 
-	<!-- Enables the Hibernate @Transactional programming model -->
-	<!--<tx:annotation-driven transaction-manager="transactionManager" />-->
+	<!-- Enables the @Transactional programming model -->
+	<tx:annotation-driven transaction-manager="transactionManager" />
 
 </beans>

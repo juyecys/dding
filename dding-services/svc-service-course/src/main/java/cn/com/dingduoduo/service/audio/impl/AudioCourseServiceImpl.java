@@ -3,10 +3,12 @@ package cn.com.dingduoduo.service.audio.impl;
 import cn.com.dingduoduo.dao.audio.AudioCourseDAO;
 import cn.com.dingduoduo.entity.audio.AudioCourse;
 import cn.com.dingduoduo.entity.audio.AudioCourseDTO;
+import cn.com.dingduoduo.entity.common.Page;
 import cn.com.dingduoduo.service.audio.AudioCourseService;
 import cn.com.dingduoduo.service.common.impl.BaseServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -35,12 +37,14 @@ public class AudioCourseServiceImpl extends BaseServiceImpl<AudioCourse, AudioCo
         return dao.findNeedOrderBySequence(audioCourse);
     }
 
+    @Transactional
     @Override
     public AudioCourse createOrUpdate(AudioCourse entity) throws Exception {
         if (entity.getSequence() != null) {
             updateSequence(entity);
         }
         if (entity.getId() == null) {
+            entity.setSequence(entity.getSequence() - 1);
             return create(entity);
         }
         return update(entity);
@@ -56,8 +60,8 @@ public class AudioCourseServiceImpl extends BaseServiceImpl<AudioCourse, AudioCo
             oldAudioCourse = findOneByCondition(oldAudioCourse);
 
             if (newAudioCourse.getSequence() > oldAudioCourse.getSequence()) {
-                updateAudioCourse.setSequenceEnd(newAudioCourse.getSequence() + 1);
-                updateAudioCourse.setSequenceStart(oldAudioCourse.getSequence() + 1);
+                updateAudioCourse.setSequenceEnd(newAudioCourse.getSequence());
+                updateAudioCourse.setSequenceStart(oldAudioCourse.getSequence());
                 list = findNeedOrderBySequence(updateAudioCourse);
                 sequenceStep = -1;
             } else if (newAudioCourse.getSequence() < oldAudioCourse.getSequence()) {

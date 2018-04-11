@@ -2,6 +2,7 @@ package cn.com.dingduoduo.service.audio;
 
 import cn.com.dingduoduo.entity.audio.AudioCourse;
 import cn.com.dingduoduo.entity.audio.AudioCourseDTO;
+import cn.com.dingduoduo.entity.common.Page;
 import cn.com.dingduoduo.service.common.BaseService;
 
 import java.util.List;

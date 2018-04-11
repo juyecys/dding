@@ -115,7 +115,7 @@
 		FROM
 		<include refid="from_table" />
 		<include refid="sql_where" />
-	    ORDER BY rc.created_date DESC
+	    ORDER BY rc.sequence
 	</select>
 
 	<select id="findOneByCondition" resultType="AudioCourseQM">
