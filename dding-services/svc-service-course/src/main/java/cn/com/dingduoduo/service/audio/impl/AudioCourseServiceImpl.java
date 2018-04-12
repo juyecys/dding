@@ -44,7 +44,6 @@ public class AudioCourseServiceImpl extends BaseServiceImpl<AudioCourse, AudioCo
             updateSequence(entity);
         }
         if (entity.getId() == null) {
-            entity.setSequence(entity.getSequence() - 1);
             return create(entity);
         }
         return update(entity);
