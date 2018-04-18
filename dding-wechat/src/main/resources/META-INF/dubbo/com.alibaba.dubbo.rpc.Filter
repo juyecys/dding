@@ -1,0 +1,2 @@
+setTraceIdPreRpcFilter=cn.com.dingduoduo.filter.SetTraceIdPreRpcFilter
+setLogMdcPreServiceFilter=cn.com.dingduoduo.filter.SetLogMdcPreServiceFilter

@@ -20,6 +20,10 @@
 	<dubbo:registry address="${dubbo.registry.address}" file="${catalina.home}/ding-dubbo-registry/dubbo-registry.properties"/>
 	<!--<dubbo:monitor protocol="${dubbo.monitor.protocol}"  />-->
 
+	<dubbo:consumer filter="setTraceIdPreRpcFilter" />
+
+	<dubbo:provider filter="setLogMdcPreServiceFilter" />
+
 	<!-- 声明需要暴露的服务接口 -->
 	<dubbo:service
 		interface="cn.com.dingduoduo.service.wechat.menu.WechatMenuService"
