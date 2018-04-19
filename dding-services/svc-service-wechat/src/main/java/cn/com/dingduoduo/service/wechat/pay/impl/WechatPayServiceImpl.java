@@ -3,7 +3,6 @@ package cn.com.dingduoduo.service.wechat.pay.impl;
 import cn.com.dingduoduo.config.wechat.WechatConfigSecret;
 import cn.com.dingduoduo.entity.wechat.pay.WechatPayment;
 import cn.com.dingduoduo.service.wechat.pay.WechatPayService;
-import cn.com.dingduoduo.utils.common.Dom4jUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
@@ -36,7 +35,7 @@ public class WechatPayServiceImpl implements WechatPayService {
         wechatPayment.setProductId(productId);
         wechatPayment.setOpenId(openId);
         wechatPayment.setNotifyUrl(payNotifyUrl);
-        
+
         return wechatPayment;
     }
 }
