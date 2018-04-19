@@ -23,9 +23,7 @@
         <module>svc-service-notification</module>
         <module>svc-service-wechat-keyword</module>
         <module>svc-service-banner</module>
-        <module>svc-course-order</module>
         <module>svc-service-course-order</module>
-        <module>svc-service-pay</module>
     </modules>
 
     <dependencies>
