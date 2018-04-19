@@ -78,6 +78,21 @@ public class AudioCourse extends Base {
     @JsonProperty("head")
     private String head;
 
+    /**
+     * 是否付费
+     */
+    @JsonProperty("free")
+    private Boolean free;
+
+    /**
+     * 是否推荐
+     */
+    @JsonProperty("recommend")
+    private Boolean recommend;
+
+    @JsonProperty("price")
+    private Float price;
+
     public String getName() {
         return name;
     }
@@ -198,6 +213,30 @@ public class AudioCourse extends Base {
         this.head = head;
     }
 
+    public Boolean getFree() {
+        return free;
+    }
+
+    public void setFree(Boolean free) {
+        this.free = free;
+    }
+
+    public Boolean getRecommend() {
+        return recommend;
+    }
+
+    public void setRecommend(Boolean recommend) {
+        this.recommend = recommend;
+    }
+
+    public Float getPrice() {
+        return price;
+    }
+
+    public void setPrice(Float price) {
+        this.price = price;
+    }
+
     @Override
     public String toString() {
         return "AudioCourse{" +
@@ -214,6 +253,11 @@ public class AudioCourse extends Base {
                 ", totalTime=" + totalTime +
                 ", status=" + status +
                 ", sequence=" + sequence +
+                ", tail='" + tail + '\'' +
+                ", head='" + head + '\'' +
+                ", free=" + free +
+                ", recommend=" + recommend +
+                ", price=" + price +
                 '}';
     }
 }

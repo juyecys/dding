@@ -6,10 +6,10 @@
 	<insert id="create" parameterType="AudioLectureM">
 		INSERT INTO
 			ding_audio_lecture (id, created_by, created_date, updated_date, updated_by,
-			course_id, group_id, name, sequence, audio_url, audio_name, audio_timestamp)
+			course_id, group_id, name, sequence, audio_url, audio_name, audio_timestamp, free_listen)
 	  	VALUES
 	  		(#{id}, #{createdBy}, #{createdDate}, #{updatedDate}, #{updatedBy}
-	  		, #{courseId}, #{groupId}, #{name}, #{sequence}, #{audioUrl}, #{audioName}, #{audioTimestamp})
+	  		, #{courseId}, #{groupId}, #{name}, #{sequence}, #{audioUrl}, #{audioName}, #{audioTimestamp}, #{freeListen})
 	</insert>
 
 	<update id="update" parameterType="AudioLectureM">
@@ -38,6 +38,9 @@
 			</if>
 			<if test="audioTimestamp != null">
 				audio_timestamp = #{audioTimestamp},
+			</if>
+			<if test="freeListen != null">
+				free_listen = #{freeListen},
 			</if>
 		</set>
 		WHERE id = #{id}

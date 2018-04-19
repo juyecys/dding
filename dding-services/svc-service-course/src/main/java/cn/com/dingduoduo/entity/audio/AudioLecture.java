@@ -41,6 +41,9 @@ public class AudioLecture extends Base{
     @JsonProperty("audioTimestamp")
     private Long audioTimestamp;
 
+    @JsonProperty("freeListen")
+    private Boolean freeListen;
+
     public String getCourseId() {
         return courseId;
     }
@@ -97,6 +100,14 @@ public class AudioLecture extends Base{
         this.audioTimestamp = audioTimestamp;
     }
 
+    public Boolean getFreeListen() {
+        return freeListen;
+    }
+
+    public void setFreeListen(Boolean freeListen) {
+        this.freeListen = freeListen;
+    }
+
     @Override
     public String toString() {
         return "AudioLecture{" +
@@ -107,6 +118,7 @@ public class AudioLecture extends Base{
                 ", audioUrl='" + audioUrl + '\'' +
                 ", audioName='" + audioName + '\'' +
                 ", audioTimestamp=" + audioTimestamp +
+                ", freeListen=" + freeListen +
                 '}';
     }
 }

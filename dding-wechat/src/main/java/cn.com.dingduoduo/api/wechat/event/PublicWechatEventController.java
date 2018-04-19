@@ -16,6 +16,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.PrintWriter;
+import java.io.UnsupportedEncodingException;
 import java.lang.reflect.InvocationTargetException;
 import java.util.HashMap;
 
@@ -78,5 +79,22 @@ public class PublicWechatEventController {
         }
         out.close();
         out = null;
+    }
+
+
+    @RequestMapping(value = "/pay", method = RequestMethod.POST)
+    public void handleWxPaymentNotif(HttpServletRequest request, HttpServletResponse response) {
+        try {
+            request.setCharacterEncoding("UTF-8");
+            response.setCharacterEncoding("UTF-8");
+
+            InputStream inputStream = request.getInputStream();
+            PrintWriter out = response.getWriter();
+
+            HashMap<String, Object> data = Dom4jUtils.readXml(inputStream);
+            logger.error("wechat pay notify: {}", data);
+        } catch (Exception e) {
+            logger.error("error: {}", e);
+        }
     }
 }

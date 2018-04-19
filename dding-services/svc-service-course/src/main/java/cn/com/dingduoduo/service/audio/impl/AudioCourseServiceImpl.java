@@ -3,9 +3,13 @@ package cn.com.dingduoduo.service.audio.impl;
 import cn.com.dingduoduo.dao.audio.AudioCourseDAO;
 import cn.com.dingduoduo.entity.audio.AudioCourse;
 import cn.com.dingduoduo.entity.audio.AudioCourseDTO;
+import cn.com.dingduoduo.entity.audio.AudioLecture;
+import cn.com.dingduoduo.entity.audio.AudioLectureDTO;
 import cn.com.dingduoduo.entity.common.Page;
 import cn.com.dingduoduo.service.audio.AudioCourseService;
+import cn.com.dingduoduo.service.audio.AudioLectureService;
 import cn.com.dingduoduo.service.common.impl.BaseServiceImpl;
+import cn.com.dingduoduo.utils.common.StringUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -19,7 +23,6 @@ import java.util.List;
 public class AudioCourseServiceImpl extends BaseServiceImpl<AudioCourse, AudioCourseDTO> implements AudioCourseService {
     @Autowired
     private AudioCourseDAO dao;
-
 
     @Autowired
     public void setDao(AudioCourseDAO dao) {
@@ -44,9 +47,11 @@ public class AudioCourseServiceImpl extends BaseServiceImpl<AudioCourse, AudioCo
             updateSequence(entity);
         }
         if (entity.getId() == null) {
-            return create(entity);
+            entity = create(entity);
+        } else {
+            entity = update(entity);
         }
-        return update(entity);
+        return entity;
     }
 
     private synchronized void updateSequence(AudioCourse newAudioCourse) {
@@ -77,5 +82,4 @@ public class AudioCourseServiceImpl extends BaseServiceImpl<AudioCourse, AudioCo
             }
         }
     }
-
 }

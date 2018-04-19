@@ -79,4 +79,8 @@ public class WechatConfigParams {
 	/* 发送模板消息 */
 	public static final String WECHAT_SEND_TEMPLATE_MESSAGE = "https://api.weixin.qq.com/cgi-bin/message/template/send?access_token=ACCESS_TOKEN";
 
+	/* 微信支付 */
+	public static final String WECHAT_PAY_URL = "https://api.mch.weixin.qq.com/pay/unifiedorder";
+	public static final String WECHAT_PAY_NOTIFY_URL = "https://api.mch.weixin.qq.com/pay/unifiedorder";
+
 }

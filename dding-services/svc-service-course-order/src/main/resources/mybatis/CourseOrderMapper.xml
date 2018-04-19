@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8" ?>    
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="cn.com.dingduoduo.dao.courseorder.CourseOrderDAO">
+
+	<insert id="create" parameterType="CourseOrderM">
+		INSERT INTO
+			ding_course_order (id, created_by, created_date, updated_date, updated_by,
+			order_number, open_id, type, course_id, source, price, effective_date, courseName, status)
+	  	VALUES
+	  		(#{id}, #{createdBy}, #{createdDate}, #{updatedDate}, #{updatedBy}
+	  		, #{orderNumber}, #{openId}, #{type}, #{courseId}, #{source}, #{price}, #{effectiveDate}, #{courseName}, #{status})
+	</insert>
+
+	<update id="deleteById" parameterType="CourseOrderM">
+		DELETE FROM ding_course_order WHERE id = #{id}
+	</update>
+
+	<update id="update" parameterType="CourseOrderM">
+		UPDATE ding_course_order
+		<set>
+			<if test="status != null">
+				status = #{status},
+			</if>
+		</set>
+		WHERE id = #{id}
+	</update>
+
+	<sql id="sql_where">
+		<where>
+			<if test="id != null">
+				AND co.id = #{id}
+			</if>
+			<if test="orderNumber != null">
+				AND co.order_number = #{orderNumber}
+			</if>
+			<if test="type != null">
+				AND co.type = #{type}
+			</if>
+			<if test="source != null">
+				AND co.source = #{source}
+			</if>
+			<if test="status != null">
+				AND co.status = #{status}
+			</if>
+			<if test="doctorName != null">
+				AND c.doctor_name LIKE '%${doctorName}%'
+			</if>
+			<if test="courseName != null">
+				AND c.name = '%${courseName}%'
+			</if>
+			<if test="userNickName != null">
+				AND wu.nick_name = '%${userNickName}%'
+			</if>
+			<if test="createdDateStart != null">
+				AND c.created_date &gt;= #{createdDateStart}
+			</if>
+			<if test="createdDateEnd != null">
+				AND c.created_date &lt;= #{createdDateEnd}
+			</if>
+		</where>
+	</sql>
+
+
+	<sql id="from_table">
+		ding_course_order co
+	</sql>
+
+	<sql id="join_wechat_user">
+		LEFT JOIN ding_wechat_user wu ON co.open_id = wu.open_id
+	</sql>
+
+	<sql id="join_course">
+		LEFT JOIN ding_audio_course c ON c.id = co.course_id
+	</sql>
+
+	<select id="findByConditionPage" resultType="CourseOrderQM">
+		SELECT
+		co.*,wu.nick_name user_nick_name,c.doctor_name
+		FROM
+		<include refid="from_table" />
+		<include refid="join_wechat_user" />
+		<include refid="join_course" />
+		<include refid="sql_where" />
+	    ORDER BY co.created_date DESC
+	</select>
+
+	<select id="findOneByCondition" resultType="CourseOrderQM">
+		SELECT
+		co.*
+		FROM
+		<include refid="from_table" />
+		<include refid="sql_where" />
+		LIMIT 1
+	</select>
+
+	<select id="findByCondition" resultType="CourseOrderQM">
+		SELECT
+		co.*
+		FROM
+		<include refid="from_table" />
+		<include refid="sql_where" />
+		ORDER BY co.created_date DESC
+	</select>
+</mapper>
+
