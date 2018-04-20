@@ -1,11 +1,12 @@
 package cn.com.dingduoduo.untils.wechat;
 
+import cn.com.dingduoduo.utils.common.MD5Util;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-import java.util.Arrays;
+import java.util.*;
 
 /**
  * 请求校验工具类
@@ -126,5 +127,26 @@ public class WechatSignUtil {
 
 	public void setIOT_TOKEN(String IOT_TOKEN) {
 		WechatSignUtil.IOT_TOKEN = IOT_TOKEN;
+	}
+
+	public static String getSign(Map<String, Object> data, String key) {
+		SortedMap<String, Object> requestParams = new TreeMap<>(data);
+		Set es = requestParams.entrySet();
+		Iterator it = es.iterator();
+		StringBuilder sb = new StringBuilder();
+		while (it.hasNext()) {
+			Map.Entry entry = (Map.Entry) it.next();
+			String k = (String) entry.getKey();
+
+			if (!"sign".equals(k) && !"".equals(k)) {
+				Object v = entry.getValue().toString();
+
+				sb.append(k + "=" + v + "&");
+			}
+		}
+		sb.append("key=" + key);
+		logger.debug("before md5: {}", sb.toString());
+		String sign = MD5Util.MD5Encode(sb.toString(), "UTF-8").toUpperCase();
+		return sign;
 	}
 }

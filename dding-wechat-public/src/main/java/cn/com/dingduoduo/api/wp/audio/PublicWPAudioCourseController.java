@@ -1,15 +1,15 @@
 package cn.com.dingduoduo.api.wp.audio;
 
 import cn.com.dingduoduo.api.common.ApiResult;
-import cn.com.dingduoduo.entity.audio.AudioAnswerDTO;
-import cn.com.dingduoduo.entity.audio.AudioCourseDTO;
-import cn.com.dingduoduo.entity.audio.AudioLectureDTO;
-import cn.com.dingduoduo.entity.audio.AudioLectureGroupDTO;
+import cn.com.dingduoduo.contants.wp.WechatPublicContants;
+import cn.com.dingduoduo.entity.audio.*;
 import cn.com.dingduoduo.entity.common.Page;
+import cn.com.dingduoduo.entity.courseorder.CourseOrderDTO;
 import cn.com.dingduoduo.service.audio.AudioAnswerService;
 import cn.com.dingduoduo.service.audio.AudioCourseService;
 import cn.com.dingduoduo.service.audio.AudioLectureGroupService;
 import cn.com.dingduoduo.service.audio.AudioLectureService;
+import cn.com.dingduoduo.service.courseorder.CourseOrderService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 /**
@@ -38,15 +39,24 @@ public class PublicWPAudioCourseController {
     @Autowired
     private AudioLectureGroupService audioLectureGroupService;
 
+    @Autowired
+    private CourseOrderService courseOrderService;
+
     @RequestMapping(value = "/answer", method = RequestMethod.GET)
-    public ResponseEntity<ApiResult> getAnswerList(AudioAnswerDTO audioAnswer) throws Exception {
+    public ResponseEntity<ApiResult> getAnswerList(HttpServletRequest request, AudioAnswerDTO audioAnswer) throws Exception {
         List<AudioAnswerDTO> audioAnswerList = audioAnswerService.findByCondition(audioAnswer);
+        if (!checkCourseBuy(request, audioAnswer.getCourseId())) {
+            filterAudioAnswerUrl(audioAnswerList);
+        }
         return new ResponseEntity<>(ApiResult.success(audioAnswerList), HttpStatus.OK);
     }
 
     @RequestMapping(value = "/lectureGroup", method = RequestMethod.GET)
-    public ResponseEntity<ApiResult> getLectureList(AudioLectureGroupDTO audioLectureGroup) throws Exception {
+    public ResponseEntity<ApiResult> getLectureList(HttpServletRequest request, AudioLectureGroupDTO audioLectureGroup) throws Exception {
         List<AudioLectureGroupDTO> audioLectureGroupList = audioLectureGroupService.findByCondition(audioLectureGroup);
+        if (!checkCourseBuy(request, audioLectureGroup.getCourseId())) {
+            filterAudioLectureUrl(audioLectureGroupList);
+        }
         return new ResponseEntity<>(ApiResult.success(audioLectureGroupList), HttpStatus.OK);
     }
 
@@ -57,8 +67,52 @@ public class PublicWPAudioCourseController {
     }
 
     @RequestMapping(value = "/course/one", method = RequestMethod.GET)
-    public ResponseEntity<ApiResult> getOneCourse(AudioCourseDTO audioCourse) throws Exception {
+    public ResponseEntity<ApiResult> getOneCourse(HttpServletRequest request, AudioCourseDTO audioCourse) throws Exception {
         audioCourse = audioCourseService.findOneByCondition(audioCourse);
+        String courseId = audioCourse.getId();
+        audioCourse.setBuy(checkCourseBuy(request, courseId));
         return new ResponseEntity<>(ApiResult.success(audioCourse), HttpStatus.OK);
+    }
+
+    /**
+     * 检测用户是否购买课程
+     * @param request
+     * @param courseId
+     * @return
+     */
+    private Boolean checkCourseBuy(HttpServletRequest request, String courseId) {
+        String openId = (String) request.getSession().getAttribute(WechatPublicContants.SESSION_OPENID);
+        if (openId == null) {
+            return false;
+        }
+        CourseOrderDTO courseOrder = new CourseOrderDTO();
+        courseOrder.setCourseId(courseId);
+        courseOrder.setOpenId(openId);
+        courseOrder = courseOrderService.findOneByCondition(courseOrder);
+        return courseOrder != null;
+    }
+
+    private void filterAudioLectureUrl(List<AudioLectureGroupDTO> audioLectureGroupList) {
+        if (audioLectureGroupList == null) {
+            return ;
+        }
+        for (AudioLectureGroupDTO one: audioLectureGroupList) {
+            for (AudioLectureDTO lecture: one.getAudioLectureList()) {
+                if (!lecture.getFreeListen()) {
+                    lecture.setAudioUrl(null);
+                }
+            }
+        }
+    }
+
+    private void filterAudioAnswerUrl(List<AudioAnswerDTO> audioAnswerList) {
+        if (audioAnswerList == null) {
+            return ;
+        }
+        for (AudioAnswerDTO one: audioAnswerList) {
+            if (!one.getFreeListen()) {
+                one.setAudioUrl(null);
+            }
+        }
     }
 }

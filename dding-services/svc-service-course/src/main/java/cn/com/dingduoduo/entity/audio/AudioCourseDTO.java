@@ -37,6 +37,9 @@ public class AudioCourseDTO extends AudioCourse {
     @JsonProperty("createdDateEnd")
     private Date createdDateEnd;
 
+    @JsonProperty("buy")
+    private Boolean buy;
+
     public List<AudioLectureGroupDTO> getAudioLectureGroupList() {
         return audioLectureGroupList;
     }
@@ -83,6 +86,14 @@ public class AudioCourseDTO extends AudioCourse {
 
     public void setCreatedDateEnd(Date createdDateEnd) {
         this.createdDateEnd = createdDateEnd;
+    }
+
+    public Boolean getBuy() {
+        return buy;
+    }
+
+    public void setBuy(Boolean buy) {
+        this.buy = buy;
     }
 
     @Override

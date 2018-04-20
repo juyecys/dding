@@ -38,7 +38,7 @@ public class AudioLectureGroupDTO extends AudioLectureGroup {
 
     @Override
     public String toString() {
-        return super.toString() + "AudioLectureGroupDTO{" +
+        return "AudioLectureGroupDTO{" +
                 "delete=" + delete +
                 ", audioLectureList=" + audioLectureList +
                 '}';

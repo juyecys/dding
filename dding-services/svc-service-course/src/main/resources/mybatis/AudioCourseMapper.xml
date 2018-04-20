@@ -109,6 +109,12 @@
 			<if test="sequenceEnd != null ">
 				and rc.sequence &lt;= #{sequenceEnd}
 			</if>
+			<if test="free != null ">
+				and rc.free = #{free}
+			</if>
+			<if test="recommend != null ">
+				and rc.recommend = #{recommend}
+			</if>
 		</where>
 	</sql>
 

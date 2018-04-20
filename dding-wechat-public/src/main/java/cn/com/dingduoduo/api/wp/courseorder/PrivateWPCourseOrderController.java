@@ -41,7 +41,12 @@ public class PrivateWPCourseOrderController {
     }
 
     @RequestMapping(value = "/", method = RequestMethod.GET)
-    public ResponseEntity<ApiResult> getList(CourseOrderDTO courseOrder) {
+    public ResponseEntity<ApiResult> getList(HttpServletRequest request, CourseOrderDTO courseOrder) {
+        String openId = (String) request.getSession().getAttribute(WechatPublicContants.SESSION_OPENID);
+        if (openId == null) {
+            return new ResponseEntity<>(ApiResult.success(), HttpStatus.OK);
+        }
+        courseOrder.setOpenId(openId);
         List<CourseOrderDTO> list = courseOrderService.findByCondition(courseOrder);
         return new ResponseEntity<>(ApiResult.success(list), HttpStatus.OK);
     }

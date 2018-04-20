@@ -27,7 +27,7 @@ public class AudioAnswerDTO extends AudioAnswer {
 
     @Override
     public String toString() {
-        return super.toString() + "AudioAnswerDTO{" +
+        return "AudioAnswerDTO{" +
                 "delete=" + delete +
                 '}';
     }
