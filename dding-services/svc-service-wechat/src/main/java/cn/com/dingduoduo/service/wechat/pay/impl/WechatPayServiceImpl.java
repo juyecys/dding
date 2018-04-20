@@ -38,6 +38,19 @@ public class WechatPayServiceImpl implements WechatPayService {
 
     private Logger logger = LoggerFactory.getLogger(WechatPayServiceImpl.class);
 
+    static {
+        xStream.alias("xml", WechatInitPayment.class);
+
+        xStream.alias("xml", WechatInitPaymentResult.class);
+        xStream.aliasField("result_code", WechatInitPaymentResult.class, "resultCode");
+        xStream.aliasField("return_msg", WechatInitPaymentResult.class, "returnMsg");
+        xStream.aliasField("return_code", WechatInitPaymentResult.class, "returnCode");
+        xStream.aliasField("err_code", WechatInitPaymentResult.class, "errCode");
+        xStream.aliasField("err_code_des", WechatInitPaymentResult.class, "errCodeDes");
+        xStream.aliasField("prepay_id", WechatInitPaymentResult.class, "prepayId");
+        xStream.aliasField("code_url", WechatInitPaymentResult.class, "codeUrl");
+    }
+
     @Transactional
     @Override
     public WechatPayment initPayment(String deviceInfo, String body, String orderNumber, BigDecimal orderFee, String ip,
@@ -79,7 +92,7 @@ public class WechatPayServiceImpl implements WechatPayService {
         logger.debug("init payment to wechat start : {}", paymentXml);
         String result = OkHttpUtils.postString().url(WechatConfigParams.WECHAT_PAY_URL).content(paymentXml).build().execute().body().string();
         logger.debug("init payment to wechat result: {}", result);
-        return mapper.readValue(result,WechatInitPaymentResult.class);
+        return (WechatInitPaymentResult) xStream.fromXML(result);
     }
 
     private WechatPayment getWechatPayment(String prepayId) throws Exception {
@@ -101,51 +114,22 @@ public class WechatPayServiceImpl implements WechatPayService {
     }
 
     private String parsePaymentXml(WechatInitPayment wechatPayment) {
-        xStream.aliasField("appid", WechatInitPayment.class, "appId");
-        xStream.aliasField("mch_id", WechatInitPayment.class, "mchId");
-        xStream.aliasField("device_info", WechatInitPayment.class, "deviceInfo");
-        xStream.aliasField("nonce_str", WechatInitPayment.class, "nonceStr");
-        xStream.aliasField("sign_type", WechatInitPayment.class, "signType");
-        xStream.aliasField("out_trade_no", WechatInitPayment.class, "outTradeNo");
-        xStream.aliasField("total_fee", WechatInitPayment.class, "totalFee");
-        xStream.aliasField("spbill_create_ip", WechatInitPayment.class, "spbillCreateIp");
-        xStream.aliasField("notify_url", WechatInitPayment.class, "notifyUrl");
-        xStream.aliasField("trade_type", WechatInitPayment.class, "tradeType");
-        xStream.aliasField("product_id", WechatInitPayment.class, "productId");
-        xStream.aliasField("openid", WechatInitPayment.class, "openId");
-
         return xStream.toXML(wechatPayment);
     }
 
     public static void main(String[] args) {
-        WechatInitPayment wechatInitPayment = new WechatInitPayment();
-        /*wechatInitPayment.setAppId("asdfasdfasf");
-        wechatInitPayment.setMchId("asdfasdfasdfas");
-        wechatInitPayment.setNonceStr(UUID.randomUUID().toString().replaceAll("-", "").toUpperCase());
-
-        wechatInitPayment.setDeviceInfo("WEB");
-        wechatInitPayment.setBody("ASDFSDFSF");
-        wechatInitPayment.setOutTradeNo("2345345");
-        wechatInitPayment.setSpbillCreateIp("120.0.0.1");
-        wechatInitPayment.setTradeType("");
-        wechatInitPayment.setProductId(null);
-        wechatInitPayment.setOpenId("dfgbdfg352t5");
-        wechatInitPayment.setNotifyUrl("http://baidu.com");*/
-
-
-        xStream.aliasField("appid", WechatInitPayment.class, "appId");
-        xStream.aliasField("mch_id", WechatInitPayment.class, "mchId");
-        xStream.aliasField("device_info", WechatInitPayment.class, "deviceInfo");
-        xStream.aliasField("nonce_str", WechatInitPayment.class, "nonceStr");
-        xStream.aliasField("sign_type", WechatInitPayment.class, "signType");
-        xStream.aliasField("out_trade_no", WechatInitPayment.class, "outTradeNo");
-        xStream.aliasField("total_fee", WechatInitPayment.class, "totalFee");
-        xStream.aliasField("spbill_create_ip", WechatInitPayment.class, "spbillCreateIp");
-        xStream.aliasField("notify_url", WechatInitPayment.class, "notifyUrl");
-        xStream.aliasField("trade_type", WechatInitPayment.class, "tradeType");
-        xStream.aliasField("product_id", WechatInitPayment.class, "productId");
-        xStream.aliasField("openid", WechatInitPayment.class, "openId");
-
-        System.out.println(xStream.toXML(wechatInitPayment));
+        String xml = "<xml><return_code><![CDATA[SUCCESS]]></return_code>\n" +
+                "<return_msg><![CDATA[OK]]></return_msg>\n" +
+                "<appid><![CDATA[wxdc730562494e6fc1]]></appid>\n" +
+                "<mch_id><![CDATA[1260740101]]></mch_id>\n" +
+                "<device_info><![CDATA[WEB]]></device_info>\n" +
+                "<nonce_str><![CDATA[JmWPsz6Htf5vOryi]]></nonce_str>\n" +
+                "<sign><![CDATA[03F11A0D14FF7602505DFE554E77D9DE]]></sign>\n" +
+                "<result_code><![CDATA[SUCCESS]]></result_code>\n" +
+                "<prepay_id><![CDATA[wx2019070366091296db08ffd00228037528]]></prepay_id>\n" +
+                "<trade_type><![CDATA[JSAPI]]></trade_type>\n" +
+                "</xml>";
+        WechatInitPaymentResult wechatInitPaymentResult = (WechatInitPaymentResult) xStream.fromXML(xml);
+        System.out.println(wechatInitPaymentResult);
     }
 }
