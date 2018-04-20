@@ -71,17 +71,10 @@ public class WechatUserServiceImpl implements WechatUserService {
 		return mapper.readValue(result, WechatUser.class);
 	}
 
-	public static void main(String[] args) {
-		String result = "{\\\"user_info_list\\\":[{\\\"subscribe\\\":1,\\\"openid\\\":\\\"opqVDwnsNk10ZGqqhR3d6AiCLTPI\\\",\\\"nickname\\\":\\\"liangjf\\\",\\\"sex\\\":1,\\\"language\\\":\\\"zh_CN\\\",\\\"city\\\":\\\"广州\\\",\\\"province\\\":\\\"广东\\\",\\\"country\\\":\\\"中国\\\",\\\"headimgurl\\\":\\\"http:\\/\\/thirdwx.qlogo.cn\\/mmopen\\/DY9yAjlJaL7C63SboE70ll1edbZ1zQeHnZJuIvshsLt3HcgTuZao3vgzoHibTDa06xRDibUUsbj0o3KJh4ibe2LpKvRIwwkDiaI3\\/132\\\",\\\"subscribe_time\\\":1517193407,\\\"unionid\\\":\\\"opuCTs2h3mOBp79l-DsWbHKNGmHw\\\",\\\"remark\\\":\\\"\\\",\\\"groupid\\\":0,\\\"tagid_list\\\":[]},{\\\"subscribe\\\":1,\\\"openid\\\":\\\"opqVDwrWpGfjwW0tTuqpk38rS-hc\\\",\\\"nickname\\\":\\\"Null\\\",\\\"sex\\\":1,\\\"language\\\":\\\"zh_CN\\\",\\\"city\\\":\\\"汕头\\\",\\\"province\\\":\\\"广东\\\",\\\"country\\\":\\\"中国\\\",\\\"headimgurl\\\":\\\"http:\\/\\/thirdwx.qlogo.cn\\/mmopen\\/DY9yAjlJaL6wevVCYVxwKiaECagsw5p7BRutXhPW6rpwYlVJb1XvgYSYPTdtQ9Yd5N5FiaIg4rF9Swkoy3C9sp1HcOy2CmdaUic\\/132\\\",\\\"subscribe_time\\\":1517469543,\\\"unionid\\\":\\\"opuCTszT0o5rSO2E0OKRYDCFRrGY\\\",\\\"remark\\\":\\\"\\\",\\\"groupid\\\":0,\\\"tagid_list\\\":[]},{\\\"subscribe\\\":1,\\\"openid\\\":\\\"opqVDwrWpGfjwW0tTuqpk38rS-hc\\\",\\\"nickname\\\":\\\"Null\\\",\\\"sex\\\":1,\\\"language\\\":\\\"zh_CN\\\",\\\"city\\\":\\\"汕头\\\",\\\"province\\\":\\\"广东\\\",\\\"country\\\":\\\"中国\\\",\\\"headimgurl\\\":\\\"http:\\/\\/thirdwx.qlogo.cn\\/mmopen\\/DY9yAjlJaL6wevVCYVxwKiaECagsw5p7BRutXhPW6rpwYlVJb1XvgYSYPTdtQ9Yd5N5FiaIg4rF9Swkoy3C9sp1HcOy2CmdaUic\\/132\\\",\\\"subscribe_time\\\":1517469543,\\\"unionid\\\":\\\"opuCTszT0o5rSO2E0OKRYDCFRrGY\\\",\\\"remark\\\":\\\"\\\",\\\"groupid\\\":0,\\\"tagid_list\\\":[]},{\\\"subscribe\\\":1,\\\"openid\\\":\\\"opqVDwj-hdL6ZzBfFHeSUjGPGajc\\\",\\\"nickname\\\":\\\"希望天空是蓝的\\\",\\\"sex\\\":0,\\\"language\\\":\\\"zh_CN\\\",\\\"city\\\":\\\"\\\",\\\"province\\\":\\\"\\\",\\\"country\\\":\\\"\\\",\\\"headimgurl\\\":\\\"http:\\/\\/thirdwx.qlogo.cn\\/mmopen\\/DY9yAjlJaL7wKAYiaqsUQMMB0LSGQ82AicGX1nN7bC1HMk8icJkeLSU11wGWxzqbD3SaRkkkQl5mTv2P6ULKTX2libj3sOGLiakHh\\/132\\\",\\\"subscribe_time\\\":1518163530,\\\"unionid\\\":\\\"opuCTsweyjwGJUXUK0laXaPpNnBs\\\",\\\"remark\\\":\\\"\\\",\\\"groupid\\\":0,\\\"tagid_list\\\":[]}]}";
-		result = result.replaceAll("\\\\", "");
-		try {
-			System.out.println(result);
-			WechatUserDTO list = mapper.readValue(result,
-					WechatUserDTO.class);
-			System.out.println(list);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-
+	public static void main(String[] args) throws IOException {
+		String url = WechatConfigParams.WECHAT_GET_USER_BY_AUTH_URL.replace("ACCESS_TOKEN", "8_hRo25BnZUEjOzPQchBB-a7Kmq1JhaEvK3zji0qidMsmdnPvlGC0lB2uy-EFigrTpUfVZ8e-pyGJ-1CCHL0zuTQ")
+				.replace("OPENID", "oUo2Rs3VcJQo1z_6XDJ4RJz8kWZI");
+		String result = OkHttpUtils.get().url(url).build().execute().body().string();
+		System.out.println(result);
 	}
 }

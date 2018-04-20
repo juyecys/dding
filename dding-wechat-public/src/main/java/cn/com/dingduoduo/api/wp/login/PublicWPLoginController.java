@@ -57,11 +57,11 @@ public class PublicWPLoginController {
 
                 String[] values = request.getParameterValues(paramName);
                 nextDingUrl.append(paramJoinTag).append(paramName).append("=").append(values[0]);
-                logger.debug("nextYkbUrl: {}", nextDingUrl.toString());
+                logger.debug("nextDingUrl: {}", nextDingUrl.toString());
             }
         }
 
-        logger.debug("AuthWechat get wechat ykb_url {}", nextDingUrl.toString());
+        logger.debug("AuthWechat get wechat ding_url {}", nextDingUrl.toString());
         WechatAuthAccessToken wechatAuthAccessToken = null;
         try {
             String openid = (String) request.getSession().getAttribute(WechatPublicContants.SESSION_OPENID);
@@ -85,7 +85,7 @@ public class PublicWPLoginController {
     }
 
     private boolean filterRequestParams(String paramName) {
-        return !paramName.equals("code") && !paramName.equals("ykb_url") && !paramName.equals("state")
+        return !paramName.equals("code") && !paramName.equals("ding_url") && !paramName.equals("state")
                 && !paramName.equals("connect_redirect") && !paramName.equals("scope") && !paramName.equals("response_type");
     }
 
