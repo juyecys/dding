@@ -2,10 +2,14 @@ package cn.com.dingduoduo.api.wp.courseorder;
 
 import cn.com.dingduoduo.api.common.ApiResult;
 import cn.com.dingduoduo.contants.wp.WechatPublicContants;
-import cn.com.dingduoduo.entity.common.Page;
 import cn.com.dingduoduo.entity.courseorder.CourseOrder;
 import cn.com.dingduoduo.entity.courseorder.CourseOrderDTO;
+import cn.com.dingduoduo.entity.wechat.pay.WechatInitPayment;
+import cn.com.dingduoduo.entity.wechat.pay.WechatPayment;
 import cn.com.dingduoduo.service.courseorder.CourseOrderService;
+import cn.com.dingduoduo.service.wechat.pay.WechatPayService;
+import cn.com.dingduoduo.utils.common.HttpServletUtils;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,6 +34,9 @@ public class PrivateWPCourseOrderController {
     @Autowired
     private CourseOrderService courseOrderService;
 
+    @Autowired
+    private WechatPayService wechatPayService;
+
     private static final Logger logger = LoggerFactory.getLogger(PrivateWPCourseOrderController.class);
 
     @RequestMapping(value = "", method = RequestMethod.POST)
@@ -37,7 +44,13 @@ public class PrivateWPCourseOrderController {
         String openId = (String) request.getSession().getAttribute(WechatPublicContants.SESSION_OPENID);
         courseOrder.setOpenId(openId);
         courseOrder = courseOrderService.createOrUpdate(courseOrder);
-        return new ResponseEntity<>(ApiResult.success(courseOrder), HttpStatus.OK);
+        String userIp = HttpServletUtils.getRealIp(request);
+        WechatPayment wechatPayment = wechatPayService.initPayment("WEB", courseOrder.getCourseName(), courseOrder.getOrderNumber(), courseOrder.getPrice(), userIp, WechatInitPayment.TradeTypeEnum.JSAPI.name(),
+                null, openId);
+        WechatPayAndCourseOrder wechatPayAndCourseOrder = new WechatPayAndCourseOrder();
+        wechatPayAndCourseOrder.setCourseOrder(courseOrder);
+        wechatPayAndCourseOrder.setWechatPayment(wechatPayment);
+        return new ResponseEntity<>(ApiResult.success(wechatPayAndCourseOrder), HttpStatus.OK);
     }
 
     @RequestMapping(value = "/", method = RequestMethod.GET)
@@ -49,6 +62,31 @@ public class PrivateWPCourseOrderController {
         courseOrder.setOpenId(openId);
         List<CourseOrderDTO> list = courseOrderService.findByCondition(courseOrder);
         return new ResponseEntity<>(ApiResult.success(list), HttpStatus.OK);
+    }
+
+
+    public class WechatPayAndCourseOrder {
+        @JsonProperty("wechatPayment")
+        private WechatPayment wechatPayment;
+
+        @JsonProperty("courseOrder")
+        private CourseOrder courseOrder;
+
+        public WechatPayment getWechatPayment() {
+            return wechatPayment;
+        }
+
+        public void setWechatPayment(WechatPayment wechatPayment) {
+            this.wechatPayment = wechatPayment;
+        }
+
+        public CourseOrder getCourseOrder() {
+            return courseOrder;
+        }
+
+        public void setCourseOrder(CourseOrder courseOrder) {
+            this.courseOrder = courseOrder;
+        }
     }
 
     public static void main(String[] args) {

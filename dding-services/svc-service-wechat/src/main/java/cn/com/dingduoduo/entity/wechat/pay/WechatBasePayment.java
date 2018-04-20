@@ -25,6 +25,9 @@ public class WechatBasePayment {
     @JsonProperty("sign_type")
     private String signType = "MD5";
 
+    @JsonProperty("nonce_str")
+    private String nonceStr;
+
     public String getAppId() {
         return appId;
     }
@@ -65,6 +68,14 @@ public class WechatBasePayment {
         this.signType = signType;
     }
 
+    public String getNonceStr() {
+        return nonceStr;
+    }
+
+    public void setNonceStr(String nonceStr) {
+        this.nonceStr = nonceStr;
+    }
+
     @Override
     public String toString() {
         return "WechatBasePayment{" +
@@ -73,6 +84,7 @@ public class WechatBasePayment {
                 ", tradeType='" + tradeType + '\'' +
                 ", sign='" + sign + '\'' +
                 ", signType='" + signType + '\'' +
+                ", nonceStr='" + nonceStr + '\'' +
                 '}';
     }
 }

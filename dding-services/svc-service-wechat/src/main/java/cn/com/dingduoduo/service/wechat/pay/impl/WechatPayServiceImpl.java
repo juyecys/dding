@@ -3,6 +3,7 @@ package cn.com.dingduoduo.service.wechat.pay.impl;
 import cn.com.dingduoduo.config.wechat.WechatConfigSecret;
 import cn.com.dingduoduo.entity.wechat.pay.WechatInitPayment;
 import cn.com.dingduoduo.entity.wechat.pay.WechatInitPaymentResult;
+import cn.com.dingduoduo.entity.wechat.pay.WechatPayment;
 import cn.com.dingduoduo.service.wechat.pay.WechatPayService;
 import cn.com.dingduoduo.untils.wechat.WechatSignUtil;
 import cn.com.dingduoduo.utils.common.MapUtils;
@@ -15,6 +16,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.util.Map;
 import java.util.UUID;
 
@@ -34,37 +36,64 @@ public class WechatPayServiceImpl implements WechatPayService {
     private Logger logger = LoggerFactory.getLogger(WechatPayServiceImpl.class);
 
     @Override
-    public WechatInitPaymentResult initPayment(String deviceInfo, String body, String attach, String orderNumber, Integer orderFee, String ip,
+    public WechatPayment initPayment(String deviceInfo, String body, String orderNumber, BigDecimal orderFee, String ip,
                                      String tradeType, String productId, String openId) throws Exception {
-        WechatInitPayment wechatPayment = new WechatInitPayment();
-        wechatPayment.setAppId(WechatConfigSecret.getWechatAppid());
-        wechatPayment.setMchId(WechatConfigSecret.getWechatMchId());
-        wechatPayment.setNonceStr(UUID.randomUUID().toString());
 
-        wechatPayment.setDeviceInfo(deviceInfo);
-        wechatPayment.setBody(body);
-        wechatPayment.setOutTradeNo(orderNumber);
-        wechatPayment.setTotalFee(orderFee);
-        wechatPayment.setSpbillCreateIp(ip);
-        wechatPayment.setTradeType(tradeType);
-        wechatPayment.setProductId(productId);
-        wechatPayment.setOpenId(openId);
-        wechatPayment.setNotifyUrl(payNotifyUrl);
+        WechatInitPayment wechatInitPayment = getWechatInitPayment(deviceInfo, body, orderNumber, orderFee, ip,
+                tradeType, productId, openId);
 
-        WechatInitPaymentResult wechatPaymentResult = initPayment(wechatPayment);
-        wechatPaymentResult.setPrepayId("");
-        return wechatPaymentResult;
+        WechatInitPaymentResult wechatPaymentResult = initPayment(wechatInitPayment);
+
+        WechatPayment wechatPayment = getWechatPayment(wechatPaymentResult.getPrepayId());
+        return wechatPayment;
     }
 
-    private WechatInitPaymentResult initPayment(WechatInitPayment wechatPayment) throws Exception {
-        Map<String, Object> data = MapUtils.getMap(wechatPayment, WechatInitPayment.class);
-        wechatPayment.setSign(WechatSignUtil.getSign(data, WechatConfigSecret.getWechatPaySecret()));
+    private WechatInitPayment getWechatInitPayment(String deviceInfo, String body, String orderNumber, BigDecimal orderFee, String ip,
+                                                   String tradeType, String productId, String openId) throws IllegalAccessException {
+        WechatInitPayment wechatInitPayment = new WechatInitPayment();
+        wechatInitPayment.setAppId(WechatConfigSecret.getWechatAppid());
+        wechatInitPayment.setMchId(WechatConfigSecret.getWechatMchId());
+        wechatInitPayment.setNonceStr(UUID.randomUUID().toString().replaceAll("-", "").toUpperCase());
 
-        String paymentXml = parsePaymentXml(wechatPayment);
+        wechatInitPayment.setDeviceInfo(deviceInfo);
+        wechatInitPayment.setBody(body);
+        wechatInitPayment.setOutTradeNo(orderNumber);
+        wechatInitPayment.setTotalFee(parseFee(orderFee));
+        wechatInitPayment.setSpbillCreateIp(ip);
+        wechatInitPayment.setTradeType(tradeType);
+        wechatInitPayment.setProductId(productId);
+        wechatInitPayment.setOpenId(openId);
+        wechatInitPayment.setNotifyUrl(payNotifyUrl);
+
+        Map<String, Object> data = MapUtils.getMap(wechatInitPayment, WechatInitPayment.class);
+        wechatInitPayment.setSign(WechatSignUtil.getSign(data, WechatConfigSecret.getWechatPaySecret()));
+        return wechatInitPayment;
+    }
+
+    private WechatInitPaymentResult initPayment(WechatInitPayment wechatInitPayment) throws Exception {
+        String paymentXml = parsePaymentXml(wechatInitPayment);
         logger.debug("init payment to wechat start : {}", paymentXml);
         String result = OkHttpUtils.postString().content(paymentXml).build().execute().body().string();
         logger.debug("init payment to wechat result: {}", result);
         return mapper.readValue(result,WechatInitPaymentResult.class);
+    }
+
+    private WechatPayment getWechatPayment(String prepayId) throws IllegalAccessException {
+        WechatPayment wechatPayment = new WechatPayment();
+        wechatPayment.setNonceStr(UUID.randomUUID().toString().replaceAll("-", "").toUpperCase());
+        wechatPayment.setAppId(WechatConfigSecret.getWechatAppid());
+        wechatPayment.setSignType("MD5");
+        wechatPayment.setTimeStamp(String.valueOf(System.currentTimeMillis() / 1000));
+        wechatPayment.setPackageStr("prepay_id=" + prepayId);
+
+        Map<String, Object> data = MapUtils.getMap(wechatPayment, WechatPayment.class);
+        wechatPayment.setSign(WechatSignUtil.getSign(data, WechatConfigSecret.getWechatPaySecret()));
+
+        return wechatPayment;
+    }
+
+    private Integer parseFee(BigDecimal fee) {
+        return fee.multiply(BigDecimal.valueOf(100)).intValue();
     }
 
     private String parsePaymentXml(WechatInitPayment wechatPayment) {

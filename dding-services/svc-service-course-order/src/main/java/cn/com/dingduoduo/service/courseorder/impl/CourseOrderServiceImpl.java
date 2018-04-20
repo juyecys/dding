@@ -8,6 +8,8 @@ import cn.com.dingduoduo.service.courseorder.CourseOrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
+
 /**
  * Created by jeysine on 2018/4/18.
  */
@@ -20,5 +22,16 @@ public class CourseOrderServiceImpl extends BaseServiceImpl<CourseOrder,CourseOr
     public void setDao(CourseOrderDAO dao) {
         this.dao = dao;
         super.setDAO(dao);
+    }
+
+    @Override
+    public CourseOrder createOrUpdate(CourseOrder entity) throws Exception {
+        if (entity.getPrice() != null) {
+            entity.getPrice().setScale(2, BigDecimal.ROUND_DOWN);
+        }
+        if (entity.getId() == null) {
+            return create(entity);
+        }
+        return update(entity);
     }
 }

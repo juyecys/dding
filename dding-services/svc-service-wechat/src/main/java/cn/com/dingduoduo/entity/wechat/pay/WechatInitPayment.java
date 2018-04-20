@@ -14,9 +14,6 @@ public class WechatInitPayment extends WechatBasePayment {
     @JsonProperty("device_info")
     private String deviceInfo = "WEB";
 
-    @JsonProperty("nonce_str")
-    private String nonceStr;
-
     @JsonProperty("body")
     private String body;
 
@@ -47,14 +44,6 @@ public class WechatInitPayment extends WechatBasePayment {
 
     public void setDeviceInfo(String deviceInfo) {
         this.deviceInfo = deviceInfo;
-    }
-
-    public String getNonceStr() {
-        return nonceStr;
-    }
-
-    public void setNonceStr(String nonceStr) {
-        this.nonceStr = nonceStr;
     }
 
     public String getBody() {
@@ -117,7 +106,6 @@ public class WechatInitPayment extends WechatBasePayment {
     public String toString() {
         return "WechatInitPayment{" +
                 "deviceInfo='" + deviceInfo + '\'' +
-                ", nonceStr='" + nonceStr + '\'' +
                 ", body='" + body + '\'' +
                 ", outTradeNo='" + outTradeNo + '\'' +
                 ", totalFee=" + totalFee +

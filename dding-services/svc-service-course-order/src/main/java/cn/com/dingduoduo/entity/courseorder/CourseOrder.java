@@ -7,6 +7,7 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.apache.ibatis.type.Alias;
 
+import java.math.BigDecimal;
 import java.util.Date;
 
 /**
@@ -33,7 +34,7 @@ public class CourseOrder extends Base {
     private String source;
 
     @JsonProperty("price")
-    private Float price;
+    private BigDecimal price;
 
     @JsonProperty("effectiveDate")
     @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
@@ -111,11 +112,11 @@ public class CourseOrder extends Base {
         this.source = source;
     }
 
-    public Float getPrice() {
+    public BigDecimal getPrice() {
         return price;
     }
 
-    public void setPrice(Float price) {
+    public void setPrice(BigDecimal price) {
         this.price = price;
     }
 
