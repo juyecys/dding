@@ -1,6 +1,7 @@
 package cn.com.dingduoduo.service.wechat.pay.impl;
 
 import cn.com.dingduoduo.config.wechat.WechatConfigSecret;
+import cn.com.dingduoduo.contants.wechat.WechatConfigParams;
 import cn.com.dingduoduo.entity.wechat.pay.WechatInitPayment;
 import cn.com.dingduoduo.entity.wechat.pay.WechatInitPaymentResult;
 import cn.com.dingduoduo.entity.wechat.pay.WechatPayment;
@@ -74,7 +75,7 @@ public class WechatPayServiceImpl implements WechatPayService {
     private WechatInitPaymentResult initPayment(WechatInitPayment wechatInitPayment) throws Exception {
         String paymentXml = parsePaymentXml(wechatInitPayment);
         logger.debug("init payment to wechat start : {}", paymentXml);
-        String result = OkHttpUtils.postString().content(paymentXml).build().execute().body().string();
+        String result = OkHttpUtils.postString().url(WechatConfigParams.WECHAT_PAY_URL).content(paymentXml).build().execute().body().string();
         logger.debug("init payment to wechat result: {}", result);
         return mapper.readValue(result,WechatInitPaymentResult.class);
     }
