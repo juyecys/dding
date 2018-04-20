@@ -17,6 +17,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.util.Map;
@@ -37,6 +38,7 @@ public class WechatPayServiceImpl implements WechatPayService {
 
     private Logger logger = LoggerFactory.getLogger(WechatPayServiceImpl.class);
 
+    @Transactional
     @Override
     public WechatPayment initPayment(String deviceInfo, String body, String orderNumber, BigDecimal orderFee, String ip,
                                      String tradeType, String productId, String openId) throws Exception {
