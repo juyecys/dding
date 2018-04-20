@@ -42,8 +42,7 @@ public class PrivateWPCourseOrderController {
     @RequestMapping(value = "", method = RequestMethod.POST)
     public ResponseEntity<ApiResult> saveOrUpdate(HttpServletRequest request, @RequestBody CourseOrder courseOrder) throws Exception {
         String openId = (String) request.getSession().getAttribute(WechatPublicContants.SESSION_OPENID);
-        courseOrder.setOpenId(openId);
-        courseOrder = courseOrderService.createOrUpdate(courseOrder);
+        courseOrder = courseOrderService.createOrUpdate(courseOrder, openId);
         String userIp = HttpServletUtils.getRealIp(request);
         WechatPayment wechatPayment = wechatPayService.initPayment("WEB", courseOrder.getCourseName(), courseOrder.getOrderNumber(), courseOrder.getPrice(), userIp, WechatInitPayment.TradeTypeEnum.JSAPI.name(),
                 null, openId);
@@ -61,6 +60,7 @@ public class PrivateWPCourseOrderController {
             return new ResponseEntity<>(ApiResult.success(), HttpStatus.OK);
         }
         courseOrder.setOpenId(openId);
+        courseOrder.setStatus(CourseOrder.CourseOrderStatusEnum.PAID.name());
         List<CourseOrderDTO> list = courseOrderService.findByCondition(courseOrder);
         return new ResponseEntity<>(ApiResult.success(list), HttpStatus.OK);
     }

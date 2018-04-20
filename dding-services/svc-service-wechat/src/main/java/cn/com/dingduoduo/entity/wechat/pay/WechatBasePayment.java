@@ -36,7 +36,6 @@ public class WechatBasePayment {
         this.sign = sign;
     }
 
-
     public String getAppid() {
         return appid;
     }
