@@ -4,6 +4,7 @@ import cn.com.dingduoduo.api.common.ApiResult;
 import cn.com.dingduoduo.contants.wp.WechatPublicContants;
 import cn.com.dingduoduo.entity.audio.*;
 import cn.com.dingduoduo.entity.common.Page;
+import cn.com.dingduoduo.entity.courseorder.CourseOrder;
 import cn.com.dingduoduo.entity.courseorder.CourseOrderDTO;
 import cn.com.dingduoduo.service.audio.AudioAnswerService;
 import cn.com.dingduoduo.service.audio.AudioCourseService;
@@ -103,6 +104,7 @@ public class PublicWPAudioCourseController {
         CourseOrderDTO courseOrder = new CourseOrderDTO();
         courseOrder.setCourseId(courseId);
         courseOrder.setOpenId(openId);
+        courseOrder.setStatus(CourseOrder.CourseOrderStatusEnum.PAID.name());
         courseOrder = courseOrderService.findOneByCondition(courseOrder);
         return courseOrder != null;
     }

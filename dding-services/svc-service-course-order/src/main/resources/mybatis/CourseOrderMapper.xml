@@ -6,7 +6,7 @@
 	<insert id="create" parameterType="CourseOrderM">
 		INSERT INTO
 			ding_course_order (id, created_by, created_date, updated_date, updated_by,
-			order_number, open_id, type, course_id, source, price, effective_date, courseName, status)
+			order_number, open_id, type, course_id, source, price, effective_date, course_name, status)
 	  	VALUES
 	  		(#{id}, #{createdBy}, #{createdDate}, #{updatedDate}, #{updatedBy}
 	  		, #{orderNumber}, #{openId}, #{type}, #{courseId}, #{source}, #{price}, #{effectiveDate}, #{courseName}, #{status})
