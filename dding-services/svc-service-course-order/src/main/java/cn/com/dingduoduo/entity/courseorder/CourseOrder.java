@@ -64,6 +64,10 @@ public class CourseOrder extends Base {
         }
     }
 
+    public enum CourseOrderStatusEnum {
+        WAIT_PAID, PAID
+    }
+
     public String getCourseName() {
         return courseName;
     }
@@ -128,6 +132,14 @@ public class CourseOrder extends Base {
         this.effectiveDate = effectiveDate;
     }
 
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
     @Override
     public String toString() {
         return "CourseOrder{" +
@@ -139,6 +151,7 @@ public class CourseOrder extends Base {
                 ", price=" + price +
                 ", effectiveDate=" + effectiveDate +
                 ", courseName='" + courseName + '\'' +
+                ", status='" + status + '\'' +
                 '}';
     }
 

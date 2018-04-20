@@ -30,6 +30,7 @@ public class CourseOrderServiceImpl extends BaseServiceImpl<CourseOrder,CourseOr
             entity.getPrice().setScale(2, BigDecimal.ROUND_DOWN);
         }
         if (entity.getId() == null) {
+            entity.setStatus(CourseOrder.CourseOrderStatusEnum.WAIT_PAID.name());
             return create(entity);
         }
         return update(entity);

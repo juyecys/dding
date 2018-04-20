@@ -49,7 +49,7 @@ public class WechatPayServiceImpl implements WechatPayService {
     }
 
     private WechatInitPayment getWechatInitPayment(String deviceInfo, String body, String orderNumber, BigDecimal orderFee, String ip,
-                                                   String tradeType, String productId, String openId) throws IllegalAccessException {
+                                                   String tradeType, String productId, String openId) throws Exception {
         WechatInitPayment wechatInitPayment = new WechatInitPayment();
         wechatInitPayment.setAppId(WechatConfigSecret.getWechatAppid());
         wechatInitPayment.setMchId(WechatConfigSecret.getWechatMchId());
@@ -78,7 +78,7 @@ public class WechatPayServiceImpl implements WechatPayService {
         return mapper.readValue(result,WechatInitPaymentResult.class);
     }
 
-    private WechatPayment getWechatPayment(String prepayId) throws IllegalAccessException {
+    private WechatPayment getWechatPayment(String prepayId) throws Exception {
         WechatPayment wechatPayment = new WechatPayment();
         wechatPayment.setNonceStr(UUID.randomUUID().toString().replaceAll("-", "").toUpperCase());
         wechatPayment.setAppId(WechatConfigSecret.getWechatAppid());

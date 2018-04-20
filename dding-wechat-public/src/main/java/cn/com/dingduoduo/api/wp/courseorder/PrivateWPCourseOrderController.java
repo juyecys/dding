@@ -47,6 +47,7 @@ public class PrivateWPCourseOrderController {
         String userIp = HttpServletUtils.getRealIp(request);
         WechatPayment wechatPayment = wechatPayService.initPayment("WEB", courseOrder.getCourseName(), courseOrder.getOrderNumber(), courseOrder.getPrice(), userIp, WechatInitPayment.TradeTypeEnum.JSAPI.name(),
                 null, openId);
+
         WechatPayAndCourseOrder wechatPayAndCourseOrder = new WechatPayAndCourseOrder();
         wechatPayAndCourseOrder.setCourseOrder(courseOrder);
         wechatPayAndCourseOrder.setWechatPayment(wechatPayment);
@@ -63,7 +64,6 @@ public class PrivateWPCourseOrderController {
         List<CourseOrderDTO> list = courseOrderService.findByCondition(courseOrder);
         return new ResponseEntity<>(ApiResult.success(list), HttpStatus.OK);
     }
-
 
     public class WechatPayAndCourseOrder {
         @JsonProperty("wechatPayment")

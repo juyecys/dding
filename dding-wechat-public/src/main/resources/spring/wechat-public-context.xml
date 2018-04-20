@@ -99,6 +99,8 @@
 		<bean id="wechatConfigSecret" class="cn.com.dingduoduo.config.wechat.WechatConfigSecret">
 			<property name="wechatAppid" value="${wechat.dingduoduo.appid}" />
 			<property name="wechatSecret" value="${wechat.dingduoduo.appsecret}" />
+			<property name="wechatMchId" value="${wechat.dingduoduo.wechatmchid}" />
+			<property name="wechatPaySecret" value="${wechat.dingduoduo.wechatpaysecret}" />
 		</bean>
 	</beans>
 </beans:beans>
