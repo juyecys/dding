@@ -55,7 +55,7 @@ public class WechatJsTicketServiceImpl implements WechatJsTicketService {
                     count ++;
                     String mutexKeyValue = UUID.randomUUID().toString();
                     if (isLeader(jedis, mutexKeyValue)) {
-                        wechatJsTicket = getJsTicketFromWechat();
+                        wechatJsTicket = getJsTicketFromWechat(jedis);
                     }
                 }
             } while (wechatJsTicket == null && count < 3);
@@ -88,7 +88,7 @@ public class WechatJsTicketServiceImpl implements WechatJsTicketService {
         return false;
     }
 
-    private WechatJsTicket getJsTicketFromWechat()  {
+    private WechatJsTicket getJsTicketFromWechat(Jedis jedis)  {
         String url = WechatConfigParams.WECHAT_GET_JSAPI_TICKET_URL.replace("ACCESS_TOKEN", wechatAccessTokenService.getAccessToken().getAccessToken());
 
         WechatJsTicket wechatJsTicket = null;
@@ -106,7 +106,7 @@ public class WechatJsTicketServiceImpl implements WechatJsTicketService {
             wechatJsTicket.setExpiresIn(
                     wechatJsTicket.getExpiresIn());
             logger.debug("get wechat js api ticket success, js api ticket:{}, accessToken expire time: {}", wechatJsTicket.getTicket(), wechatJsTicket.getExpiresIn());
-            setJsTicketToRedis(wechatJsTicket);
+            setJsTicketToRedis(wechatJsTicket, jedis);
         } catch (IOException e) {
             logger.error("visit wechat get js api ticket failed:{}", e);
         }
@@ -115,9 +115,8 @@ public class WechatJsTicketServiceImpl implements WechatJsTicketService {
         return wechatJsTicket;
     }
 
-    private void setJsTicketToRedis(WechatJsTicket wechatJsTicket) throws IOException {
+    private void setJsTicketToRedis(WechatJsTicket wechatJsTicket, Jedis jedis) throws IOException {
         logger.debug("set js api ticket to redis start.");
-        Jedis jedis = jedisPool.getResource();
         Long ticketExpiredIn = wechatJsTicket.getExpiresIn() - 60L;
         if (ticketExpiredIn < 0) {
             return;

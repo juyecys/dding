@@ -22,6 +22,12 @@ public class CourseOrderDTO extends CourseOrder {
     @JsonProperty("doctorName")
     private String doctorName;
 
+    @JsonProperty("hospitalName")
+    private String hospitalName;
+
+    @JsonProperty("doctorTitle")
+    private String doctorTitle;
+
     @JsonProperty("createdDateStart")
     @JsonFormat(pattern="yyyy-MM-dd",timezone = "GMT+8")
     private Date createdDateStart;
@@ -62,11 +68,29 @@ public class CourseOrderDTO extends CourseOrder {
         this.createdDateEnd = createdDateEnd;
     }
 
+    public String getHospitalName() {
+        return hospitalName;
+    }
+
+    public void setHospitalName(String hospitalName) {
+        this.hospitalName = hospitalName;
+    }
+
+    public String getDoctorTitle() {
+        return doctorTitle;
+    }
+
+    public void setDoctorTitle(String doctorTitle) {
+        this.doctorTitle = doctorTitle;
+    }
+
     @Override
     public String toString() {
         return "CourseOrderDTO{" +
                 "userNickName='" + userNickName + '\'' +
                 ", doctorName='" + doctorName + '\'' +
+                ", hospitalName='" + hospitalName + '\'' +
+                ", doctorTitle='" + doctorTitle + '\'' +
                 ", createdDateStart=" + createdDateStart +
                 ", createdDateEnd=" + createdDateEnd +
                 '}';

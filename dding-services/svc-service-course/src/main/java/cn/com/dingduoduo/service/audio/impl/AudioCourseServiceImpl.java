@@ -40,6 +40,11 @@ public class AudioCourseServiceImpl extends BaseServiceImpl<AudioCourse, AudioCo
         return dao.findNeedOrderBySequence(audioCourse);
     }
 
+    @Override
+    public List<AudioCourseDTO> findUserNotBuy(AudioCourseDTO audioCourse) {
+        return dao.findUserNotBuy(audioCourse);
+    }
+
     @Transactional
     @Override
     public AudioCourse createOrUpdate(AudioCourse entity) throws Exception {

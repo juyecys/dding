@@ -170,5 +170,17 @@
 		<include refid="from_table" />
 		<include refid="sql_where" />
 	</select>
+
+	<select id="findUserNotBuy" resultType="AudioCourseQM">
+		SELECT
+		rc.*
+		FROM
+		<include refid="from_table" />
+		WHERE id not in
+		(
+			SELECT courseId FROM ding_course_order co
+			WHERE co.open_id = #{openId}
+		)
+	</select>
 </mapper>
 

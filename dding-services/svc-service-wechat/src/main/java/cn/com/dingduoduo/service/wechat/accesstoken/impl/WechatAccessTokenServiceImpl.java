@@ -21,8 +21,6 @@ import java.util.UUID;
 
 @Service("wechatAccessTokenService")
 public class WechatAccessTokenServiceImpl implements WechatAccessTokenService {
-
-
 	@Autowired
 	private JedisPool jedisPool;
 
@@ -49,13 +47,13 @@ public class WechatAccessTokenServiceImpl implements WechatAccessTokenService {
 				if (accessToken != null && accessTokenExpired > 0) {
 					wechatAccessToken =  new WechatAccessToken(accessToken, accessTokenExpired);
 					logger.debug("get access token from redis success, access token:{} expired:{}",accessToken,accessTokenExpired);
-					wechatAccessToken = judgeAccessTokenActive(wechatAccessToken);
+					//wechatAccessToken = judgeAccessTokenActive(wechatAccessToken, jedis);
 
 				} else {
 					//logger.debug("Redis is not exists access token , start get lock to get access token from cn.com.dingduoduo.api.admin.wechat.");
 					String mutexKeyValue = UUID.randomUUID().toString();
 					if (isLeader(jedis, mutexKeyValue)) {
-						wechatAccessToken = getAccessTokenFromWechat();
+						wechatAccessToken = getAccessTokenFromWechat(jedis);
 					}
 				}
 			} while (wechatAccessToken == null);
@@ -87,7 +85,7 @@ public class WechatAccessTokenServiceImpl implements WechatAccessTokenService {
 		return false;
 	}
 
-	private WechatAccessToken getAccessTokenFromWechat()  {
+	private WechatAccessToken getAccessTokenFromWechat(Jedis jedis)  {
 		String url = WechatConfigParams.WECHAT_GET_ACCESSTOKEN_URL.replace("APPID", WechatConfigSecret.getWechatAppid())
 				.replace("APPSECRET", WechatConfigSecret.getWechatSecret());
 
@@ -109,7 +107,7 @@ public class WechatAccessTokenServiceImpl implements WechatAccessTokenService {
 			wechatAccessToken.setExpiresIn(
 					wechatAccessToken.getExpiresIn());
 			logger.debug("get wechat access token success, accessToken:{}, accessToken expire time: {}", wechatAccessToken.getAccessToken(), wechatAccessToken.getExpiresIn());
-			setAccessTokenToRedis(wechatAccessToken);
+			setAccessTokenToRedis(wechatAccessToken, jedis);
 		} catch (IOException e) {
 			logger.error("visit wechat get access token failed:{}", e);
 		}
@@ -118,9 +116,8 @@ public class WechatAccessTokenServiceImpl implements WechatAccessTokenService {
 		return wechatAccessToken;
 	}
 
-	private void setAccessTokenToRedis(WechatAccessToken accessToken) throws IOException {
+	private void setAccessTokenToRedis(WechatAccessToken accessToken, Jedis jedis) throws IOException {
 		logger.debug("set access token to redis start.");
-		Jedis jedis = jedisPool.getResource();
 		Long accessTokenExpiredIn = accessToken.getExpiresIn() - 60L;
 		if (accessTokenExpiredIn < 0) {
 			return;
@@ -137,10 +134,10 @@ public class WechatAccessTokenServiceImpl implements WechatAccessTokenService {
 	}
 
 	/**
-	 * 由于授权微信权限给凡科, 故在此调用一个无限制次数的接口判断accessToken是否有效
+	 * 若授权微信权限给第三方, 需在此调用一个无限制次数的接口判断accessToken是否有效
 	 * @return
 	 */
-	private WechatAccessToken judgeAccessTokenActive(WechatAccessToken wechatAccessToken){
+	private WechatAccessToken judgeAccessTokenActive(WechatAccessToken wechatAccessToken, Jedis jedis){
 		WechatCallBackIp wechatCallBackIp = null;
 		try {
 			wechatCallBackIp = wechatCallBackIpService.getWechatCallBackIp(wechatAccessToken);
@@ -148,7 +145,6 @@ public class WechatAccessTokenServiceImpl implements WechatAccessTokenService {
 			logger.error("error :{}", e);
 		}
 		if (wechatCallBackIp.getIpList() == null) {
-			Jedis jedis = jedisPool.getResource();
 			jedis.del(WechatConfigParams.ACCESS_TOKEN_KEY);
 			logger.debug("wechat access token is not active, try to get from wechat");
 			return null;

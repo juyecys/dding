@@ -81,6 +81,14 @@ public class PublicWPAudioCourseController {
         return new ResponseEntity<>(ApiResult.success(audioCourse), HttpStatus.OK);
     }
 
+    @RequestMapping(value = "/course/page/notbuy", method = RequestMethod.GET)
+    public ResponseEntity<ApiResult> getUserNotBuy(HttpServletRequest request, AudioCourseDTO audioCourse) throws Exception {
+        String openId = (String) request.getSession().getAttribute(WechatPublicContants.SESSION_OPENID);
+        audioCourse.setOpenId(openId);
+        Page<AudioCourseDTO> page = audioCourseService.findByConditionPage(audioCourse);
+        return new ResponseEntity<>(ApiResult.success(page), HttpStatus.OK);
+    }
+
     /**
      * 检测用户是否购买课程
      * @param request

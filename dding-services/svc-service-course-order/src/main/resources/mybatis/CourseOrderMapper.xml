@@ -96,9 +96,10 @@
 
 	<select id="findByCondition" resultType="CourseOrderQM">
 		SELECT
-		co.*
+		co.*, c.doctor_name, c.hospital_name, c.doctor_title
 		FROM
 		<include refid="from_table" />
+		<include refid="join_course" />
 		<include refid="sql_where" />
 		ORDER BY co.created_date DESC
 	</select>
