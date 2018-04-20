@@ -9,7 +9,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  */
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class WechatPayment extends WechatBasePayment {
+public class WechatPayment{
     @JsonProperty("timeStamp")
     private String timeStamp;
 
@@ -18,6 +18,15 @@ public class WechatPayment extends WechatBasePayment {
 
     @JsonProperty("paySign")
     private String paySign;
+
+    @JsonProperty("appid")
+    private String appid;
+
+    @JsonProperty("signType")
+    private String signType;
+
+    @JsonProperty("nonceStr")
+    private String nonceStr;
 
     public String getTimeStamp() {
         return timeStamp;
@@ -43,12 +52,39 @@ public class WechatPayment extends WechatBasePayment {
         this.paySign = paySign;
     }
 
+    public String getAppid() {
+        return appid;
+    }
+
+    public void setAppid(String appid) {
+        this.appid = appid;
+    }
+
+    public String getSignType() {
+        return signType;
+    }
+
+    public void setSignType(String signType) {
+        this.signType = signType;
+    }
+
+    public String getNonceStr() {
+        return nonceStr;
+    }
+
+    public void setNonceStr(String nonceStr) {
+        this.nonceStr = nonceStr;
+    }
+
     @Override
     public String toString() {
-        return super.toString() + "WechatPayment{" +
+        return "WechatPayment{" +
                 "timeStamp='" + timeStamp + '\'' +
                 ", packageStr='" + packageStr + '\'' +
                 ", paySign='" + paySign + '\'' +
+                ", appid='" + appid + '\'' +
+                ", signType='" + signType + '\'' +
+                ", nonceStr='" + nonceStr + '\'' +
                 '}';
     }
 }
