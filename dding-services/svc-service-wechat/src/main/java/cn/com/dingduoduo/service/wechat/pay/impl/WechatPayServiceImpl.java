@@ -55,19 +55,19 @@ public class WechatPayServiceImpl implements WechatPayService {
     private WechatInitPayment getWechatInitPayment(String deviceInfo, String body, String orderNumber, BigDecimal orderFee, String ip,
                                                    String tradeType, String productId, String openId) throws Exception {
         WechatInitPayment wechatInitPayment = new WechatInitPayment();
-        wechatInitPayment.setAppId(WechatConfigSecret.getWechatAppid());
-        wechatInitPayment.setMchId(WechatConfigSecret.getWechatMchId());
-        wechatInitPayment.setNonceStr(UUID.randomUUID().toString().replaceAll("-", "").toUpperCase());
+        wechatInitPayment.setAppid(WechatConfigSecret.getWechatAppid());
+        wechatInitPayment.setMch_id(WechatConfigSecret.getWechatMchId());
+        wechatInitPayment.setNonce_str(UUID.randomUUID().toString().replaceAll("-", "").toUpperCase());
 
-        wechatInitPayment.setDeviceInfo(deviceInfo);
+        wechatInitPayment.setDevice_info(deviceInfo);
         wechatInitPayment.setBody(body);
-        wechatInitPayment.setOutTradeNo(orderNumber);
-        wechatInitPayment.setTotalFee(parseFee(orderFee));
-        wechatInitPayment.setSpbillCreateIp(ip);
-        wechatInitPayment.setTradeType(tradeType);
-        wechatInitPayment.setProductId(productId);
-        wechatInitPayment.setOpenId(openId);
-        wechatInitPayment.setNotifyUrl(payNotifyUrl);
+        wechatInitPayment.setOut_trade_no(orderNumber);
+        wechatInitPayment.setTotal_fee(parseFee(orderFee));
+        wechatInitPayment.setSpbill_create_ip(ip);
+        wechatInitPayment.setTrade_type(tradeType);
+        wechatInitPayment.setProduct_id(productId);
+        wechatInitPayment.setOpenid(openId);
+        wechatInitPayment.setNotify_url(payNotifyUrl);
 
         Map<String, Object> data = MapUtils.getMap(wechatInitPayment, WechatInitPayment.class);
         wechatInitPayment.setSign(WechatSignUtil.getSign(data, WechatConfigSecret.getWechatPaySecret()));
@@ -84,9 +84,9 @@ public class WechatPayServiceImpl implements WechatPayService {
 
     private WechatPayment getWechatPayment(String prepayId) throws Exception {
         WechatPayment wechatPayment = new WechatPayment();
-        wechatPayment.setNonceStr(UUID.randomUUID().toString().replaceAll("-", "").toUpperCase());
-        wechatPayment.setAppId(WechatConfigSecret.getWechatAppid());
-        wechatPayment.setSignType("MD5");
+        wechatPayment.setNonce_str(UUID.randomUUID().toString().replaceAll("-", "").toUpperCase());
+        wechatPayment.setAppid(WechatConfigSecret.getWechatAppid());
+        wechatPayment.setSign_type("MD5");
         wechatPayment.setTimeStamp(String.valueOf(System.currentTimeMillis() / 1000));
         wechatPayment.setPackageStr("prepay_id=" + prepayId);
 
@@ -119,7 +119,7 @@ public class WechatPayServiceImpl implements WechatPayService {
 
     public static void main(String[] args) {
         WechatInitPayment wechatInitPayment = new WechatInitPayment();
-        wechatInitPayment.setAppId("asdfasdfasf");
+        /*wechatInitPayment.setAppId("asdfasdfasf");
         wechatInitPayment.setMchId("asdfasdfasdfas");
         wechatInitPayment.setNonceStr(UUID.randomUUID().toString().replaceAll("-", "").toUpperCase());
 
@@ -130,7 +130,7 @@ public class WechatPayServiceImpl implements WechatPayService {
         wechatInitPayment.setTradeType("");
         wechatInitPayment.setProductId(null);
         wechatInitPayment.setOpenId("dfgbdfg352t5");
-        wechatInitPayment.setNotifyUrl("http://baidu.com");
+        wechatInitPayment.setNotifyUrl("http://baidu.com");*/
 
 
         xStream.aliasField("appid", WechatInitPayment.class, "appId");
