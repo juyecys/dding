@@ -10,5 +10,5 @@ import java.io.IOException;
  */
 public interface WechatPayService {
     WechatPayment initPayment(String deviceInfo, String body, String attach, String orderNumber, Integer orderFee, String ip,
-                              String tradeType, String productId, String openId) throws JAXBException, IOException, IllegalAccessException;
+                              String tradeType, String productId, String openId) throws Exception;
 }

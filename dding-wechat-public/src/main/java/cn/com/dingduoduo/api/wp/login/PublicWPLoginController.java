@@ -22,7 +22,7 @@ import java.util.Enumeration;
  * Created by jeysine on 2018/2/8.
  */
 @RestController
-@RequestMapping(value = { "/ykb/wp/public/login" }, produces = "application/json")
+@RequestMapping(value = { "/ding/wp/public/login" }, produces = "application/json")
 public class PublicWPLoginController {
     private static final Logger logger = LoggerFactory.getLogger(PublicWPLoginController.class);
 
@@ -38,30 +38,30 @@ public class PublicWPLoginController {
     @RequestMapping(value = "/", method = RequestMethod.GET)
     public void login(HttpServletRequest request, HttpServletResponse response) {
         String code = request.getParameter("code");
-        StringBuilder nextYkbUrl = new StringBuilder(request.getParameter("ykb_url"));
+        StringBuilder nextDingUrl = new StringBuilder(request.getParameter("ding_url"));
         String source = request.getParameter("source");
         logger.debug("source: {}", source);
         // 其它的参数应该作为目标url的参数
 
         // 避免vue框架处理url, 把#/加到url末尾
-        nextYkbUrl.append("#/");
+        nextDingUrl.append("#/");
 
         Enumeration<String> parameters = request.getParameterNames();
         String paramJoinTag = "?";
         while (parameters.hasMoreElements()) {
             String paramName = (String) parameters.nextElement();
             if (filterRequestParams(paramName)) {
-                if (!"&".equals(paramJoinTag) && nextYkbUrl.toString().indexOf('?', 1) > -1) {
+                if (!"&".equals(paramJoinTag) && nextDingUrl.toString().indexOf('?', 1) > -1) {
                     paramJoinTag = "&";
                 }
 
                 String[] values = request.getParameterValues(paramName);
-                nextYkbUrl.append(paramJoinTag).append(paramName).append("=").append(values[0]);
-                logger.debug("nextYkbUrl: {}", nextYkbUrl.toString());
+                nextDingUrl.append(paramJoinTag).append(paramName).append("=").append(values[0]);
+                logger.debug("nextYkbUrl: {}", nextDingUrl.toString());
             }
         }
 
-        logger.debug("AuthWechat get wechat ykb_url {}", nextYkbUrl.toString());
+        logger.debug("AuthWechat get wechat ykb_url {}", nextDingUrl.toString());
         WechatAuthAccessToken wechatAuthAccessToken = null;
         try {
             String openid = (String) request.getSession().getAttribute(WechatPublicContants.SESSION_OPENID);
@@ -78,7 +78,7 @@ public class PublicWPLoginController {
                     logger.error("failed to get wechat auth accessToken");
                 }
             }
-            response.sendRedirect(nextYkbUrl.toString());
+            response.sendRedirect(nextDingUrl.toString());
         } catch (Exception e) {
             logger.debug("error: {}", e);
         }

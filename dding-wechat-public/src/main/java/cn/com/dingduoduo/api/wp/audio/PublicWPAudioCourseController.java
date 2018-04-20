@@ -10,6 +10,7 @@ import cn.com.dingduoduo.service.audio.AudioCourseService;
 import cn.com.dingduoduo.service.audio.AudioLectureGroupService;
 import cn.com.dingduoduo.service.audio.AudioLectureService;
 import cn.com.dingduoduo.service.courseorder.CourseOrderService;
+import com.sun.org.apache.xpath.internal.operations.Bool;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,7 +46,10 @@ public class PublicWPAudioCourseController {
     @RequestMapping(value = "/answer", method = RequestMethod.GET)
     public ResponseEntity<ApiResult> getAnswerList(HttpServletRequest request, AudioAnswerDTO audioAnswer) throws Exception {
         List<AudioAnswerDTO> audioAnswerList = audioAnswerService.findByCondition(audioAnswer);
-        if (!checkCourseBuy(request, audioAnswer.getCourseId())) {
+        AudioCourseDTO audioCourse = new AudioCourseDTO();
+        audioCourse.setId(audioAnswer.getCourseId());
+        audioCourse = audioCourseService.findOneByCondition(audioCourse);
+        if (!audioCourse.getFree() && !checkCourseBuy(request, audioAnswer.getCourseId()) ) {
             filterAudioAnswerUrl(audioAnswerList);
         }
         return new ResponseEntity<>(ApiResult.success(audioAnswerList), HttpStatus.OK);
@@ -54,7 +58,10 @@ public class PublicWPAudioCourseController {
     @RequestMapping(value = "/lectureGroup", method = RequestMethod.GET)
     public ResponseEntity<ApiResult> getLectureList(HttpServletRequest request, AudioLectureGroupDTO audioLectureGroup) throws Exception {
         List<AudioLectureGroupDTO> audioLectureGroupList = audioLectureGroupService.findByCondition(audioLectureGroup);
-        if (!checkCourseBuy(request, audioLectureGroup.getCourseId())) {
+        AudioCourseDTO audioCourse = new AudioCourseDTO();
+        audioCourse.setId(audioLectureGroup.getCourseId());
+        audioCourse = audioCourseService.findOneByCondition(audioCourse);
+        if (!audioCourse.getFree() && !checkCourseBuy(request, audioLectureGroup.getCourseId())) {
             filterAudioLectureUrl(audioLectureGroupList);
         }
         return new ResponseEntity<>(ApiResult.success(audioLectureGroupList), HttpStatus.OK);

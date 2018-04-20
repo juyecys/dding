@@ -9,182 +9,82 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  */
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class WechatPayment {
-    @JsonProperty("appid")
-    private String appId;
+public class WechatPaymentResult extends WechatPayment{
+    @JsonProperty("result_code")
+    private String resultCode;
 
-    @JsonProperty("mch_id")
-    private String mchId;
+    @JsonProperty("return_msg")
+    private String resultMsg;
 
-    @JsonProperty("device_info")
-    private String deviceInfo = "WEB";
+    @JsonProperty("err_code")
+    private String errCode;
 
-    @JsonProperty("nonce_str")
-    private String nonceStr;
+    @JsonProperty("err_code_des")
+    private String errCodeDes;
 
-    @JsonProperty("sign")
-    private String sign;
+    @JsonProperty("prepay_id")
+    private String prepayId;
 
-    @JsonProperty("sign_type")
-    private String signType = "MD5";
+    @JsonProperty("code_url")
+    private String codeUrl;
 
-    @JsonProperty("body")
-    private String body;
-
-    @JsonProperty("out_trade_no")
-    private String outTradeNo;
-
-    @JsonProperty("total_fee")
-    private Integer totalFee;
-
-    @JsonProperty("spbill_create_ip")
-    private String spbillCreateIp;
-
-    @JsonProperty("notify_url")
-    private String notifyUrl;
-
-    @JsonProperty("trade_type")
-    private String tradeType;
-
-    @JsonProperty("product_id")
-    private String productId;
-
-    @JsonProperty("openid")
-    private String openId;
-
-    public static enum TradeTypeEnum {
-        JSAPI, NATIVE, APP
+    public String getResultCode() {
+        return resultCode;
     }
 
-    public String getAppId() {
-        return appId;
+    public void setResultCode(String resultCode) {
+        this.resultCode = resultCode;
     }
 
-    public void setAppId(String appId) {
-        this.appId = appId;
+    public String getResultMsg() {
+        return resultMsg;
     }
 
-    public String getMchId() {
-        return mchId;
+    public void setResultMsg(String resultMsg) {
+        this.resultMsg = resultMsg;
     }
 
-    public void setMchId(String mchId) {
-        this.mchId = mchId;
+    public String getErrCode() {
+        return errCode;
     }
 
-    public String getDeviceInfo() {
-        return deviceInfo;
+    public void setErrCode(String errCode) {
+        this.errCode = errCode;
     }
 
-    public void setDeviceInfo(String deviceInfo) {
-        this.deviceInfo = deviceInfo;
+    public String getErrCodeDes() {
+        return errCodeDes;
     }
 
-    public String getNonceStr() {
-        return nonceStr;
+    public void setErrCodeDes(String errCodeDes) {
+        this.errCodeDes = errCodeDes;
     }
 
-    public void setNonceStr(String nonceStr) {
-        this.nonceStr = nonceStr;
+    public String getPrepayId() {
+        return prepayId;
     }
 
-    public String getSign() {
-        return sign;
+    public void setPrepayId(String prepayId) {
+        this.prepayId = prepayId;
     }
 
-    public void setSign(String sign) {
-        this.sign = sign;
+    public String getCodeUrl() {
+        return codeUrl;
     }
 
-    public String getSignType() {
-        return signType;
-    }
-
-    public void setSignType(String signType) {
-        this.signType = signType;
-    }
-
-    public String getBody() {
-        return body;
-    }
-
-    public void setBody(String body) {
-        this.body = body;
-    }
-
-    public String getOutTradeNo() {
-        return outTradeNo;
-    }
-
-    public void setOutTradeNo(String outTradeNo) {
-        this.outTradeNo = outTradeNo;
-    }
-
-    public Integer getTotalFee() {
-        return totalFee;
-    }
-
-    public void setTotalFee(Integer totalFee) {
-        this.totalFee = totalFee;
-    }
-
-    public String getSpbillCreateIp() {
-        return spbillCreateIp;
-    }
-
-    public void setSpbillCreateIp(String spbillCreateIp) {
-        this.spbillCreateIp = spbillCreateIp;
-    }
-
-    public String getNotifyUrl() {
-        return notifyUrl;
-    }
-
-    public void setNotifyUrl(String notifyUrl) {
-        this.notifyUrl = notifyUrl;
-    }
-
-    public String getTradeType() {
-        return tradeType;
-    }
-
-    public void setTradeType(String tradeType) {
-        this.tradeType = tradeType;
-    }
-
-    public String getProductId() {
-        return productId;
-    }
-
-    public void setProductId(String productId) {
-        this.productId = productId;
-    }
-
-    public String getOpenId() {
-        return openId;
-    }
-
-    public void setOpenId(String openId) {
-        this.openId = openId;
+    public void setCodeUrl(String codeUrl) {
+        this.codeUrl = codeUrl;
     }
 
     @Override
     public String toString() {
-        return "WechatPay{" +
-                "appId='" + appId + '\'' +
-                ", mchId='" + mchId + '\'' +
-                ", deviceInfo='" + deviceInfo + '\'' +
-                ", nonceStr='" + nonceStr + '\'' +
-                ", sign='" + sign + '\'' +
-                ", signType='" + signType + '\'' +
-                ", body='" + body + '\'' +
-                ", outTradeNo='" + outTradeNo + '\'' +
-                ", totalFee=" + totalFee +
-                ", spbillCreateIp='" + spbillCreateIp + '\'' +
-                ", notifyUrl='" + notifyUrl + '\'' +
-                ", tradeType='" + tradeType + '\'' +
-                ", productId='" + productId + '\'' +
-                ", openId='" + openId + '\'' +
+        return super.toString() + "WechatPaymentResult{" +
+                "resultCode='" + resultCode + '\'' +
+                ", resultMsg='" + resultMsg + '\'' +
+                ", errCode='" + errCode + '\'' +
+                ", errCodeDes='" + errCodeDes + '\'' +
+                ", prepayId='" + prepayId + '\'' +
+                ", codeUrl='" + codeUrl + '\'' +
                 '}';
     }
 }

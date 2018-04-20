@@ -31,12 +31,6 @@ public class WechatPayment {
     @JsonProperty("body")
     private String body;
 
-    @JsonProperty("detail")
-    private String detail;
-
-    @JsonProperty("attach")
-    private String attach;
-
     @JsonProperty("out_trade_no")
     private String outTradeNo;
 
@@ -45,15 +39,6 @@ public class WechatPayment {
 
     @JsonProperty("spbill_create_ip")
     private String spbillCreateIp;
-
-    @JsonProperty("time_start")
-    private String timeStart;
-
-    @JsonProperty("time_expire")
-    private String timeExpire;
-
-    @JsonProperty("goods_tag")
-    private String goodsTag;
 
     @JsonProperty("notify_url")
     private String notifyUrl;
@@ -127,22 +112,6 @@ public class WechatPayment {
         this.body = body;
     }
 
-    public String getDetail() {
-        return detail;
-    }
-
-    public void setDetail(String detail) {
-        this.detail = detail;
-    }
-
-    public String getAttach() {
-        return attach;
-    }
-
-    public void setAttach(String attach) {
-        this.attach = attach;
-    }
-
     public String getOutTradeNo() {
         return outTradeNo;
     }
@@ -165,30 +134,6 @@ public class WechatPayment {
 
     public void setSpbillCreateIp(String spbillCreateIp) {
         this.spbillCreateIp = spbillCreateIp;
-    }
-
-    public String getTimeStart() {
-        return timeStart;
-    }
-
-    public void setTimeStart(String timeStart) {
-        this.timeStart = timeStart;
-    }
-
-    public String getTimeExpire() {
-        return timeExpire;
-    }
-
-    public void setTimeExpire(String timeExpire) {
-        this.timeExpire = timeExpire;
-    }
-
-    public String getGoodsTag() {
-        return goodsTag;
-    }
-
-    public void setGoodsTag(String goodsTag) {
-        this.goodsTag = goodsTag;
     }
 
     public String getNotifyUrl() {
@@ -233,14 +178,9 @@ public class WechatPayment {
                 ", sign='" + sign + '\'' +
                 ", signType='" + signType + '\'' +
                 ", body='" + body + '\'' +
-                ", detail='" + detail + '\'' +
-                ", attach='" + attach + '\'' +
                 ", outTradeNo='" + outTradeNo + '\'' +
                 ", totalFee=" + totalFee +
                 ", spbillCreateIp='" + spbillCreateIp + '\'' +
-                ", timeStart='" + timeStart + '\'' +
-                ", timeExpire='" + timeExpire + '\'' +
-                ", goodsTag='" + goodsTag + '\'' +
                 ", notifyUrl='" + notifyUrl + '\'' +
                 ", tradeType='" + tradeType + '\'' +
                 ", productId='" + productId + '\'' +
