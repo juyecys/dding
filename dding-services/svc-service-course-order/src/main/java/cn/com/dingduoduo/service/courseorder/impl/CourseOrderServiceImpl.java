@@ -5,6 +5,7 @@ import cn.com.dingduoduo.entity.courseorder.CourseOrder;
 import cn.com.dingduoduo.entity.courseorder.CourseOrderDTO;
 import cn.com.dingduoduo.service.common.impl.BaseServiceImpl;
 import cn.com.dingduoduo.service.courseorder.CourseOrderService;
+import cn.com.dingduoduo.utils.common.StringUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -30,6 +31,7 @@ public class CourseOrderServiceImpl extends BaseServiceImpl<CourseOrder,CourseOr
             entity.getPrice().setScale(2, BigDecimal.ROUND_DOWN);
         }
         if (entity.getId() == null) {
+            entity.setOrderNumber(StringUtil.random(12));
             entity.setStatus(CourseOrder.CourseOrderStatusEnum.WAIT_PAID.name());
             return create(entity);
         }
