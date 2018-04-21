@@ -84,14 +84,14 @@ public class WechatPayServiceImpl implements WechatPayService {
 
     private WechatPayment getWechatPayment(String prepayId) throws Exception {
         WechatPayment wechatPayment = new WechatPayment();
-        wechatPayment.setNonce_str(UUID.randomUUID().toString().replaceAll("-", "").toUpperCase());
-        wechatPayment.setAppid(WechatConfigSecret.getWechatAppid());
-        wechatPayment.setSign_type("MD5");
+        wechatPayment.setNonceStr(UUID.randomUUID().toString().replaceAll("-", "").toUpperCase());
+        wechatPayment.setAppId(WechatConfigSecret.getWechatAppid());
+        wechatPayment.setSignType("MD5");
         wechatPayment.setTimeStamp(String.valueOf(System.currentTimeMillis() / 1000));
         wechatPayment.setPackageStr("prepay_id=" + prepayId);
 
         Map<String, Object> data = MapUtils.getMap(wechatPayment, WechatPayment.class);
-        wechatPayment.setSign(WechatSignUtil.getSign(data, WechatConfigSecret.getWechatPaySecret()));
+        wechatPayment.setPaySign(WechatSignUtil.getSign(data, WechatConfigSecret.getWechatPaySecret()));
 
         return wechatPayment;
     }
