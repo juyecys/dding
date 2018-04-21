@@ -31,10 +31,10 @@ public class CourseOrderServiceImpl extends BaseServiceImpl<CourseOrder,CourseOr
             entity.getPrice().setScale(2, BigDecimal.ROUND_DOWN);
         }
         if (entity.getId() == null) {
-            entity = checkExistCourseOrder(openId, entity.getCourseId(), CourseOrder.CourseOrderStatusEnum.WAIT_PAID.name());
+            CourseOrder courseOrder = checkExistCourseOrder(openId, entity.getCourseId(), CourseOrder.CourseOrderStatusEnum.WAIT_PAID.name());
 
-            if (entity != null) {
-                return entity;
+            if (courseOrder != null) {
+                return courseOrder;
             }
             entity.setOpenId(openId);
             entity.setOrderNumber(StringUtil.random(12));
