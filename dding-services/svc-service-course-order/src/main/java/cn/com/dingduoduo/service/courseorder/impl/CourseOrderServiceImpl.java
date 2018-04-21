@@ -37,7 +37,7 @@ public class CourseOrderServiceImpl extends BaseServiceImpl<CourseOrder,CourseOr
                 return courseOrder;
             }
             entity.setOpenId(openId);
-            entity.setOrderNumber(StringUtil.random(12));
+            entity.setOrderNumber(StringUtil.numRandom(15));
             entity.setStatus(CourseOrder.CourseOrderStatusEnum.WAIT_PAID.name());
             return create(entity);
         }
