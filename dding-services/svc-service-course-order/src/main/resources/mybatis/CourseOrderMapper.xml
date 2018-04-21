@@ -34,8 +34,14 @@
 			<if test="orderNumber != null">
 				AND co.order_number = #{orderNumber}
 			</if>
+			<if test="openId != null">
+				AND co.open_id = #{openId}
+			</if>
 			<if test="type != null">
 				AND co.type = #{type}
+			</if>
+			<if test="courseId != null">
+				AND co.course_id = #{courseId}
 			</if>
 			<if test="source != null">
 				AND co.source = #{source}
