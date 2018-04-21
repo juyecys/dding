@@ -43,4 +43,9 @@ public class LocalWechatUserServiceImpl extends BaseServiceImpl<LocalWechatUser,
     public Integer countUsers(LocalWechatUserDTO wechatUser) {
         return dao.countUsers(wechatUser);
     }
+
+    @Override
+    public List<String> getAllSource() {
+        return dao.getAllSource();
+    }
 }

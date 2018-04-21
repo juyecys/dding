@@ -1,6 +1,7 @@
 package cn.com.dingduoduo.api.wp.courseorder;
 
 import cn.com.dingduoduo.api.common.ApiResult;
+import cn.com.dingduoduo.config.common.WechatContextHolder;
 import cn.com.dingduoduo.contants.wp.WechatPublicContants;
 import cn.com.dingduoduo.entity.courseorder.CourseOrder;
 import cn.com.dingduoduo.entity.courseorder.CourseOrderDTO;
@@ -41,7 +42,8 @@ public class PrivateWPCourseOrderController {
 
     @RequestMapping(value = "", method = RequestMethod.POST)
     public ResponseEntity<ApiResult> saveOrUpdate(HttpServletRequest request, @RequestBody CourseOrder courseOrder) throws Exception {
-        String openId = (String) request.getSession().getAttribute(WechatPublicContants.SESSION_OPENID);
+        String openId = WechatContextHolder.getOpenId();
+        logger.debug("open_id: {}", openId);
         courseOrder = courseOrderService.createOrUpdate(courseOrder, openId);
         String userIp = HttpServletUtils.getRealIp(request);
         WechatPayment wechatPayment = wechatPayService.initPayment("WEB", courseOrder.getCourseName(), courseOrder.getOrderNumber(), courseOrder.getPrice(), userIp, WechatInitPayment.TradeTypeEnum.JSAPI.name(),
@@ -55,7 +57,8 @@ public class PrivateWPCourseOrderController {
 
     @RequestMapping(value = "/", method = RequestMethod.GET)
     public ResponseEntity<ApiResult> getList(HttpServletRequest request, CourseOrderDTO courseOrder) {
-        String openId = (String) request.getSession().getAttribute(WechatPublicContants.SESSION_OPENID);
+        String openId = WechatContextHolder.getOpenId();
+        logger.debug("open_id: {}", openId);
         if (openId == null) {
             return new ResponseEntity<>(ApiResult.success(), HttpStatus.OK);
         }

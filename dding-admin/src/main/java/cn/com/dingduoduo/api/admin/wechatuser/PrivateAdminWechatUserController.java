@@ -70,4 +70,10 @@ public class PrivateAdminWechatUserController {
         }
         return new ResponseEntity<>(ApiResult.success(count), HttpStatus.OK);
     }
+
+    @RequestMapping(value = "/source", method = RequestMethod.GET)
+    public ResponseEntity<ApiResult> getAllSource() {
+        List<String> list = localWechatUserService.getAllSource();
+        return new ResponseEntity<>(ApiResult.success(list), HttpStatus.OK);
+    }
 }

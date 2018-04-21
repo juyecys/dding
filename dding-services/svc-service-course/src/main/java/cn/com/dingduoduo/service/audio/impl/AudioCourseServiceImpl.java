@@ -41,8 +41,13 @@ public class AudioCourseServiceImpl extends BaseServiceImpl<AudioCourse, AudioCo
     }
 
     @Override
-    public List<AudioCourseDTO> findUserNotBuy(AudioCourseDTO audioCourse) {
-        return dao.findUserNotBuy(audioCourse);
+    public Page<AudioCourseDTO> findUserBuyPage(AudioCourseDTO audioCourse) {
+        if (audioCourse.getPage() == null) {
+            audioCourse.setPage(new Page(10));
+        }
+        List<AudioCourseDTO> list = dao.findUserBuyPage(audioCourse);
+        audioCourse.getPage().setResult(list);
+        return audioCourse.getPage();
     }
 
     @Transactional

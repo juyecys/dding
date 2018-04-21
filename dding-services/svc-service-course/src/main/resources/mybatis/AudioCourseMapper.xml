@@ -171,16 +171,48 @@
 		<include refid="sql_where" />
 	</select>
 
-	<select id="findUserNotBuy" resultType="AudioCourseQM">
+	<select id="findUserBuyPage" resultType="AudioCourseQM">
 		SELECT
 		rc.*
 		FROM
 		<include refid="from_table" />
-		WHERE id not in
-		(
-			SELECT courseId FROM ding_course_order co
-			WHERE co.open_id = #{openId}
-		)
+		<where>
+			<if test="id != null">
+				and rc.id = #{id}
+			</if>
+			<if test="status != null">
+				and rc.status = #{status}
+			</if>
+			<if test="sequence != null">
+				and rc.sequence = #{sequence}
+			</if>
+			<if test="createdDateStart != null">
+				and rc.created_date &gt;= #{createdDateStart}
+			</if>
+			<if test="createdDateEnd != null ">
+				and rc.created_date &lt;= #{createdDateEnd}
+			</if>
+			<if test="sequenceStart != null">
+				and rc.sequence &gt;= #{sequenceStart}
+			</if>
+			<if test="sequenceEnd != null ">
+				and rc.sequence &lt;= #{sequenceEnd}
+			</if>
+			<if test="free != null ">
+				and rc.free = #{free}
+			</if>
+			<if test="recommend != null ">
+				and rc.recommend = #{recommend}
+			</if>
+			<if test="openId != null ">
+				AND id not in
+				(
+				SELECT course_id FROM ding_course_order co
+				WHERE co.open_id = #{openId} AND co.status = #{courseOrderStatus}
+				)
+			</if>
+		</where>
+		ORDER BY rc.sequence
 	</select>
 </mapper>
 

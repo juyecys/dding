@@ -43,6 +43,9 @@ public class AudioCourseDTO extends AudioCourse {
     @JsonProperty("openId")
     private String openId;
 
+    @JsonProperty("courseOrderStatus")
+    private String courseOrderStatus;
+
 
     public List<AudioLectureGroupDTO> getAudioLectureGroupList() {
         return audioLectureGroupList;
@@ -108,9 +111,17 @@ public class AudioCourseDTO extends AudioCourse {
         this.openId = openId;
     }
 
+    public String getCourseOrderStatus() {
+        return courseOrderStatus;
+    }
+
+    public void setCourseOrderStatus(String courseOrderStatus) {
+        this.courseOrderStatus = courseOrderStatus;
+    }
+
     @Override
     public String toString() {
-        return "AudioCourseDTO{" +
+        return super.toString() + "AudioCourseDTO{" +
                 "audioLectureGroupList=" + audioLectureGroupList +
                 ", audioAnswerList=" + audioAnswerList +
                 ", sequenceStart=" + sequenceStart +
@@ -119,6 +130,7 @@ public class AudioCourseDTO extends AudioCourse {
                 ", createdDateEnd=" + createdDateEnd +
                 ", buy=" + buy +
                 ", openId='" + openId + '\'' +
+                ", courseOrderStatus='" + courseOrderStatus + '\'' +
                 '}';
     }
 }

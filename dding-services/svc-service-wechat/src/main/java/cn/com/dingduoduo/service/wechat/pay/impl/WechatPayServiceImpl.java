@@ -39,6 +39,8 @@ public class WechatPayServiceImpl implements WechatPayService {
     private Logger logger = LoggerFactory.getLogger(WechatPayServiceImpl.class);
 
     static {
+        xStream.ignoreUnknownElements();//忽略多余的xml节点
+
         xStream.alias("xml", WechatInitPayment.class);
 
         xStream.alias("xml", WechatInitPaymentResult.class);

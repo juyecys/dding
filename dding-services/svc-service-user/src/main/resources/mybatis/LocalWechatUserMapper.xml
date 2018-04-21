@@ -6,10 +6,10 @@
 	<insert id="create" parameterType="LocalWechatUserM">
 		INSERT INTO
 			ding_wechat_user (id, name, open_id, created_by, created_date, updated_date, updated_by, qr_code_scene
-			, nick_name, subscribe, gender, city, province, country, head_img_url, union_id, remark, subscribe_time)
+			, nick_name, subscribe, gender, city, province, country, head_img_url, union_id, remark, subscribe_time, source)
 	  	VALUES
 	  		(#{id}, #{name}, #{openId}, #{createdBy}, #{createdDate}, #{updatedDate}, #{updatedBy}, #{qrCodeScene}
-	  		, #{nickName}, #{subscribe}, #{gender}, #{city}, #{province}, #{country}, #{headImgUrl}, #{unionId}, #{remark}, #{subscribeTime})
+	  		, #{nickName}, #{subscribe}, #{gender}, #{city}, #{province}, #{country}, #{headImgUrl}, #{unionId}, #{remark}, #{subscribeTime}, #{source})
 	</insert>
 
 	<update id="update" parameterType="LocalWechatUserM">
@@ -56,6 +56,9 @@
 			</if>
 			<if test="subscribeTime != null">
 				subscribe_time = #{subscribeTime},
+			</if>
+			<if test="source != null">
+				source = #{source},
 			</if>
 		</set>
 		WHERE id = #{id}
@@ -133,6 +136,9 @@
             <if test="province != null">
                 and wu.province = #{province}
             </if>
+			<if test="source != null">
+				and wu.source = #{source}
+			</if>
 		</where>
 	</sql>
 
@@ -155,7 +161,7 @@
 		<include refid="from_wechat_channel" />
 		<include refid="from_wechat_channel_group" />
 		<include refid="sql_where_wu" />
-	    ORDER BY wu.subscribe_time DESC
+	    ORDER BY wu.updated_date DESC
 	</select>
 
 	<select id="findOneByCondition" resultType="LocalWechatUserQM">
@@ -189,6 +195,13 @@
 		count(*)
 		<include refid="from_wechat_user" />
 		<include refid="sql_where_wu" />
+	</select>
+
+	<select id="getAllSource" resultType="java.lang.String">
+		SELECT
+		source
+		<include refid="from_wechat_user" />
+		GROUP BY source
 	</select>
 </mapper>
 

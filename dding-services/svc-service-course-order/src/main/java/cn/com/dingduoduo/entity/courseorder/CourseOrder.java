@@ -15,7 +15,7 @@ import java.util.Date;
  */
 @Alias("CourseOrderM")
 @JsonIgnoreProperties(ignoreUnknown = true)
-@JsonInclude(JsonInclude.Include.NON_NULL)
+@JsonInclude(JsonInclude.Include.NON_EMPTY)
 public class CourseOrder extends Base {
     @JsonProperty("orderNumber")
     private String orderNumber;

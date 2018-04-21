@@ -3,10 +3,12 @@ package cn.com.dingduoduo.api.wp.login;
 import cn.com.dingduoduo.contants.wp.WechatPublicContants;
 import cn.com.dingduoduo.entity.wechat.auth.WechatAuthAccessToken;
 import cn.com.dingduoduo.entity.wechat.user.WechatUser;
+import cn.com.dingduoduo.entity.wechatuser.LocalWechatUser;
 import cn.com.dingduoduo.entity.wechatuser.LocalWechatUserDTO;
 import cn.com.dingduoduo.service.wechat.auth.WechatAuthService;
 import cn.com.dingduoduo.service.wechat.user.WechatUserService;
 import cn.com.dingduoduo.service.wechatuser.LocalWechatUserService;
+import cn.com.dingduoduo.utils.common.StringUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -95,6 +97,10 @@ public class PublicWPLoginController {
         user = localWechatUserService.findOneByCondition(user);
         if (user != null) {
             logger.debug("user login success: {}", user.toString());
+            if (StringUtil.isEmpty(source)) {
+                return user;
+            }
+            user.setSource(source);
         } else {
             WechatUser wechatUser = wechatUserService.getWechatUserInfoByAuth(wechatAuthAccessToken.getAccessToken(), wechatAuthAccessToken.getOpenId());
             logger.debug("user is not exist, add to database: {}", wechatUser);
@@ -108,8 +114,14 @@ public class PublicWPLoginController {
             user.setHeadImgUrl(wechatUser.getHeadImgUrl());
             user.setCountry(wechatUser.getCountry());
             user.setSubscribe(0);
-            localWechatUserService.createOrUpdate(user);
+
+            if (StringUtil.isEmpty(source)) {
+                source = LocalWechatUser.SourceEnum.YI_KANG_BAO.name();
+            }
+            user.setSource(source);
         }
+        logger.debug("add to database: {}", user);
+        localWechatUserService.createOrUpdate(user);
         return user;
     }
 

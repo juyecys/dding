@@ -49,21 +49,22 @@
 			<if test="status != null">
 				AND co.status = #{status}
 			</if>
+			<if test="createdDateStart != null">
+				AND co.created_date &gt;= #{createdDateStart}
+			</if>
+			<if test="createdDateEnd != null">
+				AND co.created_date &lt;= #{createdDateEnd}
+			</if>
 			<if test="doctorName != null">
 				AND c.doctor_name LIKE '%${doctorName}%'
 			</if>
 			<if test="courseName != null">
-				AND c.name = '%${courseName}%'
+				AND c.name LIKE '%${courseName}%'
 			</if>
 			<if test="userNickName != null">
-				AND wu.nick_name = '%${userNickName}%'
+				AND wu.nick_name LIKE '%${userNickName}%'
 			</if>
-			<if test="createdDateStart != null">
-				AND c.created_date &gt;= #{createdDateStart}
-			</if>
-			<if test="createdDateEnd != null">
-				AND c.created_date &lt;= #{createdDateEnd}
-			</if>
+
 		</where>
 	</sql>
 
@@ -108,6 +109,14 @@
 		<include refid="join_course" />
 		<include refid="sql_where" />
 		ORDER BY co.created_date DESC
+	</select>
+
+	<select id="getAllSource" resultType="java.lang.String">
+		SELECT
+		source
+		FROM
+		<include refid="from_table" />
+		GROUP BY source
 	</select>
 </mapper>
 
