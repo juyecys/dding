@@ -40,6 +40,11 @@
             <groupId>cn.com.dingduoduo</groupId>
             <artifactId>svc-service-course</artifactId>
         </dependency>
+
+        <dependency>
+            <groupId>cn.com.dingduoduo</groupId>
+            <artifactId>svc-service-course-order</artifactId>
+        </dependency>
     </dependencies>
     <build>
         <finalName>dding-wechat</finalName>
