@@ -61,6 +61,7 @@ public class PublicWechatEventController {
 
         xStream.aliasField("return_msg", WechatPayNotify.class, "returnMsg");
         xStream.aliasField("return_code", WechatPayNotify.class, "returnCode");
+        xStream.aliasField("result_code", WechatPayNotify.class, "resultCode");
         xStream.aliasField("err_code", WechatPayNotify.class, "errCode");
         xStream.aliasField("err_code_des", WechatPayNotify.class, "errCodeDes");
         xStream.aliasField("is_subscribe", WechatPayNotify.class, "isSubscribe");
@@ -127,7 +128,7 @@ public class PublicWechatEventController {
      * @return
      * @throws Exception
      */
-    @RequestMapping(value = "/pay", method = RequestMethod.POST)
+    @RequestMapping(value = "/pay", method = RequestMethod.POST, produces = "application/xml")
     public String wechatPayNotify(@RequestBody String xmlBody) throws Exception {
         logger.debug("wechat pay notify: {}", xmlBody);
         WechatPayNotify wechatPayNotify = (WechatPayNotify) xStream.fromXML(xmlBody);
@@ -152,7 +153,7 @@ public class PublicWechatEventController {
         String returnCode = notif.getReturnCode();
         String resultCode = notif.getResultCode();
 
-        if (returnCode.equals(ReturnCodeEnum.SUCCESS.name())
+        if (returnCode.equals(ReturnCodeEnum.FAIL.name())
                 || (returnCode.equals(ReturnCodeEnum.SUCCESS.name()) && resultCode.equals(ReturnCodeEnum.FAIL.name()))) {
             return false;
         }
