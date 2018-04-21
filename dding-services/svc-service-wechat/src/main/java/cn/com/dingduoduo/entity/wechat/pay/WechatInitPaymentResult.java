@@ -10,11 +10,11 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class WechatInitPaymentResult extends WechatInitPayment{
-    @JsonProperty("result_code")
-    private String resultCode;
+    @JsonProperty("return_code")
+    private String returnCode;
 
     @JsonProperty("return_msg")
-    private String resultMsg;
+    private String returnMsg;
 
     @JsonProperty("err_code")
     private String errCode;
@@ -28,6 +28,9 @@ public class WechatInitPaymentResult extends WechatInitPayment{
     @JsonProperty("code_url")
     private String codeUrl;
 
+    @JsonProperty("result_code")
+    private String resultCode;
+
     public String getResultCode() {
         return resultCode;
     }
@@ -36,12 +39,20 @@ public class WechatInitPaymentResult extends WechatInitPayment{
         this.resultCode = resultCode;
     }
 
-    public String getResultMsg() {
-        return resultMsg;
+    public String getReturnCode() {
+        return returnCode;
     }
 
-    public void setResultMsg(String resultMsg) {
-        this.resultMsg = resultMsg;
+    public void setReturnCode(String returnCode) {
+        this.returnCode = returnCode;
+    }
+
+    public String getReturnMsg() {
+        return returnMsg;
+    }
+
+    public void setReturnMsg(String returnMsg) {
+        this.returnMsg = returnMsg;
     }
 
     public String getErrCode() {
@@ -78,13 +89,14 @@ public class WechatInitPaymentResult extends WechatInitPayment{
 
     @Override
     public String toString() {
-        return super.toString() + "WechatPaymentResult{" +
-                "resultCode='" + resultCode + '\'' +
-                ", resultMsg='" + resultMsg + '\'' +
+        return "WechatInitPaymentResult{" +
+                "returnCode='" + returnCode + '\'' +
+                ", returnMsg='" + returnMsg + '\'' +
                 ", errCode='" + errCode + '\'' +
                 ", errCodeDes='" + errCodeDes + '\'' +
                 ", prepayId='" + prepayId + '\'' +
                 ", codeUrl='" + codeUrl + '\'' +
+                ", resultCode='" + resultCode + '\'' +
                 '}';
     }
 }

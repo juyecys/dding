@@ -28,6 +28,15 @@ public class WechatPayment{
     @JsonProperty("nonceStr")
     private String nonceStr;
 
+
+    public String getAppId() {
+        return appId;
+    }
+
+    public void setAppId(String appId) {
+        this.appId = appId;
+    }
+
     public String getTimeStamp() {
         return timeStamp;
     }
@@ -52,13 +61,6 @@ public class WechatPayment{
         this.paySign = paySign;
     }
 
-    public String getAppId() {
-        return appId;
-    }
-
-    public void setAppId(String appId) {
-        this.appId = appId;
-    }
 
     public String getSignType() {
         return signType;

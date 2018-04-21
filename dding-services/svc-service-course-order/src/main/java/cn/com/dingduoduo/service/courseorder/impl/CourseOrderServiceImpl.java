@@ -26,15 +26,29 @@ public class CourseOrderServiceImpl extends BaseServiceImpl<CourseOrder,CourseOr
     }
 
     @Override
-    public CourseOrder createOrUpdate(CourseOrder entity) throws Exception {
+    public CourseOrder createOrUpdate(CourseOrder entity, String openId) throws Exception {
         if (entity.getPrice() != null) {
             entity.getPrice().setScale(2, BigDecimal.ROUND_DOWN);
         }
         if (entity.getId() == null) {
+            entity = checkExistCourseOrder(openId, entity.getCourseId(), CourseOrder.CourseOrderStatusEnum.WAIT_PAID.name());
+
+            if (entity != null) {
+                return entity;
+            }
+            entity.setOpenId(openId);
             entity.setOrderNumber(StringUtil.random(12));
             entity.setStatus(CourseOrder.CourseOrderStatusEnum.WAIT_PAID.name());
             return create(entity);
         }
         return update(entity);
+    }
+
+    private CourseOrder checkExistCourseOrder(String openId, String courseId, String status) {
+        CourseOrderDTO courseOrder = new CourseOrderDTO();
+        courseOrder.setStatus(status);
+        courseOrder.setOpenId(openId);
+        courseOrder.setCourseId(courseId);
+        return findOneByCondition(courseOrder);
     }
 }

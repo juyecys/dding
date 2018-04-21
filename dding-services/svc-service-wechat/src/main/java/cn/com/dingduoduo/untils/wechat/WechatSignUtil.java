@@ -141,6 +141,9 @@ public class WechatSignUtil {
 			if (!"sign".equals(k) && !"".equals(k)) {
 				Object v = entry.getValue().toString();
 
+				if ("packageStr".equals(k)) {
+					k = "package";
+				}
 				sb.append(k + "=" + v + "&");
 			}
 		}
