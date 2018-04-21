@@ -123,15 +123,13 @@ public class PublicWechatEventController {
 
     /**
      * 微信回调支付
-     * @param request
-     * @param response
+     * @param xmlBody
      * @return
      * @throws Exception
      */
-    @RequestMapping(value = "/pay", method = RequestMethod.POST, produces = "application/xml", consumes = "application/xml")
-    public String wechatPayNotify(@RequestBody String xmlBody, HttpServletRequest request, HttpServletResponse response) throws Exception {
+    @RequestMapping(value = "/pay", method = RequestMethod.POST)
+    public String wechatPayNotify(@RequestBody String xmlBody) throws Exception {
         logger.debug("wechat pay notify: {}", xmlBody);
-        String result = "";
         WechatPayNotify wechatPayNotify = (WechatPayNotify) xStream.fromXML(xmlBody);
         if (!isPaymentSuccess(wechatPayNotify)) {
             return WX_PAYMENT_RESPONSE_SUCCESS;
@@ -145,8 +143,9 @@ public class PublicWechatEventController {
             courseOrderService.createOrUpdate(courseOrder);
         } else {
             logger.error("not exit order, openid: {}, orderNumber", wechatPayNotify.getOpenid(), wechatPayNotify.getOutTradeNo());
+            return WX_PAYMENT_RESPONSE_INVALID_ORDER;
         }
-        return result;
+        return WX_PAYMENT_RESPONSE_SUCCESS;
     }
 
     public static boolean isPaymentSuccess(WechatPayNotify notif) {
