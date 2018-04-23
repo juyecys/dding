@@ -46,13 +46,24 @@ public class PrivateWPCourseOrderController {
         logger.debug("open_id: {}", openId);
         courseOrder = courseOrderService.createOrUpdate(courseOrder, openId);
         String userIp = HttpServletUtils.getRealIp(request);
-        WechatPayment wechatPayment = wechatPayService.initPayment("WEB", courseOrder.getCourseName(), courseOrder.getOrderNumber(), courseOrder.getPrice(), userIp, WechatInitPayment.TradeTypeEnum.JSAPI.name(),
-                null, openId);
+        /*WechatPayment wechatPayment = wechatPayService.initPayment("WEB", courseOrder.getCourseName(), courseOrder.getOrderNumber(), courseOrder.getPrice(), userIp, WechatInitPayment.TradeTypeEnum.JSAPI.name(),
+                null, openId);*/
 
         WechatPayAndCourseOrder wechatPayAndCourseOrder = new WechatPayAndCourseOrder();
         wechatPayAndCourseOrder.setCourseOrder(courseOrder);
-        wechatPayAndCourseOrder.setWechatPayment(wechatPayment);
+        wechatPayAndCourseOrder.setWechatPayment(new WechatPayment());
         return new ResponseEntity<>(ApiResult.success(wechatPayAndCourseOrder), HttpStatus.OK);
+    }
+
+    @RequestMapping(value = "/initpayment", method = RequestMethod.POST)
+    public ResponseEntity<ApiResult> initpayment(HttpServletRequest request, @RequestBody CourseOrderDTO courseOrder) throws Exception {
+        String openId = WechatContextHolder.getOpenId();
+        logger.debug("open_id: {}", openId);
+        courseOrder = courseOrderService.findOneByCondition(courseOrder);
+        String userIp = HttpServletUtils.getRealIp(request);
+        WechatPayment wechatPayment = wechatPayService.initPayment("WEB", courseOrder.getCourseName(), courseOrder.getOrderNumber(), courseOrder.getPrice(), userIp, WechatInitPayment.TradeTypeEnum.JSAPI.name(),
+                null, openId);
+        return new ResponseEntity<>(ApiResult.success(wechatPayment), HttpStatus.OK);
     }
 
     @RequestMapping(value = "/", method = RequestMethod.GET)
