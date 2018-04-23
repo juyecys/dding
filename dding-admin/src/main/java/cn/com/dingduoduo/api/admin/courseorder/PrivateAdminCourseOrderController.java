@@ -6,6 +6,7 @@ import cn.com.dingduoduo.entity.common.Page;
 import cn.com.dingduoduo.entity.courseorder.CourseOrder;
 import cn.com.dingduoduo.entity.courseorder.CourseOrderDTO;
 import cn.com.dingduoduo.service.courseorder.CourseOrderService;
+import cn.com.dingduoduo.utils.common.DateUtils;
 import cn.com.dingduoduo.utils.common.StringUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -17,6 +18,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -33,13 +36,18 @@ public class PrivateAdminCourseOrderController {
 
     @RequestMapping(value = "", method = RequestMethod.POST)
     public ResponseEntity<ApiResult> saveOrUpdate(@RequestBody CourseOrder courseOrder) throws Exception {
-        courseOrder.setStatus(courseOrder.getStatus().replaceAll(" ", ""));
         courseOrder = courseOrderService.createOrUpdate(courseOrder);
         return new ResponseEntity<>(ApiResult.success(courseOrder), HttpStatus.OK);
     }
 
     @RequestMapping(value = "/page", method = RequestMethod.POST)
     public ResponseEntity<ApiResult> getPage(@RequestBody CourseOrderDTO courseOrder) {
+        if (StringUtil.isEmpty(courseOrder.getStatus())) {
+            courseOrder.setStatus(null);
+        }
+        if (courseOrder.getCreatedDateEnd() != null) {
+            courseOrder.setCreatedDateEnd(DateUtils.add(courseOrder.getCreatedDateEnd(), Calendar.DAY_OF_MONTH, 1));
+        }
         Page<CourseOrderDTO> page = courseOrderService.findByConditionPage(courseOrder);
         return new ResponseEntity<>(ApiResult.success(page), HttpStatus.OK);
     }
