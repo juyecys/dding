@@ -212,6 +212,7 @@
 				)
 			</if>
 		</where>
+		ORDER BY rc.sequence
 	</select>
 </mapper>
 
