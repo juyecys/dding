@@ -16,4 +16,6 @@ public interface LocalWechatUserDAO extends BaseDAO<LocalWechatUser, LocalWechat
     List<LocalWechatUserDTO> findByUnsynchronous();
     void synchronousUser(LocalWechatUser wechatUser);
     Integer countUsers(LocalWechatUser wechatUser);
+
+    List<String> getAllSource();
 }

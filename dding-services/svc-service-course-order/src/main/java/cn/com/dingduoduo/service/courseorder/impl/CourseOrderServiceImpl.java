@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 /**
  * Created by jeysine on 2018/4/18.
@@ -42,6 +43,11 @@ public class CourseOrderServiceImpl extends BaseServiceImpl<CourseOrder,CourseOr
             return create(entity);
         }
         return update(entity);
+    }
+
+    @Override
+    public List<String> getAllSource() {
+        return dao.getAllSource();
     }
 
     private CourseOrder checkExistCourseOrder(String openId, String courseId, String status) {

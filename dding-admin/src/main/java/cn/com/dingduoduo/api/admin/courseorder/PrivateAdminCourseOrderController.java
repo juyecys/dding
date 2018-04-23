@@ -6,6 +6,7 @@ import cn.com.dingduoduo.entity.common.Page;
 import cn.com.dingduoduo.entity.courseorder.CourseOrder;
 import cn.com.dingduoduo.entity.courseorder.CourseOrderDTO;
 import cn.com.dingduoduo.service.courseorder.CourseOrderService;
+import cn.com.dingduoduo.utils.common.StringUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,6 +33,7 @@ public class PrivateAdminCourseOrderController {
 
     @RequestMapping(value = "", method = RequestMethod.POST)
     public ResponseEntity<ApiResult> saveOrUpdate(@RequestBody CourseOrder courseOrder) throws Exception {
+        courseOrder.setStatus(courseOrder.getStatus().replaceAll(" ", ""));
         courseOrder = courseOrderService.createOrUpdate(courseOrder);
         return new ResponseEntity<>(ApiResult.success(courseOrder), HttpStatus.OK);
     }
@@ -45,6 +47,12 @@ public class PrivateAdminCourseOrderController {
     @RequestMapping(value = "/", method = RequestMethod.GET)
     public ResponseEntity<ApiResult> getList(CourseOrderDTO courseOrder) {
         List<CourseOrderDTO> list = courseOrderService.findByCondition(courseOrder);
+        return new ResponseEntity<>(ApiResult.success(list), HttpStatus.OK);
+    }
+
+    @RequestMapping(value = "/source", method = RequestMethod.GET)
+    public ResponseEntity<ApiResult> getAllSource() {
+        List<String> list = courseOrderService.getAllSource();
         return new ResponseEntity<>(ApiResult.success(list), HttpStatus.OK);
     }
 }

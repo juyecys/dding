@@ -16,4 +16,6 @@ public interface LocalWechatUserService extends BaseService<LocalWechatUser, Loc
     void synchronousUser(LocalWechatUser wechatUser);
 
     Integer countUsers(LocalWechatUserDTO wechatUser);
+
+    List<String> getAllSource();
 }

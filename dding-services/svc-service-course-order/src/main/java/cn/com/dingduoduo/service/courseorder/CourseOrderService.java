@@ -4,9 +4,12 @@ import cn.com.dingduoduo.entity.courseorder.CourseOrder;
 import cn.com.dingduoduo.entity.courseorder.CourseOrderDTO;
 import cn.com.dingduoduo.service.common.BaseService;
 
+import java.util.List;
+
 /**
  * Created by jeysine on 2018/4/18.
  */
 public interface CourseOrderService extends BaseService<CourseOrder, CourseOrderDTO> {
     CourseOrder createOrUpdate(CourseOrder entity, String openId) throws Exception;
+    List<String> getAllSource();
 }

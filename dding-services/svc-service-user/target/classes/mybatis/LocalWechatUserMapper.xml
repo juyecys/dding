@@ -161,7 +161,7 @@
 		<include refid="from_wechat_channel" />
 		<include refid="from_wechat_channel_group" />
 		<include refid="sql_where_wu" />
-	    ORDER BY wu.subscribe_time DESC
+	    ORDER BY wu.updated_date DESC
 	</select>
 
 	<select id="findOneByCondition" resultType="LocalWechatUserQM">
@@ -195,6 +195,13 @@
 		count(*)
 		<include refid="from_wechat_user" />
 		<include refid="sql_where_wu" />
+	</select>
+
+	<select id="getAllSource" resultType="java.lang.String">
+		SELECT
+		source
+		<include refid="from_wechat_user" />
+		GROUP BY source
 	</select>
 </mapper>
 
