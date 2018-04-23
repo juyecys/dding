@@ -176,7 +176,8 @@
 		rc.*
 		FROM
 		<include refid="from_table" />
-		WHERE id not in
+		<include refid="sql_where" />
+		AND id not in
 		(
 			SELECT course_id FROM ding_course_order co
 			WHERE co.open_id = #{openId} AND co.status = #{courseOrderStatus}
