@@ -83,10 +83,11 @@ public class PublicWPAudioCourseController {
     }
 
     @RequestMapping(value = "/course/page/notbuy", method = RequestMethod.GET)
-    public ResponseEntity<ApiResult> getUserNotBuy(HttpServletRequest request, AudioCourseDTO audioCourse) throws Exception {
+    public ResponseEntity<ApiResult> findUserBuyPage(HttpServletRequest request, AudioCourseDTO audioCourse) throws Exception {
         String openId = (String) request.getSession().getAttribute(WechatPublicContants.SESSION_OPENID);
         audioCourse.setOpenId(openId);
-        Page<AudioCourseDTO> page = audioCourseService.findByConditionPage(audioCourse);
+        audioCourse.setCourseOrderStatus(CourseOrder.CourseOrderStatusEnum.WAIT_PAID.name());
+        Page<AudioCourseDTO> page = audioCourseService.findUserBuyPage(audioCourse);
         return new ResponseEntity<>(ApiResult.success(page), HttpStatus.OK);
     }
 

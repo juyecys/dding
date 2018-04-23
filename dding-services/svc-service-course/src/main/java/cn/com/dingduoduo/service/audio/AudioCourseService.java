@@ -13,5 +13,5 @@ import java.util.List;
 public interface AudioCourseService extends BaseService<AudioCourse, AudioCourseDTO> {
     Integer countMinSequence();
     List<AudioCourseDTO> findNeedOrderBySequence(AudioCourseDTO audioCourse);
-    List<AudioCourseDTO> findUserNotBuy(AudioCourseDTO audioCourse);
+    Page<AudioCourseDTO> findUserBuyPage(AudioCourseDTO audioCourse);
 }

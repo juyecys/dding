@@ -171,7 +171,7 @@
 		<include refid="sql_where" />
 	</select>
 
-	<select id="findUserNotBuy" resultType="AudioCourseQM">
+	<select id="findUserBuyPage" resultType="AudioCourseQM">
 		SELECT
 		rc.*
 		FROM
@@ -179,7 +179,7 @@
 		WHERE id not in
 		(
 			SELECT courseId FROM ding_course_order co
-			WHERE co.open_id = #{openId}
+			WHERE co.open_id = #{openId} AND co.status = #{courseOrderStatus}
 		)
 	</select>
 </mapper>

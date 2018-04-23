@@ -14,5 +14,5 @@ import java.util.List;
 public interface AudioCourseDAO extends BaseDAO<AudioCourse, AudioCourse>{
     Integer countMinSequence();
     List<AudioCourseDTO> findNeedOrderBySequence(AudioCourseDTO audioCourse);
-    List<AudioCourseDTO> findUserNotBuy(AudioCourseDTO audioCourse);
+    List<AudioCourseDTO> findUserBuyPage(AudioCourseDTO audioCourse);
 }
