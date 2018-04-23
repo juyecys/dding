@@ -62,7 +62,7 @@
 				AND c.name LIKE '%${courseName}%'
 			</if>
 			<if test="userNickName != null">
-				AND wu.nick_name = '%${userNickName}%'
+				AND wu.nick_name LIKE '%${userNickName}%'
 			</if>
 
 		</where>
