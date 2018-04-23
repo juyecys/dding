@@ -178,7 +178,7 @@
 		<include refid="from_table" />
 		WHERE id not in
 		(
-			SELECT courseId FROM ding_course_order co
+			SELECT course_id FROM ding_course_order co
 			WHERE co.open_id = #{openId} AND co.status = #{courseOrderStatus}
 		)
 	</select>
