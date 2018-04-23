@@ -532,7 +532,6 @@
                 <version>${project.version}</version>
             </dependency>
 
-
             <dependency>
                 <groupId>cn.com.dingduoduo</groupId>
                 <artifactId>svc-service-channel</artifactId>
