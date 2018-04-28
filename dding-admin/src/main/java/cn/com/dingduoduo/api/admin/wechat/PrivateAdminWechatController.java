@@ -34,7 +34,7 @@ import java.io.InputStream;
 import java.util.List;
 
 @RestController
-@RequestMapping(value = { "/ding/mg/private/wechat" }, produces = "application/json")
+@RequestMapping(value = { "/ding/mg/private/wechat","/ding/mg/public/wechat" }, produces = "application/json")
 public class PrivateAdminWechatController {
 
     @Autowired

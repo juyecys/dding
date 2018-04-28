@@ -2,6 +2,7 @@
 .idea
 */target/*
 dding-services/*/target/*
-dding-services/svc-service-user/target/
+dding-services/svc-service-user/target/*
 test.log
 *.class
+*.jar
