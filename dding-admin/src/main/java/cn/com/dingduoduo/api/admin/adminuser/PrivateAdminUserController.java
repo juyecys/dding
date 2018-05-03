@@ -21,6 +21,8 @@ public class PrivateAdminUserController {
     @Autowired
     private UserService userService;
 
+    //这是测试提交
+
     @RequestMapping(value = "/", method = RequestMethod.POST)
     public ResponseEntity<ApiResult> addUser(@RequestBody User user) throws Exception {
         //user = userService.createOrUpdate(user);

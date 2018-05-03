@@ -29,7 +29,7 @@ import java.util.UUID;
 @Service("wechatPayService")
 public class WechatPayServiceImpl implements WechatPayService {
 
-    @Value("${wechat.dingduoduo.wechat.pay.notify.url}")   
+    @Value("${wechat.dingduoduo.wechat.pay.notify.url}")
     private String payNotifyUrl;
 
     private static XStream xStream = new XStream(new DomDriver("UTF-8", new XmlFriendlyNameCoder("-_", "_")));
