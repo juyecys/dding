@@ -40,15 +40,28 @@ public class PublicWPLoginController {
     @RequestMapping(value = "/", method = RequestMethod.GET)
     public void login(HttpServletRequest request, HttpServletResponse response) {
         String code = request.getParameter("code");
-        StringBuilder nextDingUrl = new StringBuilder(request.getParameter("ding_url"));
+        String nextDingUrl = request.getParameter("ding_url");
         String source = request.getParameter("source");
         logger.debug("source: {}", source);
         // 其它的参数应该作为目标url的参数
 
-        // 避免vue框架处理url, 把#/加到url末尾
-        nextDingUrl.append("#/");
+        /**
+         * URL需要做特殊处理，否则参数将被腾讯auth服务器截断
+         * 映射表：
+         * ? = dd1
+         * # = dd2
+         * / = dd3
+         * & = dd4
+         * dd = dd5
+         * 直接通过url替换来实现
+         */
+        nextDingUrl = nextDingUrl.replaceAll("dd1", "?");
+        nextDingUrl = nextDingUrl.replaceAll("dd2", "#");
+        nextDingUrl = nextDingUrl.replaceAll("dd3", "/");
+        nextDingUrl = nextDingUrl.replaceAll("dd4", "&");
+        nextDingUrl = nextDingUrl.replaceAll("dd5", "dd"); //一定要最后替换这个
 
-        Enumeration<String> parameters = request.getParameterNames();
+        /*Enumeration<String> parameters = request.getParameterNames();
         String paramJoinTag = "?";
         while (parameters.hasMoreElements()) {
             String paramName = (String) parameters.nextElement();
@@ -61,7 +74,7 @@ public class PublicWPLoginController {
                 nextDingUrl.append(paramJoinTag).append(paramName).append("=").append(values[0]);
                 logger.debug("nextDingUrl: {}", nextDingUrl.toString());
             }
-        }
+        }*/
 
         logger.debug("AuthWechat get wechat ding_url {}", nextDingUrl.toString());
         WechatAuthAccessToken wechatAuthAccessToken = null;
@@ -102,18 +115,33 @@ public class PublicWPLoginController {
             }
             user.setSource(source);
         } else {
-            WechatUser wechatUser = wechatUserService.getWechatUserInfoByAuth(wechatAuthAccessToken.getAccessToken(), wechatAuthAccessToken.getOpenId());
+            WechatUser wechatUser = null;
+            String scope = wechatAuthAccessToken.getScope();
+            if (scope != null &&
+                    scope.toLowerCase().contains("userinfo")) {
+                wechatUser = wechatUserService.getWechatUserInfoByAuth(wechatAuthAccessToken.getAccessToken(), wechatAuthAccessToken.getOpenId());
+
+            }
+
+            if (wechatUser == null) {
+                user = new LocalWechatUserDTO();
+                user.setOpenId(wechatAuthAccessToken.getOpenId());
+                user.setUnionId(wechatAuthAccessToken.getUnionId());
+                user.setSubscribe(0);
+            } else {
+                user = new LocalWechatUserDTO();
+                user.setOpenId(wechatUser.getOpenId());
+                user.setCity(wechatUser.getCity());
+                user.setGender(wechatUser.getSex());
+                user.setNickName(wechatUser.getNickname());
+                user.setProvince(wechatUser.getProvince());
+                user.setUnionId(wechatUser.getUnionId());
+                user.setHeadImgUrl(wechatUser.getHeadImgUrl());
+                user.setCountry(wechatUser.getCountry());
+                user.setSubscribe(0);
+            }
             logger.debug("user is not exist, add to database: {}", wechatUser);
-            user = new LocalWechatUserDTO();
-            user.setOpenId(wechatUser.getOpenId());
-            user.setCity(wechatUser.getCity());
-            user.setGender(wechatUser.getSex());
-            user.setNickName(wechatUser.getNickname());
-            user.setProvince(wechatUser.getProvince());
-            user.setUnionId(wechatUser.getUnionId());
-            user.setHeadImgUrl(wechatUser.getHeadImgUrl());
-            user.setCountry(wechatUser.getCountry());
-            user.setSubscribe(0);
+
 
             if (StringUtil.isEmpty(source)) {
                 source = LocalWechatUser.SourceEnum.YI_KANG_BAO.name();

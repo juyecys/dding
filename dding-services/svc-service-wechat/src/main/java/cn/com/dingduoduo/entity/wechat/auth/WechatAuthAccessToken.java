@@ -60,6 +60,14 @@ public class WechatAuthAccessToken extends WechatAccessToken implements Serializ
         return serialVersionUID;
     }
 
+    public String getUnionId() {
+        return unionId;
+    }
+
+    public void setUnionId(String unionId) {
+        this.unionId = unionId;
+    }
+
     @Override
     public String toString() {
         return super.toString() +  "WechatAuthAccessToken{" +
